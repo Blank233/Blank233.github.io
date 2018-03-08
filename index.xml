@@ -7,10 +7,41 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; On the way.</copyright>
-    <lastBuildDate>Thu, 08 Mar 2018 12:45:23 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 08 Mar 2018 16:22:35 +0800</lastBuildDate>
     
 	<atom:link href="https://blank233.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Test</title>
+      <link>https://blank233.github.io/post/test/</link>
+      <pubDate>Thu, 08 Mar 2018 16:22:35 +0800</pubDate>
+      
+      <guid>https://blank233.github.io/post/test/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;By MarkDown
+
+
+&lt;div class=&#34;pure-g&#34;&gt;
+
+  
+  
+  
+  
+  &lt;div class=&#34;pure-u-1-1&#34;&gt;
+    &lt;div style=&#34;padding: 0 .2em&#34;&gt;
+      &lt;img
+        class=&#34;pure-img-responsive&#34;
+        src=&#34;https://blank233.github.io/post/img/test/test.jpg&#34;
+        alt=&#34; Img of Hugo website&#34;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  
+
+&lt;/div&gt;
+
+&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>First</title>
