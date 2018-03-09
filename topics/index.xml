@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; On the way.</copyright>
-    <lastBuildDate>Thu, 08 Mar 2018 16:22:35 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 09 Mar 2018 13:57:53 +0800</lastBuildDate>
     
 	<atom:link href="https://blank233.github.io/topics/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Misc</title>
+      <link>https://blank233.github.io/topics/misc/</link>
+      <pubDate>Fri, 09 Mar 2018 13:57:53 +0800</pubDate>
+      
+      <guid>https://blank233.github.io/topics/misc/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Test</title>
