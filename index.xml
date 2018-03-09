@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>BlankのBlog</title>
-    <link>https://blank233.github.io/</link>
+    <link>https;//blank233.github.io/</link>
     <description>Recent content on BlankのBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; On the way.</copyright>
     <lastBuildDate>Thu, 08 Mar 2018 16:22:35 +0800</lastBuildDate>
     
-	<atom:link href="https://blank233.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https;//blank233.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Test</title>
-      <link>https://blank233.github.io/post/test/</link>
+      <link>https;//blank233.github.io/post/test/</link>
       <pubDate>Thu, 08 Mar 2018 16:22:35 +0800</pubDate>
       
-      <guid>https://blank233.github.io/post/test/</guid>
+      <guid>https;//blank233.github.io/post/test/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;&amp;emsp;&amp;emsp;By MarkDown
 
@@ -32,7 +32,7 @@
     &lt;div style=&#34;padding: 0 .2em&#34;&gt;
       &lt;img
         class=&#34;pure-img-responsive&#34;
-        src=&#34;https://blank233.github.io/post/img/test/test.jpg&#34;
+        src=&#34;https;//blank233.github.io/post/img/test/test.jpg&#34;
         alt=&#34; Img of Hugo website&#34;&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -45,20 +45,33 @@
     
     <item>
       <title>First</title>
-      <link>https://blank233.github.io/post/first/</link>
+      <link>https;//blank233.github.io/post/first/</link>
       <pubDate>Thu, 08 Mar 2018 12:45:23 +0800</pubDate>
       
-      <guid>https://blank233.github.io/post/first/</guid>
+      <guid>https;//blank233.github.io/post/first/</guid>
       <description>标题 能不能 彻底放开你的手 敢不敢 这么义无反顾地坠落 坠入黑暗中 坠入泥土中 的海阔天空</description>
     </item>
     
     <item>
       <title>About</title>
-      <link>https://blank233.github.io/about/</link>
+      <link>https;//blank233.github.io/about/</link>
       <pubDate>Thu, 08 Mar 2018 12:41:15 +0800</pubDate>
       
-      <guid>https://blank233.github.io/about/</guid>
-      <description></description>
+      <guid>https;//blank233.github.io/about/</guid>
+      <description> 关于 个人博客  &amp;emsp;&amp;emsp; 努力不够，经验不够。
+ 清白之年&amp;ndash;朴树 人随风飘荡
+天各自一方
+在风尘中遗忘的清白脸庞
+此生多寒凉
+此生越重洋
+轻描时光漫长低唱语焉不详
+大风吹来了
+我们随风飘荡
+在风尘中熄灭的清澈目光
+我想回头望
+把故事从头讲
+时光迟暮不返人生已不再来
+ Name：Likai Location：Nanyang,Henan,China E-Mail:2652280283@qq.com  </description>
     </item>
     
   </channel>
