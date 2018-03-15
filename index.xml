@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; On the way.</copyright>
-    <lastBuildDate>Fri, 09 Mar 2018 13:57:53 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 14 Mar 2018 19:59:22 +0800</lastBuildDate>
     
 	<atom:link href="https://blank233.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Bugku ctf wp </title>
+      <link>https://blank233.github.io/post/bugku_ctf_wp_1/</link>
+      <pubDate>Wed, 14 Mar 2018 19:59:22 +0800</pubDate>
+      
+      <guid>https://blank233.github.io/post/bugku_ctf_wp_1/</guid>
+      <description>&lt;h1 id=&#34;bugku-ctf-wp-web&#34;&gt;Bugku ctf wp &amp;mdash;web&lt;/h1&gt;
+
+&lt;h3 id=&#34;ctf链接-http-ctf-bugku-com&#34;&gt;ctf链接 &lt;a href=&#34;http://ctf.bugku.com/&#34;&gt;http://ctf.bugku.com/&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Create_Hugo_website</title>
