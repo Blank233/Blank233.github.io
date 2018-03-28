@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.37.1" />
 
-  <title>Misc &middot; BlankのBlog</title>
+  <title>Md5碰撞 &middot; BlankのBlog</title>
 
   
   
@@ -39,8 +39,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
  
-  
-  <link rel="alternate" type="application/rss+xml" title="BlankのBlog" href="https://blank233.github.io/topics/misc/index.xml" />
   
 
   
@@ -119,10 +117,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://blank233.github.io/topics/misc/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -226,18 +220,14 @@
 
 
 <div class="header">
-  <h1>Misc</h1>
+  <h1>Md5碰撞</h1>
+  <h2></h2>
 </div>
 
-<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
 
 <div class="content">
-  
-    <article>
-  <header>
-    <h2><a href="https://blank233.github.io/post/md5%E7%A2%B0%E6%92%9E/">Md5碰撞</a></h2>
 
-    <div class="post-meta">
+  <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
@@ -272,150 +262,165 @@
 
 </div>
 
-  </header>
-
-  <p>
   <p>MD5碰撞的一点测试，其实就是按照网上的代码及工具自己做了一遍，但在过程中还是遇到了或多或少的问题，水一篇blog来记录一下</p>
-  </p>
-
-  
-  <footer>
-    <a href="https://blank233.github.io/post/md5%E7%A2%B0%E6%92%9E/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="https://blank233.github.io/post/xss%E7%AA%83%E5%8F%96cookie/">Xss窃取cookie</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>26 Mar 2018, 21:12</time>
-  </div>
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-folder fa-fw"></i>
-    
-      <a class="post-taxonomy-topic" href="https://blank233.github.io/topics/misc">misc</a>
-    
-  </div>
-  
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="https://blank233.github.io/tags/2018-03">2018-03</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  <p>通过xss窃取cookie  在白帽子讲web安全上看到的第一个xsspayload  尽管到现在可能是然并卵 还是觉得自己动手尝试一下比较好</p>
-  </p>
-
-  
-  <footer>
-    <a href="https://blank233.github.io/post/xss%E7%AA%83%E5%8F%96cookie/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="https://blank233.github.io/post/create_hugo_website/">Create_Hugo_website</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>09 Mar 2018, 13:57</time>
-  </div>
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-folder fa-fw"></i>
-    
-      <a class="post-taxonomy-topic" href="https://blank233.github.io/topics/misc">misc</a>
-    
-  </div>
-  
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="https://blank233.github.io/tags/2018-03">2018-03</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  <h1 id="基于github-pages使用hugo搭建个人博客">基于GitHub Pages使用Hugo搭建个人博客</h1>
-
-<p>Hugo是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。</p>
 
 <p>
+环境：wamp</p>
 
-<div class="pure-g">
+<p>工具：fastcoll_v1.0.0.5</p>
+
+<p>附下载链接：<a href="http://www.win.tue.nl/hashclash/fastcoll_v1.0.0.5.exe.zip">http://www.win.tue.nl/hashclash/fastcoll_v1.0.0.5.exe.zip</a></p>
+
+<p>源代码</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;utf-8&quot;&gt;
+	&lt;title&gt;md5碰撞测试&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;form action=&quot;md5.php&quot; method=&quot;POST&quot;&gt;
+		输入两个数值
+		&lt;input type=&quot;text&quot; name=&quot;a&quot;&gt;
+		&lt;input type=&quot;text&quot; name=&quot;b&quot;&gt;
+		&lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;submit&quot;&gt;
+	&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<pre><code>&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;?php
+	$a = urldecode($_POST[&quot;a&quot;]);
+	$b = urldecode($_POST[&quot;b&quot;]);
+
+	if((string)$a!==(string)$b &amp;&amp; md5($a)===md5($b)){
+		echo 'success!';
+	}else{
+		echo 'failed!';
+	}
+?&gt;
+</code></pre>
+
+<p>代码逻辑基本上跟强网杯web签到的第三层一样  做了一些简化 但也能实现我们需要的功能</p>
+
+<p>关于md5碰撞的原理 详细可以参考这个<a href="http://www.cnblogs.com/A2008A/archive/2012/08/10/2631840.html">链接</a></p>
+
+<p>简而言之就是构造两个md5相同的文件 这里就用到了工具</p>
+
+<p>工具的详细使用方法也不太懂，有兴趣可以去看看工具的<a href="http://www.win.tue.nl/hashclash/fastcoll_v1.0.0.5_source.zip">源代码</a></p>
+
+<p>生成我们需要的文件可以这样</p>
+
+<pre><code>fastcoll_v1.0.0.5.exe -i 0123456789abcdeffedcba9876543210
+MD5 collision generator v1.5
+by Marc Stevens (http://www.win.tue.nl/hashclash/)
+
+Using output filenames: 'msg1.bin' and 'msg2.bin'
+Using initial value: 0123456789abcdeffedcba9876543210
+
+Generating first block: ...
+Generating second block: S00.....
+Running time: 1.969 s
+</code></pre>
+
+<p>用了不到2秒就生成了msg1.bin和msg2.bin 可以使用win下的命令来查看这两个文件的md5以及hash值</p>
+
+<pre><code>certutil -hashfile msg1.bin md5
+MD5 哈希(文件 msg1.bin):
+ed9bb372061c61801ba468001ca0e259
+CertUtil: -hashfile 命令成功完成。
+
+certutil -hashfile msg2.bin md5
+MD5 哈希(文件 msg2.bin):
+ed9bb372061c61801ba468001ca0e259
+CertUtil: -hashfile 命令成功完成。
+
+certutil -hashfile msg1.bin
+SHA1 哈希(文件 msg1.bin):
+204c95e1177a894f8bf7aad0103be3d23f42f4ec
+CertUtil: -hashfile 命令成功完成。
+
+certutil -hashfile msg2.bin
+SHA1 哈希(文件 msg2.bin):
+1c2fb94f93b62931c66377bbedbdaec2235c1b7a
+CertUtil: -hashfile 命令成功完成。
+</code></pre>
+
+<p>也可以通过python来查看md5 代码如下</p>
+
+<pre><code>import md5#在python2.7下MD5可以单独import
+
+m1 = md5.new()
+m2 = md5.new()
+file1 = open('C:\xxx\xxx\msg1.bin','rb')
+file2 = open('C:\xxx\xxx\msg2.bin','rb')
+m1.update(file1.read())
+m2.update(file2.read())
+file1.close()
+file2.close()
+print m1.hexdigest()
+print m2.hexdigest()
+
+</code></pre>
+
+<p>可以看到两个文件的md5相同但是hash不同</p>
+
+<p>再回到这一道题目 我们只需要把这两个文件的内容编码然后发送出去就可以得到success 最终的python代码</p>
+
+<pre><code>import requests
+import urllib
+
+url = 'http://127.0.0.1/md5/md5.php' 
+s1 = urllib.quote(open('C:\xxx\xxx\msg1.bin').read())
+s2 = urllib.quote(open('C:\xxx\xxx\msg2.bin').read())
+
+
+data{
+    'a': s1,
+    'b': s2
+}
+r = requests.post(url,data=data)
+print r.text
+
+</code></pre>
+
+<p>完结撒花~</p>
+
+<hr />
+
+<p>写完这篇博客突然感觉到，嗯 ，其实这个写到有道云当笔记更合适一点，毕竟不是什么难找的东西，但是又想到，就这么一点点东西花费了大概半个下午的时间，可能我比较愚钝，看得比较慢，但是想来想去还是决定发出去，就当是一个总结，如果有人能看到的话，也不必花那么多时间去测试，去找相关资料，再就是，这是我的博客，我就当成一个笔记来写，怎么滴了吧，哈哈哈哈哈哈哈哈，最后，伟哥牛批。</p>
 
   
-  
-  
-  
-  <div class="pure-u-1-1">
-    <div style="padding: 0 .2em">
-      <img
-        class="pure-img-responsive"
-        src="https://blank233.github.io/post/img/Create_Hugo_website/1.png"
-        alt=" Img of Hugo website">
-    </div>
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://blank233.github.io/post/sql%E7%9B%B2%E6%B3%A8%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/"><i class="fa fa-chevron-left"></i></a>
+    
   </div>
-  
-
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://blank233.github.io/post/sql%E7%9B%B2%E6%B3%A8%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/">Sql盲注常用函数</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
 </div>
 
-</p>
-  </p>
+
 
   
-  <footer>
-    <a href="https://blank233.github.io/post/create_hugo_website/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
 
-  
 </div>
 
 </div>
@@ -442,3 +447,4 @@
 
 </body>
 </html>
+

@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; On the way.</copyright>
-    <lastBuildDate>Fri, 09 Mar 2018 13:57:53 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 28 Mar 2018 20:43:57 +0800</lastBuildDate>
     
 	<atom:link href="https://blank233.github.io/topics/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Misc</title>
       <link>https://blank233.github.io/topics/misc/</link>
-      <pubDate>Fri, 09 Mar 2018 13:57:53 +0800</pubDate>
+      <pubDate>Wed, 28 Mar 2018 20:43:57 +0800</pubDate>
       
       <guid>https://blank233.github.io/topics/misc/</guid>
       <description></description>
@@ -27,6 +27,15 @@
       <pubDate>Thu, 08 Mar 2018 16:22:35 +0800</pubDate>
       
       <guid>https://blank233.github.io/topics/test/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Web</title>
+      <link>https://blank233.github.io/topics/web/</link>
+      <pubDate>Tue, 27 Mar 2018 20:42:12 +0800</pubDate>
+      
+      <guid>https://blank233.github.io/topics/web/</guid>
       <description></description>
     </item>
     
