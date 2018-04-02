@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.37.1" />
 
-  <title>Sql盲注常用函数 &middot; BlankのBlog</title>
+  <title>April_plan &middot; BlankのBlog</title>
 
   
   
@@ -220,7 +220,7 @@
 
 
 <div class="header">
-  <h1>Sql盲注常用函数</h1>
+  <h1>April_plan</h1>
   <h2></h2>
 </div>
 
@@ -231,21 +231,11 @@
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>27 Mar 2018, 20:42</time>
+    <time>02 Apr 2018, 20:24</time>
   </div>
 
   
 
-  
-  
-  
-  <div>
-    <i class="fa fa-folder fa-fw"></i>
-    
-      <a class="post-taxonomy-topic" href="https://blank233.github.iotopics/web">web</a>
-    
-  </div>
-  
   
 
   
@@ -254,7 +244,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://blank233.github.iotags/2018-03">2018-03</a>
+      <a class="post-taxonomy-tag" href="https://blank233.github.iotags/2018-04">2018-04</a>
     
   </div>
   
@@ -262,174 +252,75 @@
 
 </div>
 
-  <p>在sql注入过程中，如果在没有回显的情况下，我们就会用到盲注，这时候就需要一个字符一个字符的去猜我们需要的数据，过程中就需要用到截取字符串的函数。</p>
+  <p>所有随风而逝的都属于昨天，所有经历风雨留下来的才面向未来。       &mdash;&mdash;&ndash;《飘》</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/plan/4.jpg"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
 
 <p></p>
 
-<h2 id="mid">mid()</h2>
+<h2 id="坚持一月写一次-总结上个月干了啥-计划这个月干嘛-风雨无阻">坚持一月写一次，总结上个月干了啥，计划这个月干嘛,风雨无阻！</h2>
 
-<p>mid()函数语法</p>
+<h2 id="2018-03">2018-03</h2>
 
-<pre><code>SELECT MID(column_name,start[,length]) FROM table_name;
+<p>大概是17年年底开始有搭建个人博客的打算的吧,辗转多个框架最后选择了Django，然后如愿的搭起来了基础的页面，也购买了3个月的服务器，3月底才刚到期，也没打算续了，说回正题，这次使用hugo+github搭建个人博客起初是在第一节web课的时候想起来博客这个东西，然后看了看服务器的博客，当初弄到一半的时候没弄了，一时让我接着弄觉得不太好弄，毕竟有两个月没看了，然后老师在课堂上演示了一下word press，感觉还不错，而且还有主题，正打算买服务器搭建的时候，木子偶尔说了一下他使用hexo+github搭建博客成功了，而且还省了服务器的钱，顿时觉得我也要搭一个，毕竟穷QAQ，然后在知乎上看到了这个hugo，在hexo和hugo之间权衡了一下选择了hugo。</p>
 
-参数解析
-column_name    必须，要截取的字段名 
-start    必须，开始截取的地方，默认为1     
-length    可选，截取的长度，不选即为保留余下所有长度    
-</code></pre>
+<p>说句实话，这个搭建的过程简单地不可思议！搭建大概用了一天左右就部署到github上了 hh~</p>
 
-<p>例：</p>
+<p>然后3月就开始陆陆续续的水一些博客了，先是记录了一下hugo的搭建过程，然后在i春秋上看了一些ctf题目，难得一批，觉得不适合就去找了一些ctf平台，最后找到了bugku，真是一个好地方，题目不难，还有wp看 美滋滋~</p>
 
-<pre><code>mysql&gt; select mid('123456',1,1);
-+-------------------+
-| mid('123456',1,1) |
-+-------------------+
-| 1                 |
-+-------------------+
-1 row in set (0.00 sec)
+<p>做了大概一个多星期的web题目，写一写wp，到了盲注发现看不懂wp，对，看不懂QAQ，然后又开始看web白帽子了=  =</p>
 
-mysql&gt; select mid('123456',1);
-+-----------------+
-| mid('123456',1) |
-+-----------------+
-| 123456          |
-+-----------------+
-1 row in set (0.00 sec)
+<p>仔细看了xss,紧接着的csrf啊，点击劫持啊，sql注入啊，都没仔细看，看完xss想着实战一下，就找站，找啊找啊真找到一个储存型的xss，赶紧注册了补天交了上去，然而现在还没答复，感觉是gg了</p>
 
-mysql&gt; select mid('123456',2,3);
-+-------------------+
-| mid('123456',2,3) |
-+-------------------+
-| 234               |
-+-------------------+
-1 row in set (0.00 sec)
-</code></pre>
+<p>这时候号称‘宇宙最强的ctf’强网杯开赛了，周五信誓旦旦的说9点准时看诸神之战，结果周五夜晚吃鸡到3点，第二天10多才醒QAQ，然后上去查看了一波flag格式，交了道签到就开开心心的回来吃鸡了 哈哈哈哈哈，还混了一年的i春秋vip账号，美滋滋啊~</p>
 
-<p>判断当前数据库的第一个字符的ascii是否大于a</p>
+<p>结束强网杯想着复现web签到的md5碰撞，大概弄了一下午，然后就开始写sqlilabs了</p>
 
-<pre><code>mysql&gt; select mid(database(),1,1)&gt;'a';
-+-------------------------+
-| mid(database(),1,1)&gt;'a' |
-+-------------------------+
-|                       1 |
-+-------------------------+
-1 row in set (0.00 sec)
-</code></pre>
+<p>3月，卒</p>
 
-<h2 id="substr">substr()</h2>
+<h2 id="2018-04">2018-04</h2>
 
-<p>参数及作用跟mid()一样，不再赘述</p>
+<p>四月计划：</p>
 
-<p>例</p>
-
-<pre><code>mysql&gt; select substr('123456',2,3);
-+----------------------+
-| substr('123456',2,3) |
-+----------------------+
-| 234                  |
-+----------------------+
-1 row in set (0.00 sec)
-</code></pre>
-
-<h2 id="left">left()</h2>
-
-<p>left函数能得到字符串从左到右指定长度的字符串</p>
-
-<p>函数语法</p>
-
-<pre><code>left(string,n)   
-string为要截取的字符串
-n为长度
-</code></pre>
-
-<p>例</p>
-
-<pre><code>mysql&gt; select left('123456',3);
-+------------------+
-| left('123456',3) |
-+------------------+
-| 123              |
-+------------------+
-1 row in set (0.00 sec)
-mysql&gt; select left(database(),1)&gt;'s';
-+------------------------+
-| left(database(),1)&gt;'s' |
-+------------------------+
-|                      1 |
-+------------------------+
-1 row in set (0.00 sec)
-</code></pre>
-
-<h2 id="ord">ord()</h2>
-
-<p>ord函数返回字符串的第一个字符的ascii值</p>
-
-<p>例</p>
-
-<pre><code>mysql&gt; select ord(database());
-+-----------------+
-| ord(database()) |
-+-----------------+
-|             116 |
-+-----------------+
-1 row in set (2.28 sec)
-</code></pre>
-
-<h2 id="regexp-正则">REGEXP 正则</h2>
-
-<p>使用范例</p>
-
-<pre><code>mysql&gt; select mid(database(),1,1) REGEXP '^[a-z]'&gt;0;
-+---------------------------------------+
-| mid(database(),1,1) REGEXP '^[a-z]'&gt;0 |
-+---------------------------------------+
-|                                     1 |
-+---------------------------------------+
-1 row in set (0.00 sec)
-
-mysql&gt; select mid(database(),1,1) REGEXP '^t'&gt;0;
-+-----------------------------------+
-| mid(database(),1,1) REGEXP '^t'&gt;0 |
-+-----------------------------------+
-|                                 1 |
-+-----------------------------------+
-1 row in set (0.00 sec)
-</code></pre>
-
-<h2 id="mysql的like关键字">mysql的like关键字</h2>
-
-<p>&ldquo;_&ldquo;是代表一个模糊字符，
-&ldquo;%&ldquo;是代表多个字符
-如果不加这两个符号，那么like 和=就是一样的</p>
-
-<pre><code>mysql&gt; select database() like 'te%';
-+-----------------------+
-| database() like 'te%' |
-+-----------------------+
-|                     1 |
-+-----------------------+
-1 row in set (0.00 sec)
-
-mysql&gt; select database() like 'te_';
-+-----------------------+
-| database() like 'te_' |
-+-----------------------+
-|                     0 |
-+-----------------------+
-1 row in set (0.00 sec)
-</code></pre>
+<ul>
+<li>将sqlilabs尽量更完。</li>
+<li>看完web白帽子。</li>
+<li>把bugku的web题做完，更完wp。</li>
+<li>把每月总结坚持下去。</li>
+<li>夜晚早点休息，周末能不在寝室堕落就不再寝室堕落。</li>
+<li>。。。</li>
+</ul>
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="https://blank233.github.io/post/xss%E7%AA%83%E5%8F%96cookie/"><i class="fa fa-chevron-left"></i></a>
+    <a href="https://blank233.github.io/post/sqlilabs/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="https://blank233.github.io/post/xss%E7%AA%83%E5%8F%96cookie/">Xss窃取cookie</a>
+      <a href="https://blank233.github.io/post/sqlilabs/">Sqlilabs</a>
     </nav>
     
   </div>
@@ -438,14 +329,8 @@ mysql&gt; select database() like 'te_';
   </div>
   <div class="pure-u-10-24">
     
-    <nav class="next">
-      <a href="https://blank233.github.io/post/md5%E7%A2%B0%E6%92%9E/">Md5碰撞</a>
-    </nav>
-    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="https://blank233.github.io/post/md5%E7%A2%B0%E6%92%9E/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>

