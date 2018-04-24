@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; On the way.</copyright>
-    <lastBuildDate>Mon, 02 Apr 2018 20:24:03 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Apr 2018 10:49:37 +0800</lastBuildDate>
     
 	<atom:link href="https://blank233.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>过狗一句话</title>
+      <link>https://blank233.github.io/post/%E8%BF%87%E7%8B%97%E4%B8%80%E5%8F%A5%E8%AF%9D/</link>
+      <pubDate>Tue, 24 Apr 2018 10:49:37 +0800</pubDate>
+      
+      <guid>https://blank233.github.io/post/%E8%BF%87%E7%8B%97%E4%B8%80%E5%8F%A5%E8%AF%9D/</guid>
+      <description>&lt;p&gt;前几天看到P神的一篇关于php回调后门的博客，受益颇多。但那已经是15年的博客了，有些方法已经被狗识别了，就写篇博客整理收集一下过狗一句话。&lt;a href=&#34;https://www.leavesongs.com/PENETRATION/php-callback-backdoor.html&#34;&gt;P神原文&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>April_plan</title>

