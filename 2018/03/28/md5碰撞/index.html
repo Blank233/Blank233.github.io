@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+
+
+ <html class="no-js"> 
+<head>
+    <title>Md5碰撞  &middot; BlankのBlog </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="content-language" content="en-us" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Blank">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="https://blank233.github.io/img/clover.png" type="image/x-icon" />
+    <meta name="generator" content="Hugo 0.37.1" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://blank233.github.io/css/smooth-scrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="https://blank233.github.io/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/tomorrow.min.css" />
+    
+
+    <style>
+        .posts li {
+            visibility: hidden;
+        }
+    </style> 
+</head>
+<body>
+    
+    
+
+    <header>	
+	<div class="h-wrap">
+		
+		<h1 class="title"><a href="https://blank233.github.io/">BlankのBlog</a></h1>
+		
+	</div>
+</header>
+    
+    <div class="site-wrapper" id="full-wrapper">
+        
+        <section class="single-wrap">
+            <article class="single-content" itemscope itemtype="//schema.org/BlogPosting">
+                <div class="feat">
+                    <h5 class="page-date">
+                    <time datetime="" itemprop="datePublished">
+                    28 March 2018
+                   
+                    </time>
+                    </h5>
+                </div>
+                <h1 class="page-title" itemprop="name headline">Md5碰撞</h1>
+                
+                
+                <h6>Topic:<a href="https://blank233.github.io/topics/misc">misc</a>
+                Tag:<a href="https://blank233.github.io/tags/2018-03">2018-03</a></h6>
+
+                <div itemprop="articleBody">
+                    <p>MD5碰撞的一点测试，其实就是按照网上的代码及工具自己做了一遍，但在过程中还是遇到了或多或少的问题，水一篇blog来记录一下</p>
+
+<p>
+环境：wamp</p>
+
+<p>工具：fastcoll_v1.0.0.5</p>
+
+<p>附下载链接：<a href="http://www.win.tue.nl/hashclash/fastcoll_v1.0.0.5.exe.zip">http://www.win.tue.nl/hashclash/fastcoll_v1.0.0.5.exe.zip</a></p>
+
+<p>源代码</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;utf-8&quot;&gt;
+	&lt;title&gt;md5碰撞测试&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;form action=&quot;md5.php&quot; method=&quot;POST&quot;&gt;
+		输入两个数值
+		&lt;input type=&quot;text&quot; name=&quot;a&quot;&gt;
+		&lt;input type=&quot;text&quot; name=&quot;b&quot;&gt;
+		&lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;submit&quot;&gt;
+	&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<pre><code>&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;?php
+	$a = urldecode($_POST[&quot;a&quot;]);
+	$b = urldecode($_POST[&quot;b&quot;]);
+
+	if((string)$a!==(string)$b &amp;&amp; md5($a)===md5($b)){
+		echo 'success!';
+	}else{
+		echo 'failed!';
+	}
+?&gt;
+</code></pre>
+
+<p>代码逻辑基本上跟强网杯web签到的第三层一样  做了一些简化 但也能实现我们需要的功能</p>
+
+<p>关于md5碰撞的原理 详细可以参考这个<a href="http://www.cnblogs.com/A2008A/archive/2012/08/10/2631840.html">链接</a></p>
+
+<p>简而言之就是构造两个md5相同的文件 这里就用到了工具</p>
+
+<p>工具的详细使用方法也不太懂，有兴趣可以去看看工具的<a href="http://www.win.tue.nl/hashclash/fastcoll_v1.0.0.5_source.zip">源代码</a></p>
+
+<p>生成我们需要的文件可以这样</p>
+
+<pre><code>fastcoll_v1.0.0.5.exe -i 0123456789abcdeffedcba9876543210
+MD5 collision generator v1.5
+by Marc Stevens (http://www.win.tue.nl/hashclash/)
+
+Using output filenames: 'msg1.bin' and 'msg2.bin'
+Using initial value: 0123456789abcdeffedcba9876543210
+
+Generating first block: ...
+Generating second block: S00.....
+Running time: 1.969 s
+</code></pre>
+
+<p>用了不到2秒就生成了msg1.bin和msg2.bin 可以使用win下的命令来查看这两个文件的md5以及hash值</p>
+
+<pre><code>certutil -hashfile msg1.bin md5
+MD5 哈希(文件 msg1.bin):
+ed9bb372061c61801ba468001ca0e259
+CertUtil: -hashfile 命令成功完成。
+
+certutil -hashfile msg2.bin md5
+MD5 哈希(文件 msg2.bin):
+ed9bb372061c61801ba468001ca0e259
+CertUtil: -hashfile 命令成功完成。
+
+certutil -hashfile msg1.bin
+SHA1 哈希(文件 msg1.bin):
+204c95e1177a894f8bf7aad0103be3d23f42f4ec
+CertUtil: -hashfile 命令成功完成。
+
+certutil -hashfile msg2.bin
+SHA1 哈希(文件 msg2.bin):
+1c2fb94f93b62931c66377bbedbdaec2235c1b7a
+CertUtil: -hashfile 命令成功完成。
+</code></pre>
+
+<p>也可以通过python来查看md5 代码如下</p>
+
+<pre><code>import md5#在python2.7下MD5可以单独import
+
+m1 = md5.new()
+m2 = md5.new()
+file1 = open('C:\xxx\xxx\msg1.bin','rb')
+file2 = open('C:\xxx\xxx\msg2.bin','rb')
+m1.update(file1.read())
+m2.update(file2.read())
+file1.close()
+file2.close()
+print m1.hexdigest()
+print m2.hexdigest()
+
+</code></pre>
+
+<p>可以看到两个文件的md5相同但是hash不同</p>
+
+<p>再回到这一道题目 我们只需要把这两个文件的内容编码然后发送出去就可以得到success 最终的python代码</p>
+
+<pre><code>import requests
+import urllib
+
+url = 'http://127.0.0.1/md5/md5.php' 
+s1 = urllib.quote(open('C:\xxx\xxx\msg1.bin').read())
+s2 = urllib.quote(open('C:\xxx\xxx\msg2.bin').read())
+
+
+data{
+    'a': s1,
+    'b': s2
+}
+r = requests.post(url,data=data)
+print r.text
+
+</code></pre>
+
+<p>完结撒花~</p>
+
+<hr />
+
+<p>写完这篇博客突然感觉到，嗯 ，其实这个写到有道云当笔记更合适一点，毕竟不是什么难找的东西，但是又想到，就这么一点点东西花费了大概半个下午的时间，可能我比较愚钝，看得比较慢，但是想来想去还是决定发出去，就当是一个总结，如果有人能看到的话，也不必花那么多时间去测试，去找相关资料，再就是，这是我的博客，我就当成一个笔记来写，怎么滴了吧，哈哈哈哈哈哈哈哈，最后，伟哥牛批。</p>                    
+                </div>
+                <div class="feat share">
+                </div>
+                
+                
+            </article>
+        </section>
+
+        <footer>
+	
+</footer>
+    </div>
+
+    <div class="next-prev-arrows">
+        
+            <a rel="next" href="https://blank233.github.io/2018/03/30/sqlilabs/" id="next">
+                &larr; <span class="nav-title nav-title-next">Sqlilabs</span> 
+            </a>
+        
+        
+            <a rel="prev" href="https://blank233.github.io/2018/03/27/sql%E7%9B%B2%E6%B3%A8%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/" id="prev">
+                 <span class="nav-title nav-title-prev">Sql盲注常用函数</span> &rarr;
+            </a>
+        
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://blank233.github.io/js/scrollreveal.min.js"></script>
+<script type='application/javascript' src='https://blank233.github.io/js/smooth-scrollbar.js'></script>
+<script src="https://blank233.github.io/js/baffle.min.js"></script>
+<script src="https://blank233.github.io/js/main.js"></script>
+
+
+
+
+
+<!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

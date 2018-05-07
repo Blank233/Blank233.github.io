@@ -6,7 +6,6 @@
     <description>Recent content in Topics on BlankのBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; On the way.</copyright>
     <lastBuildDate>Wed, 28 Mar 2018 20:43:57 +0800</lastBuildDate>
     
 	<atom:link href="https://blank233.github.io/topics/index.xml" rel="self" type="application/rss+xml" />
@@ -36,6 +35,15 @@
       <pubDate>Thu, 08 Mar 2018 16:22:35 +0800</pubDate>
       
       <guid>https://blank233.github.io/topics/test/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Travel</title>
+      <link>https://blank233.github.io/topics/travel/</link>
+      <pubDate>Sat, 07 Apr 2018 21:47:23 +0800</pubDate>
+      
+      <guid>https://blank233.github.io/topics/travel/</guid>
       <description></description>
     </item>
     

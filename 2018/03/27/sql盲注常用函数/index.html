@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+
+
+ <html class="no-js"> 
+<head>
+    <title>Sql盲注常用函数  &middot; BlankのBlog </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="content-language" content="en-us" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Blank">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="https://blank233.github.io/img/clover.png" type="image/x-icon" />
+    <meta name="generator" content="Hugo 0.37.1" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://blank233.github.io/css/smooth-scrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="https://blank233.github.io/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/tomorrow.min.css" />
+    
+
+    <style>
+        .posts li {
+            visibility: hidden;
+        }
+    </style> 
+</head>
+<body>
+    
+    
+
+    <header>	
+	<div class="h-wrap">
+		
+		<h1 class="title"><a href="https://blank233.github.io/">BlankのBlog</a></h1>
+		
+	</div>
+</header>
+    
+    <div class="site-wrapper" id="full-wrapper">
+        
+        <section class="single-wrap">
+            <article class="single-content" itemscope itemtype="//schema.org/BlogPosting">
+                <div class="feat">
+                    <h5 class="page-date">
+                    <time datetime="" itemprop="datePublished">
+                    27 March 2018
+                   
+                    </time>
+                    </h5>
+                </div>
+                <h1 class="page-title" itemprop="name headline">Sql盲注常用函数</h1>
+                
+                
+                <h6>Topic:<a href="https://blank233.github.io/topics/web">web</a>
+                Tag:<a href="https://blank233.github.io/tags/2018-03">2018-03</a></h6>
+
+                <div itemprop="articleBody">
+                    <p>在sql注入过程中，如果在没有回显的情况下，我们就会用到盲注，这时候就需要一个字符一个字符的去猜我们需要的数据，过程中就需要用到截取字符串的函数。</p>
+
+<p></p>
+
+<h2 id="mid">mid()</h2>
+
+<p>mid()函数语法</p>
+
+<pre><code>SELECT MID(column_name,start[,length]) FROM table_name;
+
+参数解析
+column_name    必须，要截取的字段名 
+start    必须，开始截取的地方，默认为1     
+length    可选，截取的长度，不选即为保留余下所有长度    
+</code></pre>
+
+<p>例：</p>
+
+<pre><code>mysql&gt; select mid('123456',1,1);
++-------------------+
+| mid('123456',1,1) |
++-------------------+
+| 1                 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select mid('123456',1);
++-----------------+
+| mid('123456',1) |
++-----------------+
+| 123456          |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select mid('123456',2,3);
++-------------------+
+| mid('123456',2,3) |
++-------------------+
+| 234               |
++-------------------+
+1 row in set (0.00 sec)
+</code></pre>
+
+<p>判断当前数据库的第一个字符的ascii是否大于a</p>
+
+<pre><code>mysql&gt; select mid(database(),1,1)&gt;'a';
++-------------------------+
+| mid(database(),1,1)&gt;'a' |
++-------------------------+
+|                       1 |
++-------------------------+
+1 row in set (0.00 sec)
+</code></pre>
+
+<h2 id="substr">substr()</h2>
+
+<p>参数及作用跟mid()一样，不再赘述</p>
+
+<p>例</p>
+
+<pre><code>mysql&gt; select substr('123456',2,3);
++----------------------+
+| substr('123456',2,3) |
++----------------------+
+| 234                  |
++----------------------+
+1 row in set (0.00 sec)
+</code></pre>
+
+<h2 id="left">left()</h2>
+
+<p>left函数能得到字符串从左到右指定长度的字符串</p>
+
+<p>函数语法</p>
+
+<pre><code>left(string,n)   
+string为要截取的字符串
+n为长度
+</code></pre>
+
+<p>例</p>
+
+<pre><code>mysql&gt; select left('123456',3);
++------------------+
+| left('123456',3) |
++------------------+
+| 123              |
++------------------+
+1 row in set (0.00 sec)
+mysql&gt; select left(database(),1)&gt;'s';
++------------------------+
+| left(database(),1)&gt;'s' |
++------------------------+
+|                      1 |
++------------------------+
+1 row in set (0.00 sec)
+</code></pre>
+
+<h2 id="ord">ord()</h2>
+
+<p>ord函数返回字符串的第一个字符的ascii值</p>
+
+<p>例</p>
+
+<pre><code>mysql&gt; select ord(database());
++-----------------+
+| ord(database()) |
++-----------------+
+|             116 |
++-----------------+
+1 row in set (2.28 sec)
+</code></pre>
+
+<h2 id="regexp-正则">REGEXP 正则</h2>
+
+<p>使用范例</p>
+
+<pre><code>mysql&gt; select mid(database(),1,1) REGEXP '^[a-z]'&gt;0;
++---------------------------------------+
+| mid(database(),1,1) REGEXP '^[a-z]'&gt;0 |
++---------------------------------------+
+|                                     1 |
++---------------------------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select mid(database(),1,1) REGEXP '^t'&gt;0;
++-----------------------------------+
+| mid(database(),1,1) REGEXP '^t'&gt;0 |
++-----------------------------------+
+|                                 1 |
++-----------------------------------+
+1 row in set (0.00 sec)
+</code></pre>
+
+<h2 id="mysql的like关键字">mysql的like关键字</h2>
+
+<p>&ldquo;_&ldquo;是代表一个模糊字符，
+&ldquo;%&ldquo;是代表多个字符
+如果不加这两个符号，那么like 和=就是一样的</p>
+
+<pre><code>mysql&gt; select database() like 'te%';
++-----------------------+
+| database() like 'te%' |
++-----------------------+
+|                     1 |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select database() like 'te_';
++-----------------------+
+| database() like 'te_' |
++-----------------------+
+|                     0 |
++-----------------------+
+1 row in set (0.00 sec)
+</code></pre>                    
+                </div>
+                <div class="feat share">
+                </div>
+                
+                
+            </article>
+        </section>
+
+        <footer>
+	
+</footer>
+    </div>
+
+    <div class="next-prev-arrows">
+        
+            <a rel="next" href="https://blank233.github.io/2018/03/28/md5%E7%A2%B0%E6%92%9E/" id="next">
+                &larr; <span class="nav-title nav-title-next">Md5碰撞</span> 
+            </a>
+        
+        
+            <a rel="prev" href="https://blank233.github.io/2018/03/26/xss%E7%AA%83%E5%8F%96cookie/" id="prev">
+                 <span class="nav-title nav-title-prev">Xss窃取cookie</span> &rarr;
+            </a>
+        
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://blank233.github.io/js/scrollreveal.min.js"></script>
+<script type='application/javascript' src='https://blank233.github.io/js/smooth-scrollbar.js'></script>
+<script src="https://blank233.github.io/js/baffle.min.js"></script>
+<script src="https://blank233.github.io/js/main.js"></script>
+
+
+
+
+
+<!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
