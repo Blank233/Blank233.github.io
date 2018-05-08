@@ -6,10 +6,24 @@
     <description>Recent content on BlankのBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 02 May 2018 23:13:24 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 08 May 2018 19:04:06 +0800</lastBuildDate>
     
 	<atom:link href="https://blank233.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>更改博客主题</title>
+      <link>https://blank233.github.io/2018/05/08/%E6%9B%B4%E6%94%B9%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/</link>
+      <pubDate>Tue, 08 May 2018 19:04:06 +0800</pubDate>
+      
+      <guid>https://blank233.github.io/2018/05/08/%E6%9B%B4%E6%94%B9%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/</guid>
+      <description>0x01 起因 这几天在尝试Jarvis OJ的题目,但是自己菜的不行，各种谷歌、百度搜索wp。所以就看到了n多大佬们的blog，然后就突然感觉自己的博客好丑啊QAQ，就想着换个主题，说干就干~~
+0x02 挑选主题 在hugo的主题分类中看完所有的包含blog标签的主题后，觉得Sublime和PacMan都蛮适合我的，就都clone下来了。但是PacMan在测试的过程中，配置完config后直接404什么鬼，，然后就选择了Sublime。
+0x03 配置及修缮 吐槽一下这个主题吧，与之前的主题相比，少了topic、tag、about、contact只提供了一个、无图标、还有一个严重的bug就是左上角的home(姑且这样称呼)一直固定在左上角，然后就出现了小窗看blog以用手机的时候会挡住部分文章主体。。相比之前多了一个头像位，然后就是更符合我的审美了？吐槽完就开始说配置过程，先说说成果。
+ 添加文章分类 字数统计(有BUG) 添加本地图片 首行缩进 更改部分CSS 添加JS ...  文章分类 config.toml添加如下代码
+[taxonomies] tag = &amp;quot;tags&amp;quot; topic = &amp;quot;topics&amp;quot;  然后在sublime\layouts\_default目录下建立terms.html文件，主要内容如下
+{{ $data := .Data }} {{ range .Data.Terms.ByCount }} {{ $termLink := printf &amp;quot;/%s/%s/&amp;quot; $data.Plural .Term | urlize }} &amp;lt;h2&amp;gt; &amp;lt;a href=&amp;quot;{{ $termLink }}&amp;quot;&amp;gt;{{ .Term }}&amp;lt;/a&amp;gt; 有{{ .Count }}篇 &amp;lt;/h2&amp;gt; &amp;lt;ul&amp;gt; {{ range .Pages | first 5 }} &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;{{ .</description>
+    </item>
     
     <item>
       <title>May_plan</title>

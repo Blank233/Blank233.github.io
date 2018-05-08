@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+
+
+ <html class="no-js"> 
+<head>
+    <title>更改博客主题  &middot; BlankのBlog </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="content-language" content="en-us" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Blank">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="https://blank233.github.io/img/clover.png" type="image/x-icon" />
+    <meta name="generator" content="Hugo 0.37.1" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://blank233.github.io/css/smooth-scrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="https://blank233.github.io/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/tomorrow.min.css" />
+    
+
+    <style>
+        .posts li {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    
+    
+
+    <header>	
+	<div class="h-wrap">
+		
+		<h1 class="title"><a href="https://blank233.github.io/">BlankのBlog</a></h1>
+		
+	</div>
+</header>
+    
+    <div class="site-wrapper" id="full-wrapper">
+        <a name="top"></a>
+        <section class="single-wrap">
+            <article class="single-content" itemscope itemtype="//schema.org/BlogPosting">
+                <div class="feat">
+                    <h5 class="page-date">
+                    <time datetime="" itemprop="datePublished">
+                    08 May 2018
+                   
+                    </time>
+                    </h5>
+                </div>
+                <h1 class="page-title" itemprop="name headline">更改博客主题</h1>
+                
+                
+                <h6>字数:186  Topic:<a href="https://blank233.github.io/topics/misc">misc</a>
+                Tag:<a href="https://blank233.github.io/tags/2018-05">2018-05</a></h6>
+
+                <div class="page-body" itemprop="articleBody">
+                    <h2 id="0x01-起因">0x01 起因</h2>
+
+<p>这几天在尝试<a href="https://www.jarvisoj.com/">Jarvis OJ</a>的题目,但是自己菜的不行，各种谷歌、百度搜索wp。所以就看到了n多大佬们的blog，然后就突然感觉自己的博客好丑啊QAQ，就想着换个主题，说干就干~~</p>
+
+<h2 id="0x02-挑选主题">0x02 挑选主题</h2>
+
+<p>在hugo的主题分类中看完所有的包含blog标签的主题后，觉得<a href="https://themes.gohugo.io/theme/sublime-hugo-theme/">Sublime</a>和<a href="https://themes.gohugo.io/theme/hugo-pacman-theme/">PacMan</a>都蛮适合我的，就都clone下来了。但是PacMan在测试的过程中，配置完config后直接404什么鬼，，然后就选择了Sublime。</p>
+
+<h2 id="0x03-配置及修缮">0x03 配置及修缮</h2>
+
+<p>吐槽一下这个主题吧，与之前的主题相比，少了topic、tag、about、contact只提供了一个、无图标、还有一个严重的bug就是左上角的home(姑且这样称呼)一直固定在左上角，然后就出现了小窗看blog以用手机的时候会挡住部分文章主体。。相比之前多了一个头像位，然后就是更符合我的审美了？吐槽完就开始说配置过程，先说说成果。</p>
+
+<ul>
+<li>添加文章分类</li>
+<li>字数统计(有BUG)</li>
+<li>添加本地图片</li>
+<li>首行缩进</li>
+<li>更改部分CSS</li>
+<li>添加JS</li>
+<li>...</li>
+</ul>
+
+<h4 id="文章分类">文章分类</h4>
+
+<p>config.toml添加如下代码</p>
+
+<pre><code>[taxonomies]
+	tag = &quot;tags&quot;
+	topic = &quot;topics&quot;
+</code></pre>
+
+<p>然后在sublime\layouts\_default目录下建立terms.html文件，主要内容如下</p>
+
+<pre><code>{{ $data := .Data }}
+{{ range .Data.Terms.ByCount }}
+{{ $termLink := printf &quot;/%s/%s/&quot; $data.Plural .Term | urlize }}
+&lt;h2&gt;
+    &lt;a href=&quot;{{ $termLink }}&quot;&gt;{{ .Term }}&lt;/a&gt;
+    有{{ .Count }}篇
+&lt;/h2&gt;
+&lt;ul&gt;
+    {{ range .Pages | first 5 }}
+    &lt;li&gt;&lt;a href=&quot;{{ .Permalink }}&quot;&gt;{{ .Title }}&lt;/a&gt;&lt;/li&gt;
+    {{ end }}
+    {{ if gt (len .Pages) 5 }}
+    &lt;li&gt;&lt;a href=&quot;{{ $termLink }}&quot;&gt;……&lt;/a&gt;&lt;/li&gt;
+    {{ end }}
+&lt;/ul&gt;
+{{ end }}   
+</code></pre>
+
+<p>此时就可以在url后输入tags或topics访问标签页，然后在主页的扉页添加接入口，选择合适的地方布局就行了，代码如下</p>
+
+<pre><code>&lt;h6&gt;归档&lt;/h6&gt;
+&lt;a class=&quot;link&quot;  href=&quot;{{ .Site.BaseURL }}topics&quot;&gt;Topics&lt;/a&gt;
+&lt;a class=&quot;link&quot;  href=&quot;{{ .Site.BaseURL }}tags&quot;&gt;Tags&lt;/a&gt;
+</code></pre>
+
+<p>在文章内容页显示所属标签，修改_default目录下的single.html,添加</p>
+
+<pre><code>{{ $baseUrl := .Site.BaseURL }}
+&lt;h6&gt;Topic:&lt;a href=&quot;{{ $baseUrl }}topics/{{ .Params.topics }}&quot;&gt;{{ .Params.topics }}&lt;/a&gt;
+Tag:&lt;a href=&quot;{{ $baseUrl }}tags/{{ .Params.tags }}&quot;&gt;{{ .Params.tags }}&lt;/a&gt;&lt;/h6&gt;
+</code></pre>
+
+<p>然后就需要写两个html来渲染没个tag和topic了，这个首先在sublime\layouts\_default目录下建立文件夹taxonomy，然后在里面分别建立tag.html和topic.html，主要内容如下</p>
+
+<pre><code>&lt;h1 class=&quot;page-title&quot; itemprop=&quot;name headline&quot;&gt;{{ .Title }}&lt;/h1&gt;
+&lt;div itemprop=&quot;articleBody&quot;&gt;
+
+	{{ range .Pages }}
+	    &lt;li&gt;&lt;a href=&quot;{{ .Permalink }}&quot;&gt;{{ .Title }}&lt;/a&gt;&lt;/li&gt;
+	    {{ end }}					
+		
+&lt;/div&gt;
+</code></pre>
+
+<p>并没有去设计两个不一样的标签页，在tag和topic页面我用了相同的布局，由于接收的参数不同并不会产生相同的内容。</p>
+
+<h4 id="字数统计">字数统计</h4>
+
+<p>这个功能使用的是HUGO提供的函数 .WordCount ,但总感觉有BUG，当然也可能是我操作不当，但是确实没完美实现，在single.html里添加下面代码就行了</p>
+
+<pre><code>&lt;h6&gt;字数:{{ .WordCount }} &lt;/h6&gt;
+</code></pre>
+
+<h4 id="添加本地图片">添加本地图片</h4>
+
+<p>HUGO使用的是MarkDown，MarkDown添加图片采用 ![]() 方式，这就需要一个图片存放的地方，但是目前我并没有找到一个合适的平台，所以这个功能还是需要加上。这里采用的是上一个主题的作者提供的方式，由于代码较多，在这里就不贴代码，给出作者的<a href="https://github.com/yoshiharuyamashita/blackburn">github</a>,下载layouts目录下的shortcodes即可，使用在之前的搭建过程中已经说过就不再赘述</p>
+
+<p>其他一些改动都受主观影响较重，而且也不难做到，在此并不做描述。</p>
+
+<h2 id="0x04-总结">0x04 总结</h2>
+
+<p>说一下在这次更换主题的过程中的感受，我的英语并不好，看官方文档特别吃力，中文文档基本上就停留在搭建没有后续了，而且相关的博客教程特别少，只能自己一点点尝试，感觉踩了很多坑，前后大概弄了1天半才弄好，写下这篇博客算是对这次的一个总结，<del>如果下次再有更换主题的想法，也好有个可以参考的内容。</del>不，不存在的。这篇博客只是总结了一下该怎样操作，并没有说任何原理，因为涉及到的比较多，实在是懒得再去翻官方文档再翻译再贴过来了，<del>当然，主要是我也不懂。</del> 最后说一个小Tip，就是在使用</p>
+
+<pre><code>hugo --baseurl=&quot;https://blank233.github.io/&quot;
+</code></pre>
+
+<p>时，url后面的 / 一定要带上，虽然说有的主题在设计的时候是</p>
+
+<pre><code>{{ .BaseUrl }}/balabala
+</code></pre>
+
+<p>这样的话，//浏览器在解析的时候会去掉一个，但并不是所有的都是这样，如果遇到</p>
+
+<pre><code>{{ .BaseUrl }}balabala
+</code></pre>
+
+<p>的，url后不加/的话，你可以试试~</p>
+
+<h2 id="0x05-参考">0x05 参考</h2>
+
+<p>最后，十分感谢匿蟒大佬的博客，在此次的更改的过程中给予了很大的帮助！(๑•̀_•́๑)</p>
+
+<ul>
+<li><a href="https://gohugo.io/documentation/">Hugo Documentation</a></li>
+<li><a href="http://note.qidong.name/2017/10/hugo-taxonomy/">零壹軒·笔记</a></li>
+</ul>
+                    
+                </div>
+                <h6>千帆过尽，勿忘初心 <a href="#top"> UP </a></h6>
+                <div class="feat share">
+                </div>
+
+                
+            </article>
+        </section>
+        <footer>
+	
+</footer>
+
+    </div>
+
+    <div class="next-prev-arrows">
+        
+        
+            <a rel="prev" href="https://blank233.github.io/2018/05/02/may_plan/" id="prev">
+                 <span class="nav-title nav-title-prev">May_plan</span> &rarr;
+            </a>
+        
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://blank233.github.io/js/scrollreveal.min.js"></script>
+<script type='application/javascript' src='https://blank233.github.io/js/smooth-scrollbar.js'></script>
+<script src="https://blank233.github.io/js/baffle.min.js"></script>
+<script src="https://blank233.github.io/js/main.js"></script>
+
+
+
+
+
+
+<!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+    <script src="https://blank233.github.io/js/chick.js"></script>
+</body>
+</html>
