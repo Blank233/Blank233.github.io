@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>2018 05 on BlankのBlog</title>
-    <link>https://blank233.github.io/%0A/tags/2018-05/</link>
+    <link>https://blank233.github.io/tags/2018-05/</link>
     <description>Recent content in 2018 05 on BlankのBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 02 May 2018 23:13:24 +0800</lastBuildDate>
     
-	<atom:link href="https://blank233.github.io/%0A/tags/2018-05/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://blank233.github.io/tags/2018-05/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>May_plan</title>
-      <link>https://blank233.github.io/%0A/2018/05/02/may_plan/</link>
+      <link>https://blank233.github.io/2018/05/02/may_plan/</link>
       <pubDate>Wed, 02 May 2018 23:13:24 +0800</pubDate>
       
-      <guid>https://blank233.github.io/%0A/2018/05/02/may_plan/</guid>
+      <guid>https://blank233.github.io/2018/05/02/may_plan/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;层楼终究误少年，自由早晚乱余生。你我山前没相见，山后别相逢。&lt;/p&gt;
 
@@ -35,7 +35,7 @@
     &lt;div style=&#34;padding: 0 .2em&#34;&gt;
       &lt;img
         class=&#34;pure-img-responsive&#34;
-        src=&#34;https://blank233.github.io/%0A/post/img/plan/5.jpg&#34;
+        src=&#34;https://blank233.github.io/post/img/plan/5.jpg&#34;
         alt=&#34; Img of Hugo website&#34;&gt;
     &lt;/div&gt;
   &lt;/div&gt;

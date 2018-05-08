@@ -2,66 +2,66 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Topics on BlankのBlog</title>
-    <link>https://blank233.github.io/%0A/topics/</link>
+    <link>https://blank233.github.io/topics/</link>
     <description>Recent content in Topics on BlankのBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 28 Mar 2018 20:43:57 +0800</lastBuildDate>
     
-	<atom:link href="https://blank233.github.io/%0A/topics/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://blank233.github.io/topics/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Misc</title>
-      <link>https://blank233.github.io/%0A/topics/misc/</link>
+      <link>https://blank233.github.io/topics/misc/</link>
       <pubDate>Wed, 28 Mar 2018 20:43:57 +0800</pubDate>
       
-      <guid>https://blank233.github.io/%0A/topics/misc/</guid>
+      <guid>https://blank233.github.io/topics/misc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Plan</title>
-      <link>https://blank233.github.io/%0A/topics/plan/</link>
+      <link>https://blank233.github.io/topics/plan/</link>
       <pubDate>Wed, 02 May 2018 23:13:24 +0800</pubDate>
       
-      <guid>https://blank233.github.io/%0A/topics/plan/</guid>
+      <guid>https://blank233.github.io/topics/plan/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Test</title>
-      <link>https://blank233.github.io/%0A/topics/test/</link>
+      <link>https://blank233.github.io/topics/test/</link>
       <pubDate>Thu, 08 Mar 2018 16:22:35 +0800</pubDate>
       
-      <guid>https://blank233.github.io/%0A/topics/test/</guid>
+      <guid>https://blank233.github.io/topics/test/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Travel</title>
-      <link>https://blank233.github.io/%0A/topics/travel/</link>
+      <link>https://blank233.github.io/topics/travel/</link>
       <pubDate>Sat, 07 Apr 2018 21:47:23 +0800</pubDate>
       
-      <guid>https://blank233.github.io/%0A/topics/travel/</guid>
+      <guid>https://blank233.github.io/topics/travel/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Web</title>
-      <link>https://blank233.github.io/%0A/topics/web/</link>
+      <link>https://blank233.github.io/topics/web/</link>
       <pubDate>Tue, 24 Apr 2018 10:49:37 +0800</pubDate>
       
-      <guid>https://blank233.github.io/%0A/topics/web/</guid>
+      <guid>https://blank233.github.io/topics/web/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Write_up</title>
-      <link>https://blank233.github.io/%0A/topics/write_up/</link>
+      <link>https://blank233.github.io/topics/write_up/</link>
       <pubDate>Wed, 14 Mar 2018 19:59:22 +0800</pubDate>
       
-      <guid>https://blank233.github.io/%0A/topics/write_up/</guid>
+      <guid>https://blank233.github.io/topics/write_up/</guid>
       <description></description>
     </item>
     
