@@ -1237,6 +1237,10 @@ footer small {
     margin: 0 0 0 0;
 }
 
+.single-wrap p {
+    text-indent: 2rem;
+}
+
 .single-wrap h1, .single-wrap h2, .single-wrap h3 {
     font-family: 'Open Sans', monospace;
 }
@@ -1247,7 +1251,8 @@ footer small {
 
 .single-wrap ul,
 .single-wrap ol {
-    margin: 2em 0;
+    /*margin: 2em 0;*/
+    margin-left: 4rem;
 }
 
 .single-wrap ul li,
