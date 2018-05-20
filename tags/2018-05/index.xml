@@ -6,10 +6,22 @@
     <description>Recent content in 2018 05 on BlankのBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 May 2018 19:04:06 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 20 May 2018 17:27:09 +0800</lastBuildDate>
     
 	<atom:link href="https://blank233.github.io/tags/2018-05/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>HITCON 2017 babyfirst-revenge</title>
+      <link>https://blank233.github.io/2018/05/20/hitcon-2017-babyfirst-revenge/</link>
+      <pubDate>Sun, 20 May 2018 17:27:09 +0800</pubDate>
+      
+      <guid>https://blank233.github.io/2018/05/20/hitcon-2017-babyfirst-revenge/</guid>
+      <description>题目源码
+&amp;lt;?php $sandbox = &#39;/www/sandbox/&#39; . md5(&amp;quot;orange&amp;quot; . $_SERVER[&#39;REMOTE_ADDR&#39;]); @mkdir($sandbox); @chdir($sandbox); if (isset($_GET[&#39;cmd&#39;]) &amp;amp;&amp;amp; strlen($_GET[&#39;cmd&#39;]) &amp;lt;= 5) { @exec($_GET[&#39;cmd&#39;]); } else if (isset($_GET[&#39;reset&#39;])) { @exec(&#39;/bin/rm -rf &#39; . $sandbox); } highlight_file(__FILE__);  0x01 从环境搭建开始 使用的是ubuntu16.04，安装虚拟机，安装apache2+php+mysql，安装git，安装vim，精简系统等等。说一下在配置环境过程中遇到的问题：
+ 首先得建立/www/sandbox目录，linux创建文件(夹)时如果前置目录不存在会报错   blank@blank-virtual-machine:~$ mkdir /test/test/test mkdir: cannot create directory ‘/test/test/test’: No such file or directory   www-data由于没有实体，在sudoers下给予权限会无效   blank@blank-virtual-machine:~$ cat /etc/passwd | grep www-data www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin  解决方法，一是更换php执行者，一是更换路径的权限。
+0x02 知识准备 首先在解这道题目之前需要做些知识的铺垫</description>
+    </item>
     
     <item>
       <title>更改博客主题</title>
