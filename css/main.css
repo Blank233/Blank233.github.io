@@ -1238,7 +1238,8 @@ footer small {
 }
 
 .single-wrap p {
-    text-indent: 2rem;
+    /*text-indent: 2rem;*/
+    text-indent: 30px;
 }
 
 .single-wrap h1, .single-wrap h2, .single-wrap h3 {
@@ -1287,7 +1288,7 @@ footer small {
 }
 
 .single-wrap img {
-    width: 100%;
+    width: 90%;
     height: 100%;
 }
 
