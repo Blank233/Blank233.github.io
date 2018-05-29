@@ -6,10 +6,23 @@
     <description>Recent content on BlankのBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 May 2018 17:27:09 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 29 May 2018 15:52:23 +0800</lastBuildDate>
     
 	<atom:link href="https://blank233.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Solve me平台 Web题wp</title>
+      <link>https://blank233.github.io/2018/05/29/solve-me%E5%B9%B3%E5%8F%B0-web%E9%A2%98wp/</link>
+      <pubDate>Tue, 29 May 2018 15:52:23 +0800</pubDate>
+      
+      <guid>https://blank233.github.io/2018/05/29/solve-me%E5%B9%B3%E5%8F%B0-web%E9%A2%98wp/</guid>
+      <description>Warm up 直接解码就好了
+λ php -r &amp;quot;echo hex2bin(strrev(bin2hex(base64_decode(&#39;1wMDEyY2U2YTY0M2NgMTEyZDQyMjAzNWczYjZgMWI4NTt3YWxmY=&#39;)))); &amp;quot; flag{582a0f2c7e302244b110cc461f5cb100}  Bad compare 打开后看到源码
+&amp;lt;?php error_reporting(0); require __DIR__.&#39;/lib.php&#39;; if(isset($_GET[&#39;answer&#39;])){ if($_GET[&#39;answer&#39;] === &#39;роВхУъесЧМ&#39;){ echo $flag; }else{ echo &#39;Wrong answer&#39;; } echo &#39;&amp;lt;hr&amp;gt;&#39;; } highlight_file(__FILE__);  直接复制粘贴不行，应该不是ascii中的可见字符，写个脚本跑一下
+#coding=utf-8 import requests import re import urllib url = &#39;http://badcompare.solveme.peng.kr/&#39; rule = &#39;===&amp;amp;nbsp;&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;color: #DD0000&amp;quot;&amp;gt;\&#39;(.+?)\&#39;&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;color: #007700&amp;quot;&amp;gt;&#39; r = requests.get(url) result = re.findall(rule,r.content) result = &#39;&#39;.join(result) s = requests.get(&#39;http://badcompare.solveme.peng.kr/?answer=&#39;+urllib.quote(result)) print s.content  得到flag
+flag{446c7b68ad824cd9c1df87158717aa2b}  Winter sleep 点进去看到源码</description>
+    </item>
     
     <item>
       <title>HITCON 2017 babyfirst-revenge</title>
@@ -38,11 +51,11 @@
     </item>
     
     <item>
-      <title>May_plan</title>
-      <link>https://blank233.github.io/2018/05/02/may_plan/</link>
+      <title>May plan</title>
+      <link>https://blank233.github.io/2018/05/02/may-plan/</link>
       <pubDate>Wed, 02 May 2018 23:13:24 +0800</pubDate>
       
-      <guid>https://blank233.github.io/2018/05/02/may_plan/</guid>
+      <guid>https://blank233.github.io/2018/05/02/may-plan/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;层楼终究误少年，自由早晚乱余生。你我山前没相见，山后别相逢。&lt;/p&gt;
 
@@ -85,11 +98,11 @@
     </item>
     
     <item>
-      <title>April_plan</title>
-      <link>https://blank233.github.io/2018/04/02/april_plan/</link>
+      <title>April plan</title>
+      <link>https://blank233.github.io/2018/04/02/april-plan/</link>
       <pubDate>Mon, 02 Apr 2018 20:24:03 +0800</pubDate>
       
-      <guid>https://blank233.github.io/2018/04/02/april_plan/</guid>
+      <guid>https://blank233.github.io/2018/04/02/april-plan/</guid>
       <description>&lt;p&gt;所有随风而逝的都属于昨天，所有经历风雨留下来的才是面向未来。      &amp;mdash;&amp;mdash;&amp;ndash;《飘》&lt;/p&gt;
 
 
@@ -170,11 +183,11 @@
     </item>
     
     <item>
-      <title>Create_Hugo_website</title>
-      <link>https://blank233.github.io/2018/03/09/create_hugo_website/</link>
+      <title>Create Hugo website</title>
+      <link>https://blank233.github.io/2018/03/09/create-hugo-website/</link>
       <pubDate>Fri, 09 Mar 2018 13:57:53 +0800</pubDate>
       
-      <guid>https://blank233.github.io/2018/03/09/create_hugo_website/</guid>
+      <guid>https://blank233.github.io/2018/03/09/create-hugo-website/</guid>
       <description>&lt;h1 id=&#34;基于github-pages使用hugo搭建个人博客&#34;&gt;基于GitHub Pages使用Hugo搭建个人博客&lt;/h1&gt;
 
 &lt;p&gt;Hugo是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。&lt;/p&gt;

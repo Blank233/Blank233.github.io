@@ -65,11 +65,11 @@
     </item>
     
     <item>
-      <title>Create_Hugo_website</title>
-      <link>https://blank233.github.io/2018/03/09/create_hugo_website/</link>
+      <title>Create Hugo website</title>
+      <link>https://blank233.github.io/2018/03/09/create-hugo-website/</link>
       <pubDate>Fri, 09 Mar 2018 13:57:53 +0800</pubDate>
       
-      <guid>https://blank233.github.io/2018/03/09/create_hugo_website/</guid>
+      <guid>https://blank233.github.io/2018/03/09/create-hugo-website/</guid>
       <description>&lt;h1 id=&#34;基于github-pages使用hugo搭建个人博客&#34;&gt;基于GitHub Pages使用Hugo搭建个人博客&lt;/h1&gt;
 
 &lt;p&gt;Hugo是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。&lt;/p&gt;
